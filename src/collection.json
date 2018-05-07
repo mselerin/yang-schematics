@@ -1,0 +1,9 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "app": {
+      "description": "Yang Application",
+      "factory": "./app/index#generateApp"
+    }
+  }
+}
