@@ -1,8 +1,10 @@
 import {
     apply,
     branchAndMerge,
-    chain, FileEntry, FileOperator, forEach, MergeStrategy,
-    mergeWith, move,
+    chain,
+    FileEntry,
+    forEach,
+    mergeWith,
     Rule,
     SchematicContext,
     template,
@@ -11,15 +13,16 @@ import {
 } from '@angular-devkit/schematics';
 import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
 import { normalize } from '@angular-devkit/core';
-import * as path from "path";
 
 const stringUtils = {classify, dasherize};
 
-export function generate(options: AppOptions): Rule {
-    options.name = options.name || path.basename(process.cwd());
-
-    options.path = options.path || "";
+export function generate(options: FeatureOptions): Rule {
+    options.path = options.path || "src/app/features/" + dasherize(options.name);
     options.path = normalize(options.path);
+
+    options.component = options.component === undefined ? false : options.component;
+    options.template = options.template === undefined ? false : options.template;
+    options.styles = options.styles === undefined ? false : options.styles;
 
     console.log(options);
 
@@ -47,7 +50,10 @@ export function generate(options: AppOptions): Rule {
 }
 
 
-export interface AppOptions {
+export interface FeatureOptions {
     name: string;
     path: string;
+    component: boolean;
+    template: boolean;
+    styles: boolean;
 }

@@ -3,7 +3,15 @@
   "schematics": {
     "app": {
       "description": "Yang Application",
-      "factory": "./app/index#generateApp"
+      "factory": "./app/index#generate"
+    },
+    "feature": {
+      "description": "Yang Feature",
+      "factory": "./feature/index#generate"
+    },
+    "component": {
+      "description": "Yang Component",
+      "factory": "./component/index#generate"
     }
   }
 }
