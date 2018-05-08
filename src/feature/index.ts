@@ -1,21 +1,20 @@
 import { Schema as FeatureOptions } from './schema';
 import {
-    apply,
-    chain,
-    FileEntry,
-    forEach,
+    apply, branchAndMerge,
+    chain, MergeStrategy,
     mergeWith,
     move,
     noop,
     Rule,
     schematic,
-    SchematicContext, SchematicsException,
+    SchematicContext,
+    SchematicsException,
     template,
     Tree,
     url
 } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
-import { YangUtils } from '../utils/yang-utils';
+import { forceOverwrite, YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 
 export default function (options: FeatureOptions): Rule {
@@ -25,15 +24,8 @@ export default function (options: FeatureOptions): Rule {
                 ...strings,
                 ...options
             }),
-            forEach((entry: FileEntry) => {
-                if (host.exists(entry.path)) {
-                    host.overwrite(entry.path, new Buffer(""));
-                    host.overwrite(entry.path, entry.content);
-                }
-
-                return entry;
-            }),
-            move(`src/app/features/${strings.dasherize(options.name)}`)
+            move(`src/app/features/${strings.dasherize(options.name)}`),
+            forceOverwrite(host)
         ]);
 
 

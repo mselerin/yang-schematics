@@ -1,10 +1,11 @@
 import { Schema as AppOptions } from './schema';
 import {
-    apply,
-    chain, FileEntry, forEach,
+    apply, branchAndMerge,
+    chain,
     mergeWith,
     move,
-    Rule, schematic,
+    Rule,
+    schematic,
     SchematicContext,
     SchematicsException,
     template,
@@ -15,6 +16,7 @@ import { normalize, strings } from '@angular-devkit/core';
 import * as path from "path";
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { EOL } from "os";
+import { forceOverwrite } from '../utils/yang-utils';
 
 export default function (options: AppOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
@@ -31,25 +33,16 @@ export default function (options: AppOptions): Rule {
         let defaultProject = workspace.defaultProject as string;
         let root = workspace.projects[defaultProject].root;
 
-        const templateSource = apply(url('./files'), [
-            template({
-                ...strings,
-                ...options
-            }),
-            forEach((entry: FileEntry) => {
-                if (host.exists(entry.path)) {
-                    host.overwrite(entry.path, new Buffer(""));
-                    host.overwrite(entry.path, entry.content);
-                }
-
-                return entry;
-            }),
-            move(root)
-        ]);
-
-
         return chain([
-            mergeWith(templateSource),
+            mergeWith(apply(url('./files/root'), [
+                template({
+                    ...strings,
+                    ...options
+                }),
+                move(root),
+                forceOverwrite(host)
+            ])),
+
             updatePackageJson(),
             updateTsConfig(),
             updateGitIgnore(),
@@ -57,10 +50,19 @@ export default function (options: AppOptions): Rule {
 
             schematic('feature', {
                 name: 'home',
-                component: true
-            })
+                component: true,
+                template: true,
+                styles: true
+            }),
 
-            // TODO Update 'home' feature
+            mergeWith(apply(url('./files/home'), [
+                template({
+                    ...strings,
+                    ...options
+                }),
+                move(root + "src/app/features/home"),
+                forceOverwrite(host)
+            ])),
         ])(host, context);
     };
 }

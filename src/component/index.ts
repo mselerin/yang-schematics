@@ -1,11 +1,9 @@
 import { Schema as ComponentOptions } from './schema';
 import {
-    apply,
+    apply, branchAndMerge,
     chain,
-    FileEntry,
-    forEach,
     mergeWith,
-    move, noop,
+    move,
     Rule,
     SchematicContext,
     SchematicsException,
@@ -15,7 +13,7 @@ import {
 } from '@angular-devkit/schematics';
 import { normalize, strings } from '@angular-devkit/core';
 import * as path from 'path';
-import { YangUtils } from '../utils/yang-utils';
+import { forceOverwrite, YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 
 export default function (options: ComponentOptions): Rule {
@@ -40,13 +38,8 @@ export default function (options: ComponentOptions): Rule {
                 'if-flat': (s: string) => options.flat ? '' : s,
                 ...options
             }),
-            forEach((entry: FileEntry) => {
-                if (host.exists(entry.path))
-                    host.delete(entry.path);
-
-                return entry;
-            }),
-            move(options.path)
+            move(options.path),
+            forceOverwrite(host)
         ]);
 
 
