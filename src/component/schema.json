@@ -24,12 +24,12 @@
     },
     "shared": {
       "type": "boolean",
-      "default": true,
+      "default": false,
       "description": "Create the component inside the shared module."
     },
     "flat": {
       "type": "boolean",
-      "default": true,
+      "default": false,
       "description": "Flag to indicate if a dir is created."
     },
     "spec": {
@@ -39,17 +39,17 @@
     },
     "styles": {
       "type": "boolean",
-      "default": true,
+      "default": false,
       "description": "Specifies if a style file is generated."
     },
     "template": {
       "type": "boolean",
-      "default": true,
+      "default": false,
       "description": "Specifies if a template file is generated."
     },
     "routing": {
       "type": "boolean",
-      "default": true,
+      "default": false,
       "description": "Specifies if a route is generated."
     }
   },

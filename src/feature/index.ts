@@ -1,53 +1,77 @@
 import { Schema as FeatureOptions } from './schema';
 import {
     apply,
-    branchAndMerge,
     chain,
     FileEntry,
     forEach,
-    mergeWith, noop,
-    Rule, schematic,
-    SchematicContext,
+    mergeWith,
+    move,
+    noop,
+    Rule,
+    schematic,
+    SchematicContext, SchematicsException,
     template,
     Tree,
     url
 } from '@angular-devkit/schematics';
-import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
-import { normalize } from '@angular-devkit/core';
-
-const stringUtils = {classify, dasherize};
+import { strings } from '@angular-devkit/core';
+import { YangUtils } from '../utils/yang-utils';
+import { CodeUtils } from '../utils/code-utils';
 
 export default function (options: FeatureOptions): Rule {
-    options.path = options.path || "src/app/features/" + dasherize(options.name);
-    options.path = normalize(options.path);
-
-    options.component = options.component === undefined ? false : options.component;
-    options.template = options.template === undefined ? false : options.template;
-    options.styles = options.styles === undefined ? false : options.styles;
-
-    console.log('feature', options);
-
     return (host: Tree, context: SchematicContext) => {
         const templateSource = apply(url('./files'), [
             template({
-                ...stringUtils,
+                ...strings,
                 ...options
             }),
             forEach((entry: FileEntry) => {
-                if (host.exists(entry.path))
-                    host.delete(entry.path);
+                if (host.exists(entry.path)) {
+                    host.overwrite(entry.path, new Buffer(""));
+                    host.overwrite(entry.path, entry.content);
+                }
 
                 return entry;
-            })
+            }),
+            move(`src/app/features/${strings.dasherize(options.name)}`)
         ]);
 
-        const createComp = options.component ? schematic('component', options) : noop();
+
+        const createComp = options.component ? schematic('component', {
+            name: options.name,
+            feature: options.name,
+            flat: true,
+            template: options.template,
+            styles: options.styles
+        }) : noop();
+
 
         return chain([
+            mergeWith(templateSource),
             createComp,
-            branchAndMerge(chain([
-                mergeWith(templateSource)
-            ]))
+            updateRouting(options)
         ])(host, context);
+    };
+}
+
+
+function updateRouting(options: FeatureOptions): (host: Tree) => Tree {
+    return (host: Tree) => {
+        // Ajouter la route
+        const file = YangUtils.FEATURES_MODULE_FILE;
+        const text = host.read(file);
+        if (text === null) {
+            throw new SchematicsException(`File ${file} does not exist.`);
+        }
+
+        const sourceText = text.toString('utf-8');
+        const sourceFile = CodeUtils.getSourceFile(file, sourceText);
+
+        CodeUtils.insertInVariableArray(sourceFile, "FEATURES_ROUTES",
+            `    { path: '${strings.dasherize(options.name)}', loadChildren: '@app/features/${strings.dasherize(options.name)}/${strings.dasherize(options.name)}.module#${strings.classify(options.name)}Module' }`
+        );
+
+        host.overwrite(file, sourceFile.getFullText());
+        return host;
     };
 }

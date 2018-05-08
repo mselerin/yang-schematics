@@ -5,48 +5,36 @@ import {
     chain,
     FileEntry,
     forEach,
-    mergeWith,
+    mergeWith, move,
     Rule,
     SchematicContext,
     template,
     Tree,
     url
 } from '@angular-devkit/schematics';
-import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
-import { normalize } from '@angular-devkit/core';
+import { normalize, strings } from '@angular-devkit/core';
 import * as path from 'path';
 
-const stringUtils = {classify, dasherize};
-
 export default function (options: ComponentOptions): Rule {
-    options.shared = options.shared === undefined ? false : options.shared;
-    options.flat = options.flat === undefined ? false : options.flat;
-    options.spec = options.spec === undefined ? false : options.spec;
-    options.styles = options.styles === undefined ? false : options.styles;
-    options.template = options.template === undefined ? false : options.template;
-    options.routing = options.routing === undefined ? false : options.routing;
-
-    if (options.feature) {
-        options.path = path.join('src', 'app', 'features', dasherize(options.feature));
-        if (!options.flat)
-            options.path = path.join(options.path, dasherize(options.name));
-    }
-
-    if (options.shared) {
-        options.path = path.join('src', 'app', 'shared', 'components');
-        if (!options.flat)
-            options.path = path.join(options.path, dasherize(options.name));
-    }
-
-    options.path = normalize(options.path);
-
-
-    console.log('component', options);
-
     return (host: Tree, context: SchematicContext) => {
+        if (options.feature) {
+            options.path = path.join('src', 'app', 'features', strings.dasherize(options.feature));
+            if (!options.flat)
+                options.path = path.join(options.path, strings.dasherize(options.name));
+        }
+
+        if (options.shared) {
+            options.path = path.join('src', 'app', 'shared', 'components');
+            if (!options.flat)
+                options.path = path.join(options.path, strings.dasherize(options.name));
+        }
+
+        options.path = normalize(options.path);
+
         const templateSource = apply(url('./files'), [
             template({
-                ...stringUtils,
+                ...strings,
+                'if-flat': (s: string) => options.flat ? '' : s,
                 ...options
             }),
             forEach((entry: FileEntry) => {
@@ -54,14 +42,16 @@ export default function (options: ComponentOptions): Rule {
                     host.delete(entry.path);
 
                 return entry;
-            })
+            }),
+            move(options.path)
         ]);
 
 
         return chain([
-            branchAndMerge(chain([
-                mergeWith(templateSource)
-            ]))
+            mergeWith(templateSource)
+
+            // TODO Update routing
+            // TODO Update feature / shared module
         ])(host, context);
     };
 }
