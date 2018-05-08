@@ -1,3 +1,4 @@
+import { Schema as ComponentOptions } from './schema';
 import {
     apply,
     branchAndMerge,
@@ -17,7 +18,7 @@ import * as path from 'path';
 
 const stringUtils = {classify, dasherize};
 
-export function generate(options: ComponentOptions): Rule {
+export default function (options: ComponentOptions): Rule {
     options.shared = options.shared === undefined ? false : options.shared;
     options.flat = options.flat === undefined ? false : options.flat;
     options.spec = options.spec === undefined ? false : options.spec;
@@ -40,7 +41,7 @@ export function generate(options: ComponentOptions): Rule {
     options.path = normalize(options.path);
 
 
-    console.log(options);
+    console.log('component', options);
 
     return (host: Tree, context: SchematicContext) => {
         const templateSource = apply(url('./files'), [
@@ -63,17 +64,4 @@ export function generate(options: ComponentOptions): Rule {
             ]))
         ])(host, context);
     };
-}
-
-
-export interface ComponentOptions {
-    name: string;
-    path: string;
-    feature: string;
-    shared: boolean;
-    flat: boolean;
-    spec: boolean;
-    styles: boolean;
-    template: boolean;
-    routing: boolean;
 }

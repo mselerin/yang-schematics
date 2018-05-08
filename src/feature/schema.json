@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsYangFeature",
+  "title": "Yang Feature Options Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the feature.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "path": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to create the feature.",
+      "visible": false
+    },
+    "component": {
+      "type": "boolean",
+      "default": true,
+      "description": "Flag to indicate if a component is created."
+    },
+    "styles": {
+      "type": "boolean",
+      "default": true,
+      "description": "Specifies if a style file is generated."
+    },
+    "template": {
+      "type": "boolean",
+      "default": true,
+      "description": "Specifies if a template file is generated."
+    }
+  },
+  "required": []
+}
