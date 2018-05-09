@@ -21,6 +21,26 @@ import { CodeUtils } from '../utils/code-utils';
 
 export default function (options: ComponentOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
+        // Smart detect if shared or feature_name
+        if (options.name.includes('/')) {
+            let nameArgs: string[] = options.name.split('/');
+            let classifier: string = nameArgs.shift() as string;
+
+            if ('shared' === classifier) {
+                options.shared = true;
+                options.feature = "";
+                options.name = nameArgs.join('/');
+            }
+
+            else {
+                // First argument is a feature name
+                options.shared = false;
+                options.feature = classifier;
+                options.name = nameArgs.join('/');
+            }
+        }
+
+
         if (options.feature) {
             options.path = path.join('src', 'app', 'features', strings.dasherize(options.feature));
         }
@@ -100,7 +120,8 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
             CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Component`);
             host.overwrite(file, sourceFile.getFullText());
 
-            updateFeatureRouting(options, host);
+            if (options.routing)
+                updateFeatureRouting(options, host);
         }
 
         return host;
