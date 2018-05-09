@@ -1,7 +1,7 @@
 import { Schema as AppOptions } from './schema';
 import {
     apply, branchAndMerge,
-    chain,
+    chain, MergeStrategy,
     mergeWith,
     move,
     Rule,
@@ -29,9 +29,7 @@ export default function (options: AppOptions): Rule {
         options.path = options.path || "";
         options.path = normalize(options.path);
 
-        const workspace = getWorkspace(host);
-        let defaultProject = workspace.defaultProject as string;
-        let root = workspace.projects[defaultProject].root;
+        // const workspace = getWorkspace(host);
 
         return chain([
             mergeWith(apply(url('./files/root'), [
@@ -39,7 +37,7 @@ export default function (options: AppOptions): Rule {
                     ...strings,
                     ...options
                 }),
-                move(root),
+                move(''),
                 forceOverwrite(host)
             ])),
 
@@ -60,12 +58,14 @@ export default function (options: AppOptions): Rule {
                     ...strings,
                     ...options
                 }),
-                move(root + "src/app/features/home"),
+                move('src/app/features/home'),
                 forceOverwrite(host)
-            ])),
+            ]), MergeStrategy.Overwrite)
         ])(host, context);
     };
 }
+
+
 
 
 

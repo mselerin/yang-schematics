@@ -1,9 +1,9 @@
 import { Schema as ComponentOptions } from './schema';
 import {
     apply, branchAndMerge,
-    chain,
+    chain, filter,
     mergeWith,
-    move,
+    move, noop,
     Rule,
     SchematicContext,
     SchematicsException,
@@ -20,32 +20,32 @@ export default function (options: ComponentOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
         if (options.feature) {
             options.path = path.join('src', 'app', 'features', strings.dasherize(options.feature));
-            if (!options.flat)
-                options.path = path.join(options.path, strings.dasherize(options.name));
         }
 
         if (options.shared) {
             options.path = path.join('src', 'app', 'shared', 'components');
-            if (!options.flat)
-                options.path = path.join(options.path, strings.dasherize(options.name));
         }
 
         options.path = normalize(options.path);
 
         const templateSource = apply(url('./files'), [
+            options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
+            options.styles ? noop() : filter(path => !path.endsWith('.scss')),
+            options.template ? noop() : filter(path => !path.endsWith('.html')),
             template({
                 ...strings,
                 'if-flat': (s: string) => options.flat ? '' : s,
                 ...options
             }),
-            move(options.path),
-            forceOverwrite(host)
+            move(options.path)
         ]);
 
 
         return chain([
-            mergeWith(templateSource),
-            addNgModule(options)
+            branchAndMerge(chain([
+                mergeWith(templateSource),
+                addNgModule(options)
+            ]))
         ])(host, context);
     };
 }
@@ -78,7 +78,7 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
 
 
         else if (options.feature) {
-            let compDir = `./components`;
+            let compDir = `.`;
             if (!options.flat)
                 compDir += `/${strings.dasherize(options.name)}`;
 
@@ -123,7 +123,7 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
         `${strings.classify(options.name)}Component`, `${compDir}/${strings.dasherize(options.name)}.component`);
 
     CodeUtils.insertInVariableArray(sourceFile, `${strings.classify(options.feature)}Routes`,
-        `    { path: '${strings.dasherize(options.name)}', component: '${strings.classify(options.name)}Component' }`
+        `    { path: '${strings.dasherize(options.name)}', component: ${strings.classify(options.name)}Component }`
     );
 
     host.overwrite(file, sourceFile.getFullText());

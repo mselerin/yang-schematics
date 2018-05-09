@@ -24,8 +24,7 @@ export default function (options: FeatureOptions): Rule {
                 ...strings,
                 ...options
             }),
-            move(`src/app/features/${strings.dasherize(options.name)}`),
-            forceOverwrite(host)
+            move(`src/app/features/${strings.dasherize(options.name)}`)
         ]);
 
 
@@ -39,9 +38,11 @@ export default function (options: FeatureOptions): Rule {
 
 
         return chain([
-            mergeWith(templateSource),
-            createComp,
-            updateRouting(options)
+            branchAndMerge(chain([
+                mergeWith(templateSource),
+                createComp,
+                updateRouting(options)
+            ]))
         ])(host, context);
     };
 }
