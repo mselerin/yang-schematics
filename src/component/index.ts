@@ -1,9 +1,12 @@
 import { Schema as ComponentOptions } from './schema';
 import {
-    apply, branchAndMerge,
-    chain, filter,
+    apply,
+    branchAndMerge,
+    chain,
+    filter,
     mergeWith,
-    move, noop,
+    move,
+    noop,
     Rule,
     SchematicContext,
     SchematicsException,
@@ -13,7 +16,7 @@ import {
 } from '@angular-devkit/schematics';
 import { normalize, strings } from '@angular-devkit/core';
 import * as path from 'path';
-import { forceOverwrite, YangUtils } from '../utils/yang-utils';
+import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 
 export default function (options: ComponentOptions): Rule {

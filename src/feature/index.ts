@@ -1,7 +1,8 @@
 import { Schema as FeatureOptions } from './schema';
 import {
-    apply, branchAndMerge,
-    chain, MergeStrategy,
+    apply,
+    branchAndMerge,
+    chain,
     mergeWith,
     move,
     noop,
@@ -14,7 +15,7 @@ import {
     url
 } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
-import { forceOverwrite, YangUtils } from '../utils/yang-utils';
+import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 
 export default function (options: FeatureOptions): Rule {

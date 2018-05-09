@@ -1,7 +1,8 @@
 import { Schema as AppOptions } from './schema';
 import {
-    apply, branchAndMerge,
-    chain, MergeStrategy,
+    apply,
+    chain,
+    MergeStrategy,
     mergeWith,
     move,
     Rule,
@@ -14,7 +15,6 @@ import {
 } from '@angular-devkit/schematics';
 import { normalize, strings } from '@angular-devkit/core';
 import * as path from "path";
-import { getWorkspace } from '@schematics/angular/utility/config';
 import { EOL } from "os";
 import { forceOverwrite } from '../utils/yang-utils';
 
@@ -59,7 +59,6 @@ export default function (options: AppOptions): Rule {
                     ...options
                 }),
                 move('src/app/features/home'),
-                forceOverwrite(host)
             ]), MergeStrategy.Overwrite)
         ])(host, context);
     };
