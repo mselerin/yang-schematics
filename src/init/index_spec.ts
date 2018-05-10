@@ -6,10 +6,10 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 
-describe('yang-schematics-app', () => {
+describe('yang-schematics-init', () => {
   it('works', () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('app', {}, Tree.empty());
+    const tree = runner.runSchematic('init', {}, Tree.empty());
 
     expect(tree.files).toEqual([]);
   });

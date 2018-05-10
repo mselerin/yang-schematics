@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { <%=classify(name)%>Component } from './<%=dasherize(name)%>.component';
-import {CoreModule} from '../../core/core.module';
-import {SharedModule} from '../../shared/shared.module';
+import { CoreModule } from '@app/core/core.module';
+import { SharedModule } from '@app/shared/shared.module';
 
 describe('<%=classify(name)%>Component', () => {
     let component: <%=classify(name)%>Component;
@@ -13,7 +13,7 @@ describe('<%=classify(name)%>Component', () => {
             imports: [ CoreModule, SharedModule ],
             declarations: [ <%=classify(name)%>Component ]
         })
-            .compileComponents();
+        .compileComponents();
     }));
 
     beforeEach(() => {

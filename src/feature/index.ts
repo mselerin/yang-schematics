@@ -39,11 +39,9 @@ export default function (options: FeatureOptions): Rule {
 
 
         return chain([
-            branchAndMerge(chain([
-                mergeWith(templateSource),
-                createComp,
-                updateRouting(options)
-            ]))
+            mergeWith(templateSource),
+            createComp,
+            updateRouting(options)
         ])(host, context);
     };
 }

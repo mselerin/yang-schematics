@@ -11,7 +11,12 @@
         "$source": "argv",
         "index": 0
       }
-    }
+    },
+    "spec": {
+      "type": "boolean",
+      "default": false,
+      "description": "Specifies if a spec file is generated."
+    },
   },
   "required": []
 }

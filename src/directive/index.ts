@@ -1,16 +1,11 @@
 import { Schema as DirectiveOptions } from './schema';
 import {
-    apply,
-    branchAndMerge,
     chain,
-    mergeWith,
-    move,
+    externalSchematic,
     Rule,
     SchematicContext,
     SchematicsException,
-    template,
-    Tree,
-    url
+    Tree
 } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
 import { YangUtils } from '../utils/yang-utils';
@@ -19,17 +14,15 @@ import { CodeUtils } from '../utils/code-utils';
 export default function (options: DirectiveOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
         return chain([
-            branchAndMerge(chain([
-                mergeWith(apply(url('./files'), [
-                    template({
-                        ...strings,
-                        ...options
-                    }),
-                    move('src/app/shared/directives')
-                ])),
+            externalSchematic('@schematics/angular', 'directive', {
+                name: options.name,
+                path: 'src/app/shared/directives',
+                spec: options.spec,
+                skipImport: true,
+                flat: true
+            }),
 
-                addNgModule(options)
-            ]))
+            addNgModule(options)
         ])(host, context);
     };
 }

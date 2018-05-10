@@ -2,8 +2,8 @@ import { Schema as ComponentOptions } from './schema';
 import {
     apply,
     branchAndMerge,
-    chain,
-    filter,
+    chain, externalSchematic,
+    filter, MergeStrategy,
     mergeWith,
     move,
     noop,
@@ -51,24 +51,30 @@ export default function (options: ComponentOptions): Rule {
 
         options.path = normalize(options.path);
 
-        const templateSource = apply(url('./files'), [
-            options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
-            options.styles ? noop() : filter(path => !path.endsWith('.scss')),
-            options.template ? noop() : filter(path => !path.endsWith('.html')),
-            template({
-                ...strings,
-                'if-flat': (s: string) => options.flat ? '' : s,
-                ...options
-            }),
-            move(options.path)
-        ]);
-
 
         return chain([
-            branchAndMerge(chain([
-                mergeWith(templateSource),
-                addNgModule(options)
-            ]))
+            externalSchematic('@schematics/angular', 'component', {
+                name: options.name,
+                path: options.path,
+                spec: options.spec,
+                inlineStyle: (options.styles !== undefined ? !options.styles : undefined),
+                inlineTemplate: (options.template !== undefined ? !options.template : undefined),
+                flat: options.flat,
+                styleext: 'scss',
+                skipImport: true
+            }),
+
+            mergeWith(apply(url('./files'), [
+                options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
+                template({
+                    ...strings,
+                    'if-flat': (s: string) => options.flat ? '' : s,
+                    ...options
+                }),
+                move(options.path)
+            ]), MergeStrategy.Overwrite),
+
+            addNgModule(options)
         ])(host, context);
     };
 }

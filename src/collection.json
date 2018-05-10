@@ -15,6 +15,21 @@
       "factory": "./component",
       "schema": "./component/schema.json",
       "description": "Yang Component"
+    },
+    "directive": {
+      "factory": "./directive",
+      "schema": "./directive/schema.json",
+      "description": "Yang Directive"
+    },
+    "pipe": {
+      "factory": "./pipe",
+      "schema": "./pipe/schema.json",
+      "description": "Yang Pipe"
+    },
+    "service": {
+      "factory": "./service",
+      "schema": "./service/schema.json",
+      "description": "Yang Service"
     }
   }
 }
