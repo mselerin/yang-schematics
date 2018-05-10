@@ -1,7 +1,11 @@
 {
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "init": {
+    "new": {
+      "factory": "./new",
+      "schema": "./new/schema.json",
+      "description": "Yang create new application"
+    },"init": {
       "factory": "./init",
       "schema": "./init/schema.json",
       "description": "Yang Init from a new application"
