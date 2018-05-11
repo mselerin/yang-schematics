@@ -5,6 +5,7 @@ src/**/*.d.ts
 
 # IDEs
 .idea/
+*.iml
 jsconfig.json
 .vscode/
 
@@ -16,4 +17,3 @@ yarn-error.log*
 # Mac OSX Finder files.
 **/.DS_Store
 .DS_Store
-/*.iml

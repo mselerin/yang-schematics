@@ -1,3 +1,14 @@
-# Ignores TypeScript files, but keeps definitions.
+# IDEs
+.idea/
+*.iml
+jsconfig.json
+.vscode/
+
+# Ignores TypeScript and map files, but keeps definitions.
 *.ts
+*.map
 !*.d.ts
+
+# Others
+yang-schematics-*.tgz
+!src/*/files/**/*
