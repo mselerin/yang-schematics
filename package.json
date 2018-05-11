@@ -5,7 +5,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -p tsconfig.json --watch",
-    "test": "npm run build && jasmine **/*_spec.js"
+    "test": "npm run build && jasmine **/*_spec.js",
+    "prepack": "npm run build",
+    "release": "standard-version"
   },
   "keywords": [
     "schematics"
@@ -23,5 +25,7 @@
     "ts-simple-ast": "^11.1.1",
     "typescript": "^2.5.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "standard-version": "^4.3.0"
+  }
 }
