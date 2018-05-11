@@ -32,6 +32,7 @@ export default function (options: FeatureOptions): Rule {
         const createComp = options.component ? schematic('component', {
             name: options.name,
             feature: options.name,
+            routing: true,
             flat: true,
             template: options.template,
             styles: options.styles
