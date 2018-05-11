@@ -1,7 +1,7 @@
 {
   "name": "yang-schematics",
   "version": "1.0.0",
-  "description": "A blank schematics",
+  "description": "Yet Another Angular Generator",
   "repository": {
     "type": "git",
     "url": "https://github.com/mselerin/yang-schematics"
