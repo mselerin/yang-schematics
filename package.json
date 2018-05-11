@@ -2,6 +2,15 @@
   "name": "yang-schematics",
   "version": "1.0.0",
   "description": "A blank schematics",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mselerin/yang-schematics"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Michel Selerin",
+    "email": "michel.selerin@outlook.com"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -p tsconfig.json --watch",
@@ -12,8 +21,6 @@
   "keywords": [
     "schematics"
   ],
-  "author": "",
-  "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
     "@angular-devkit/core": "^0.6.1",
