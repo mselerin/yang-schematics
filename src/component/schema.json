@@ -51,6 +51,10 @@
       "type": "boolean",
       "default": false,
       "description": "Specifies if a route is generated."
+    },
+    "route": {
+      "type": "string",
+      "description": "Specifies the name of the route to generate."
     }
   },
   "required": []

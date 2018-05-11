@@ -142,6 +142,10 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
         throw new SchematicsException(`File ${file} does not exist.`);
     }
 
+    if (options.route === undefined) {
+        options.route = strings.dasherize(options.name);
+    }
+
     const sourceText = text.toString('utf-8');
     const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
@@ -153,7 +157,7 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
         `${strings.classify(options.name)}Component`, `${compDir}/${strings.dasherize(options.name)}.component`);
 
     CodeUtils.insertInVariableArray(sourceFile, `${strings.classify(options.feature)}Routes`,
-        `    { path: '${strings.dasherize(options.name)}', component: ${strings.classify(options.name)}Component }`
+        `    { path: '${options.route}', component: ${strings.classify(options.name)}Component }`
     );
 
     host.overwrite(file, sourceFile.getFullText());

@@ -33,6 +33,7 @@ export default function (options: FeatureOptions): Rule {
             name: options.name,
             feature: options.name,
             routing: true,
+            route: '',
             flat: true,
             template: options.template,
             styles: options.styles
