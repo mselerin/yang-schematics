@@ -1,4 +1,4 @@
-import { Schema as AppOptions } from './schema';
+import { Schema as InitOptions } from './schema';
 import {
     apply,
     chain,
@@ -18,7 +18,7 @@ import * as path from "path";
 import { EOL } from "os";
 import { forceOverwrite } from '../utils/yang-utils';
 
-export default function (options: AppOptions): Rule {
+export default function (options: InitOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
 
         options.name = options.name || path.basename(process.cwd());
