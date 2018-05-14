@@ -5,10 +5,9 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 
-describe('yang-schematics-init', () => {
+describe('yang-schematics-feature', () => {
     it('should throw error on empty tree', () => {
         const runner = new SchematicTestRunner('schematics', collectionPath);
-        expect(() => runner.runSchematic('init', {}, Tree.empty())).toThrow();
-        // expect(tree.files).toEqual([]);
+        expect(() => runner.runSchematic('feature', {}, Tree.empty())).toThrow();
     });
 });
