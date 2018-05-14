@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/mselerin/yang-schematics/compare/v1.1.0...v1.1.1) (2018-05-14)
+
+
+### Bug Fixes
+
+* Adding yang-schematics in package.json inside init schematic ([b9a680e](https://github.com/mselerin/yang-schematics/commit/b9a680e))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/mselerin/yang-schematics/compare/v1.0.3...v1.1.0) (2018-05-11)
 
