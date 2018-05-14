@@ -3,6 +3,9 @@ src/**/*.js
 src/**/*.js.map
 src/**/*.d.ts
 
+# Keep schema definition files
+!src/**/schema.d.ts
+
 # IDEs
 .idea/
 *.iml
