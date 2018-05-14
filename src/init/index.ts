@@ -70,6 +70,8 @@ export default function (options: InitOptions): Rule {
 
 function updatePackageJson(): (host: Tree) => Tree {
     return (host: Tree) => {
+        const pkg = require('../../package.json');
+
         const filePath = 'package.json';
         if (!host.exists(filePath))
             return host;
@@ -92,6 +94,12 @@ function updatePackageJson(): (host: Tree) => Tree {
             "@ngx-translate/core": "10.0.1",
             "rxjs-compat": "6.1.0"
         };
+
+        json.devDependencies = {
+            ...json.devDependencies,
+            "yang-schematics" : pkg.version
+        };
+
 
         // Remove ^ and ~ dependencies
         fixDepsVersions(json.dependencies);
