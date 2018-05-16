@@ -13,9 +13,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* ng-new schematics ([fb0b543](https://github.com/mselerin/yang-schematics/commit/fb0b543))
-* ng-new schematics ([166e20f](https://github.com/mselerin/yang-schematics/commit/166e20f))
-* ng-new schematics ([553a0d7](https://github.com/mselerin/yang-schematics/commit/553a0d7))
+* ng-new schematics
+([fb0b543](https://github.com/mselerin/yang-schematics/commit/fb0b543), [166e20f](https://github.com/mselerin/yang-schematics/commit/166e20f), [553a0d7](https://github.com/mselerin/yang-schematics/commit/553a0d7))
 
 
 
