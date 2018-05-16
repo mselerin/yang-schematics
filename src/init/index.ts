@@ -21,15 +21,13 @@ import { forceOverwrite } from '../utils/yang-utils';
 export default function (options: InitOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
 
+        options.path = options.path || process.cwd();
+        options.path = normalize(options.path);
+
         options.name = options.name || path.basename(process.cwd());
         if (!options.name) {
             throw new SchematicsException(`Invalid options, "name" is required.`);
         }
-
-        options.path = options.path || "";
-        options.path = normalize(options.path);
-
-        // const workspace = getWorkspace(host);
 
         return chain([
             mergeWith(apply(url('./files/root'), [
@@ -95,10 +93,7 @@ function updatePackageJson(): (host: Tree) => Tree {
             "rxjs-compat": "6.1.0"
         };
 
-        json.devDependencies = {
-            ...json.devDependencies,
-            "yang-schematics" : pkg.version
-        };
+        json.devDependencies[pkg.name] = pkg.version;
 
 
         // Remove ^ and ~ dependencies

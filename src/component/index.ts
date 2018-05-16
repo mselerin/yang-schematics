@@ -1,9 +1,10 @@
 import { Schema as ComponentOptions } from './schema';
 import {
     apply,
-    branchAndMerge,
-    chain, externalSchematic,
-    filter, MergeStrategy,
+    chain,
+    externalSchematic,
+    filter,
+    MergeStrategy,
     mergeWith,
     move,
     noop,
@@ -14,10 +15,12 @@ import {
     Tree,
     url
 } from '@angular-devkit/schematics';
+import { Schema as NgComponentOptions } from '@schematics/angular/component/schema';
 import { normalize, strings } from '@angular-devkit/core';
 import * as path from 'path';
 import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
+import { getWorkspace } from '@schematics/angular/utility/config';
 
 export default function (options: ComponentOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
@@ -51,19 +54,22 @@ export default function (options: ComponentOptions): Rule {
 
         options.path = normalize(options.path);
 
+        const workspace = getWorkspace(host);
+        const componentOptions: NgComponentOptions = {
+            name: options.name,
+            project: options.project || workspace.defaultProject,
+            path: options.path,
+            spec: options.spec,
+            inlineStyle: (options.styles !== undefined ? !options.styles : undefined),
+            inlineTemplate: (options.template !== undefined ? !options.template : undefined),
+            flat: options.flat,
+            styleext: 'scss',
+            skipImport: true
+        };
+
 
         return chain([
-            externalSchematic('@schematics/angular', 'component', {
-                name: options.name,
-                path: options.path,
-                spec: options.spec,
-                inlineStyle: (options.styles !== undefined ? !options.styles : undefined),
-                inlineTemplate: (options.template !== undefined ? !options.template : undefined),
-                flat: options.flat,
-                styleext: 'scss',
-                skipImport: true
-            }),
-
+            externalSchematic('@schematics/angular', 'component', componentOptions),
             mergeWith(apply(url('./files'), [
                 options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
                 template({

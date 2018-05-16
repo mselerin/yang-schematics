@@ -1,4 +1,4 @@
 export interface Schema {
-    name: string;
-    path: string;
+    name?: string;
+    path?: string;
 }
