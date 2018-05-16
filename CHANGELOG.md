@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/mselerin/yang-schematics/compare/v1.1.1...v1.2.0) (2018-05-16)
+
+
+### Bug Fixes
+
+* correctly update environment.ts files ([f04ba1e](https://github.com/mselerin/yang-schematics/commit/f04ba1e))
+
+
+### Features
+
+* ng-new schematics ([fb0b543](https://github.com/mselerin/yang-schematics/commit/fb0b543))
+* ng-new schematics ([166e20f](https://github.com/mselerin/yang-schematics/commit/166e20f))
+* ng-new schematics ([553a0d7](https://github.com/mselerin/yang-schematics/commit/553a0d7))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/mselerin/yang-schematics/compare/v1.1.0...v1.1.1) (2018-05-14)
 
