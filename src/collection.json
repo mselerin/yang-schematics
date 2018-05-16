@@ -6,32 +6,54 @@
       "schema": "./init/schema.json",
       "description": "Yang Init from a new application"
     },
+    "ng-new": {
+      "factory": "./ng-new",
+      "schema": "./ng-new/schema.json",
+      "description": "Create an Angular workspace.",
+      "hidden": true
+    },
+    "workspace": {
+      "extends": "@schematics/angular:workspace",
+      "hidden": true
+    },
+    "application": {
+      "extends": "@schematics/angular:application"
+    },
+    "module": {
+      "aliases": [ "m" ],
+      "extends": "@schematics/angular:module"
+    },
     "init": {
       "factory": "./init",
       "schema": "./init/schema.json",
       "description": "Yang Init from a new application"
     },
     "feature": {
+      "aliases": [ "f" ],
       "factory": "./feature",
       "schema": "./feature/schema.json",
       "description": "Yang Feature"
     },
     "component": {
+      "aliases": [ "c" ],
       "factory": "./component",
       "schema": "./component/schema.json",
       "description": "Yang Component"
     },
     "directive": {
+      "aliases": [ "d" ],
       "factory": "./directive",
       "schema": "./directive/schema.json",
       "description": "Yang Directive"
     },
     "pipe": {
+      "aliases": [ "p" ],
       "factory": "./pipe",
       "schema": "./pipe/schema.json",
       "description": "Yang Pipe"
     },
     "service": {
+      "aliases": [ "s" ],
       "factory": "./service",
       "schema": "./service/schema.json",
       "description": "Yang Service"

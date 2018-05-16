@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsYangNew",
+  "title": "Yang New Options Schema",
+  "type": "object",
+  "properties": {
+    "directory": {
+      "type": "string",
+      "format": "path",
+      "description": "The directory name to create the workspace in.",
+      "default": ""
+    },
+    "name": {
+      "type": "string",
+      "format": "html-selector",
+      "description": "The name of the application.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "newProjectRoot": {
+      "description": "The path where new projects will be created.",
+      "type": "string",
+      "default": "projects"
+    },
+    "inlineStyle": {
+      "description": "Specifies if the style will be in the ts file.",
+      "type": "boolean",
+      "default": false,
+      "alias": "s"
+    },
+    "inlineTemplate": {
+      "description": "Specifies if the template will be in the ts file.",
+      "type": "boolean",
+      "default": false,
+      "alias": "t"
+    },
+    "viewEncapsulation": {
+      "description": "Specifies the view encapsulation strategy.",
+      "enum": ["Emulated", "Native", "None"],
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of the Angular CLI to use.",
+      "visible": false
+    },
+    "routing": {
+      "type": "boolean",
+      "description": "Generates a routing module.",
+      "default": false
+    },
+    "prefix": {
+      "type": "string",
+      "format": "html-selector",
+      "description": "The prefix to apply to generated selectors.",
+      "default": "app",
+      "alias": "p"
+    },
+    "style": {
+      "description": "The file extension to be used for style files.",
+      "type": "string",
+      "default": "scss"
+    },
+    "skipTests": {
+      "description": "Skip creating spec files.",
+      "type": "boolean",
+      "default": false,
+      "alias": "S"
+    }
+  },
+  "required": []
+}
