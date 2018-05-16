@@ -1,7 +1,9 @@
 import { Schema as YangNewOptions } from './schema';
 import {
     apply,
-    chain, empty, externalSchematic,
+    chain,
+    empty,
+    externalSchematic,
     MergeStrategy,
     mergeWith,
     move,
@@ -9,12 +11,8 @@ import {
     schematic,
     SchematicContext,
     SchematicsException,
-    template,
     Tree,
-    url
 } from '@angular-devkit/schematics';
-import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import { Schema as NgNewOptions } from '@schematics/angular/ng-new/schema';
 import { Schema as YangInitOptions } from '../init/schema';
 import {
@@ -33,23 +31,19 @@ export default function (options: YangNewOptions): Rule {
             options.directory = options.name;
         }
 
-        const workspaceOptions: WorkspaceOptions = {
+        const ngNewOptions: NgNewOptions = {
+            directory: '/',
             name: options.name,
+            skipInstall: true,
+            skipGit: true,
             version: options.version,
-            newProjectRoot: options.newProjectRoot || 'projects',
-        };
-
-        const applicationOptions: ApplicationOptions = {
-            projectRoot: '',
-            name: options.name,
             inlineStyle: true,
             inlineTemplate: true,
             prefix: options.prefix,
             viewEncapsulation: options.viewEncapsulation,
             routing: options.routing,
             style: options.style,
-            skipTests: options.skipTests,
-            skipPackageJson: false,
+            skipTests: options.skipTests
         };
 
         const yangInitOptions: YangInitOptions = {
@@ -59,10 +53,9 @@ export default function (options: YangNewOptions): Rule {
         return chain([
             mergeWith(
                 apply(empty(), [
-                    externalSchematic('@schematics/angular', 'workspace', workspaceOptions),
-                    externalSchematic('@schematics/angular', 'application', applicationOptions),
+                    externalSchematic('@schematics/angular', 'ng-new', ngNewOptions),
                     schematic('init', yangInitOptions),
-                    move(options.directory || options.name),
+                    move(options.directory),
                 ]), MergeStrategy.Overwrite
             ),
             (host: Tree, context: SchematicContext) => {

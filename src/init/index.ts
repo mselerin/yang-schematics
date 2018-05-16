@@ -38,7 +38,7 @@ export default function (options: InitOptions): Rule {
                 }),
                 move(''),
                 forceOverwrite(host)
-            ])),
+            ]), MergeStrategy.Overwrite),
 
             updatePackageJson(),
             updateTsConfig(),
@@ -73,8 +73,9 @@ function updatePackageJson(): (host: Tree) => Tree {
         const pkg = require('../../package.json');
 
         const filePath = 'package.json';
-        if (!host.exists(filePath))
-            return host;
+        if (!host.exists(filePath)) {
+            throw new SchematicsException(`File ${filePath} does not exist.`);
+        }
 
         const source = host.read(filePath);
         if (!source)
@@ -122,8 +123,9 @@ function fixDepsVersions(deps: any): void {
 function updateTsConfig(): (host: Tree) => Tree {
     return (host: Tree) => {
         const filePath = 'tsconfig.json';
-        if (!host.exists(filePath))
-            return host;
+        if (!host.exists(filePath)) {
+            throw new SchematicsException(`File ${filePath} does not exist.`);
+        }
 
         const source = host.read(filePath);
         if (!source)
