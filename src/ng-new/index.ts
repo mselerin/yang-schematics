@@ -17,6 +17,11 @@ import { Schema as ApplicationOptions } from '@schematics/angular/application/sc
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import { Schema as NgNewOptions } from '@schematics/angular/ng-new/schema';
 import { Schema as YangInitOptions } from '../init/schema';
+import {
+    NodePackageInstallTask,
+    NodePackageLinkTask,
+    RepositoryInitializerTask
+} from '@angular-devkit/schematics/tasks';
 
 export default function (options: YangNewOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
@@ -59,7 +64,32 @@ export default function (options: YangNewOptions): Rule {
                     schematic('init', yangInitOptions),
                     move(options.directory || options.name),
                 ]),
-            )
+            ),
+            (host: Tree, context: SchematicContext) => {
+                let packageTask;
+                if (!options.skipInstall) {
+                    packageTask = context.addTask(new NodePackageInstallTask(options.directory));
+                    if (options.linkCli) {
+                        packageTask = context.addTask(
+                            new NodePackageLinkTask('@angular/cli', options.directory),
+                            [packageTask],
+                        );
+                    }
+                }
+                if (!options.skipGit) {
+                    const commit = typeof options.commit == 'object'
+                        ? options.commit
+                        : (!!options.commit ? {} : false);
+
+                    context.addTask(
+                        new RepositoryInitializerTask(
+                            options.directory,
+                            commit,
+                        ),
+                        packageTask ? [packageTask] : [],
+                    );
+                }
+            }
         ])(host, context);
     };
 }

@@ -10,6 +10,26 @@ export interface Schema {
     name: string;
 
     /**
+     * Skip installing dependency packages.
+     */
+    skipInstall?: boolean;
+
+    /**
+     * Link CLI to global version (internal development only).
+     */
+    linkCli?: boolean;
+
+    /**
+     * Skip initializing a git repository.
+     */
+    skipGit?: boolean;
+
+    /**
+     * Initial repository commit information.
+     */
+    commit?: { name: string, email: string, message?: string } | boolean;
+
+    /**
      * The path where new projects will be created.
      */
     newProjectRoot?: string;
