@@ -17,6 +17,7 @@ import { normalize, strings } from '@angular-devkit/core';
 import * as path from "path";
 import { EOL } from "os";
 import { forceOverwrite } from '../utils/yang-utils';
+import { CodeUtils } from '../utils/code-utils';
 
 export default function (options: InitOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
@@ -43,6 +44,7 @@ export default function (options: InitOptions): Rule {
             updateTsConfig(),
             updateGitIgnore(),
             updatePolyfills(),
+            updateEnvironments(),
 
             schematic('feature', {
                 name: 'home',
@@ -163,6 +165,7 @@ function updateGitIgnore(): (host: Tree) => Tree {
     };
 }
 
+
 function updatePolyfills(): (host: Tree) => Tree {
     return (host: Tree) => {
         const filePath = 'src/polyfills.ts';
@@ -179,4 +182,28 @@ function updatePolyfills(): (host: Tree) => Tree {
         host.overwrite(filePath, content);
         return host;
     };
+}
+
+function updateEnvironments(): (host: Tree) => Tree {
+    return (host: Tree) => {
+        updateEnvironment(host, 'src/environments/environment.ts');
+        updateEnvironment(host, 'src/environments/environment.prod.ts');
+        return host;
+    };
+}
+
+function updateEnvironment(host: Tree, file: string): void {
+    if (!host.exists(file))
+        return;
+
+    const text = host.read(file);
+    if (text === null) {
+        return;
+    }
+
+    const sourceText = text.toString('utf-8');
+    const sourceFile = CodeUtils.getSourceFile(file, sourceText);
+
+    CodeUtils.insertInVariableObject(sourceFile, "environment", `  apiUrl: '/api/'`);
+    host.overwrite(file, sourceFile.getFullText());
 }

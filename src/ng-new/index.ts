@@ -63,7 +63,7 @@ export default function (options: YangNewOptions): Rule {
                     externalSchematic('@schematics/angular', 'application', applicationOptions),
                     schematic('init', yangInitOptions),
                     move(options.directory || options.name),
-                ]),
+                ]), MergeStrategy.Overwrite
             ),
             (host: Tree, context: SchematicContext) => {
                 let packageTask;

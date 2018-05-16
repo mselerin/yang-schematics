@@ -1,5 +1,5 @@
 import {StringUtils} from "./string-utils";
-import { ImportDeclarationStructure, SourceFile } from "ts-simple-ast";
+import { ImportDeclarationStructure, SourceFile, VariableDeclaration } from "ts-simple-ast";
 import TsSimpleAst from "ts-simple-ast";
 
 export class CodeUtils
@@ -40,29 +40,54 @@ export class CodeUtils
     }
 
 
-    static insertInVariableArray(sourceFile: SourceFile, variableName: string, str: string): void
+    static getVariableDeclaration(sourceFile: SourceFile, variableName: string): VariableDeclaration
     {
         let varDeclaration = sourceFile.getVariableDeclaration(variableName);
         if (!varDeclaration) {
             throw new Error(`Cannot find variable '${variableName}' in file '${sourceFile.getFilePath()}'`);
         }
 
+        return varDeclaration;
+    }
+
+
+    static insertInVariableArray(sourceFile: SourceFile, variableName: string, str: string): void
+    {
+        let varDeclaration = CodeUtils.getVariableDeclaration(sourceFile, variableName);
         let block = varDeclaration.getText();
         block = CodeUtils.insertInArray(block, str);
 
         varDeclaration.replaceWithText(block);
     }
 
-
-    static insertInArray(block: string, str: string): string
+    static insertInVariableObject(sourceFile: SourceFile, variableName: string, str: string): void
     {
-        let startArr = block.indexOf('[');
-        let endArr = block.lastIndexOf(']');
+        let varDeclaration = CodeUtils.getVariableDeclaration(sourceFile, variableName);
+        let block = varDeclaration.getText();
+        block = CodeUtils.insertInObject(block, str);
 
-        let arrStr = block.substring(startArr, endArr + 1);
+        varDeclaration.replaceWithText(block);
+    }
+
+
+    static insertInArray(block: string, str: string): string {
+        return CodeUtils.insertInBlock(block, str, '[', ']');
+    }
+
+
+    static insertInObject(block: string, str: string): string {
+        return CodeUtils.insertInBlock(block, str, '{', '}');
+    }
+
+
+    private static insertInBlock(block: string, str: string, startDelimiter: string, endDelimiter: string): string
+    {
+        let startObj = block.indexOf(startDelimiter);
+        let endObj = block.lastIndexOf(endDelimiter);
+        let objStr = block.substring(startObj, endObj + 1);
 
         // Retrouver le dernier caractère
-        let startNdx = StringUtils.findLast(arrStr, /[a-z0-9\}\)]/i);
+        let startNdx = StringUtils.findLast(objStr.substr(0, objStr.length - 1), /[a-z0-9\}\)]/i);
         let comma = "";
 
         if (startNdx < 0) {
@@ -73,8 +98,8 @@ export class CodeUtils
             comma = ',';
         }
 
-        arrStr = [arrStr.slice(0, startNdx), `${comma}\r\n${str}`, arrStr.slice(startNdx)].join('');
-        return [block.slice(0, startArr), arrStr, block.slice(endArr+1)].join('');
+        objStr = [objStr.slice(0, startNdx), `${comma}\r\n${str}`, objStr.slice(startNdx)].join('');
+        return [block.slice(0, startObj), objStr, block.slice(endObj+1)].join('');
     }
 
 
