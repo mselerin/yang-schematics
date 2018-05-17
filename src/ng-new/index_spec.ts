@@ -1,14 +1,10 @@
 import { expect } from 'chai';
-import * as path from 'path';
-import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import { UnitTestTree } from '@angular-devkit/schematics/testing';
 import { Schema as YangNewOptions } from './schema';
+import { yangSchematicRunner } from '../utils/test-utils';
 
 
-describe('Yang New Schematic', () => {
-    const schematicRunner = new SchematicTestRunner(
-        'yang-schematics', path.join(__dirname, '../collection.json')
-    );
-
+describe('New Schematic', () => {
     const newOptions: YangNewOptions = {
         name: 'foo',
         directory: 'bar',
@@ -17,25 +13,25 @@ describe('Yang New Schematic', () => {
 
     let appTree: UnitTestTree;
     beforeEach(() => {
-        appTree = schematicRunner.runSchematic('ng-new', newOptions);
+        appTree = yangSchematicRunner.runSchematic('ng-new', newOptions);
     });
 
 
     it('should create files of an application', () => {
         const files = appTree.files;
 
-        expect(files.indexOf('/bar/angular.json')).to.be.gte(0);
-        expect(files.indexOf('/bar/src/tsconfig.app.json')).to.be.gte(0);
-        expect(files.indexOf('/bar/src/main.ts')).to.be.gte(0);
-        expect(files.indexOf('/bar/src/app/app.module.ts')).to.be.gte(0);
+        expect(files.includes('/bar/angular.json')).to.be.true;
+        expect(files.includes('/bar/src/tsconfig.app.json')).to.be.true;
+        expect(files.includes('/bar/src/main.ts')).to.be.true;
+        expect(files.includes('/bar/src/app/app.module.ts')).to.be.true;
     });
 
 
     it('should create files for yang', () => {
         const files = appTree.files;
 
-        expect(files.indexOf('/bar/src/app/core/core.module.ts')).to.be.gte(0);
-        expect(files.indexOf('/bar/src/app/shared/shared.module.ts')).to.be.gte(0);
-        expect(files.indexOf('/bar/src/app/features/features.module.ts')).to.be.gte(0);
+        expect(files.includes('/bar/src/app/core/core.module.ts')).to.be.true;
+        expect(files.includes('/bar/src/app/shared/shared.module.ts')).to.be.true;
+        expect(files.includes('/bar/src/app/features/features.module.ts')).to.be.true;
     });
 });

@@ -1,14 +1,20 @@
 import { expect } from 'chai';
 import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
-
-const collectionPath = path.join(__dirname, '../collection.json');
+import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
+import { UnitTestTree } from '@angular-devkit/schematics/testing';
 
 
-describe('yang-schematics-component', () => {
-    it('should throw error on empty tree', () => {
-        const runner = new SchematicTestRunner('schematics', collectionPath);
-        expect(() => runner.runSchematic('component', {}, Tree.empty())).to.throw();
+describe('Component Schematic', () => {
+    describe('With empty project', () => {
+        it('should throw error on empty tree', () => {
+            expect(() => yangSchematicRunner.runSchematic('component', {}, Tree.empty())).to.throw();
+        });
+    });
+
+    describe('With fresh project', () => {
+        let appTree: UnitTestTree;
+        beforeEach(() => {
+            appTree = runYangNew();
+        });
     });
 });

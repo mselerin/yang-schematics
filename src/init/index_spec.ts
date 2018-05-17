@@ -1,15 +1,12 @@
 import { expect } from 'chai';
-import * as path from 'path';
-import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import { UnitTestTree } from '@angular-devkit/schematics/testing';
 import { Schema as NgNewOptions } from '@schematics/angular/ng-new/schema';
 import { getFileContent } from '@schematics/angular/utility/test';
+import { yangSchematicRunner } from '../utils/test-utils';
+import { Tree } from '@angular-devkit/schematics';
 
 
-describe('Yang Init Schematic', () => {
-    const schematicRunner = new SchematicTestRunner(
-        'yang-schematics', path.join(__dirname, '../collection.json'),
-    );
-
+describe('Init Schematic', () => {
     const ngNewOptions: NgNewOptions = {
         name: 'foo',
         directory: '.',
@@ -18,26 +15,31 @@ describe('Yang Init Schematic', () => {
 
     let appTree: UnitTestTree;
     beforeEach(() => {
-        appTree = schematicRunner.runExternalSchematic('@schematics/angular', 'ng-new', ngNewOptions);
-        appTree = schematicRunner.runSchematic('init', {}, appTree);
+        appTree = yangSchematicRunner.runExternalSchematic('@schematics/angular', 'ng-new', ngNewOptions);
+        appTree = yangSchematicRunner.runSchematic('init', {}, appTree);
+    });
+
+
+    it('should throw error on empty tree', () => {
+        expect(() => yangSchematicRunner.runSchematic('init', {}, Tree.empty())).to.throw();
     });
 
 
     it('should create files for yang', () => {
         const files = appTree.files;
 
-        expect(files.indexOf('/src/app/core/core.module.ts')).to.be.gte(0);
-        expect(files.indexOf('/src/app/shared/shared.module.ts')).to.be.gte(0);
-        expect(files.indexOf('/src/app/features/features.module.ts')).to.be.gte(0);
+        expect(files.includes('/src/app/core/core.module.ts')).to.be.true;
+        expect(files.includes('/src/app/shared/shared.module.ts')).to.be.true;
+        expect(files.includes('/src/app/features/features.module.ts')).to.be.true;
     });
 
 
     it('should contains a home feature and component', () => {
         const files = appTree.files;
 
-        expect(files.indexOf('/src/app/features/home/home.module.ts')).to.be.gte(0);
-        expect(files.indexOf('/src/app/features/home/home.component.ts')).to.be.gte(0);
-        expect(files.indexOf('/src/app/features/home/home.component.html')).to.be.gte(0);
+        expect(files.includes('/src/app/features/home/home.module.ts')).to.be.true;
+        expect(files.includes('/src/app/features/home/home.component.ts')).to.be.true;
+        expect(files.includes('/src/app/features/home/home.component.html')).to.be.true;
     });
 
 
@@ -54,7 +56,7 @@ describe('Yang Init Schematic', () => {
     it('should fail if specified directory does not exist', () => {
         let thrownError: Error | null = null;
         try {
-            schematicRunner.runSchematic('init', {});
+            yangSchematicRunner.runSchematic('init', {});
         } catch (err) {
             thrownError = err;
         }
