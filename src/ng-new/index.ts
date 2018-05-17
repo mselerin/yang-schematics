@@ -27,7 +27,7 @@ export default function (options: YangNewOptions): Rule {
             throw new SchematicsException(`Invalid options, "name" is required.`);
         }
 
-        if (!options.directory) {
+        if (!options.directory || options.directory === '/') {
             options.directory = options.name;
         }
 
