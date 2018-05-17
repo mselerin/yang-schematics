@@ -20,18 +20,18 @@ describe('New Schematic', () => {
     it('should create files of an application', () => {
         const files = appTree.files;
 
-        expect(files.includes('/bar/angular.json')).to.be.true;
-        expect(files.includes('/bar/src/tsconfig.app.json')).to.be.true;
-        expect(files.includes('/bar/src/main.ts')).to.be.true;
-        expect(files.includes('/bar/src/app/app.module.ts')).to.be.true;
+        expect(files).contains('/bar/angular.json');
+        expect(files).contains('/bar/src/tsconfig.app.json');
+        expect(files).contains('/bar/src/main.ts');
+        expect(files).contains('/bar/src/app/app.module.ts');
     });
 
 
     it('should create files for yang', () => {
         const files = appTree.files;
 
-        expect(files.includes('/bar/src/app/core/core.module.ts')).to.be.true;
-        expect(files.includes('/bar/src/app/shared/shared.module.ts')).to.be.true;
-        expect(files.includes('/bar/src/app/features/features.module.ts')).to.be.true;
+        expect(files).contains('/bar/src/app/core/core.module.ts');
+        expect(files).contains('/bar/src/app/shared/shared.module.ts');
+        expect(files).contains('/bar/src/app/features/features.module.ts');
     });
 });
