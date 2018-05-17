@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import * as path from 'path';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import { Schema as NgNewOptions } from '@schematics/angular/ng-new/schema';
@@ -25,18 +26,18 @@ describe('Yang Init Schematic', () => {
     it('should create files for yang', () => {
         const files = appTree.files;
 
-        expect(files.indexOf('/src/app/core/core.module.ts')).toBeGreaterThanOrEqual(0);
-        expect(files.indexOf('/src/app/shared/shared.module.ts')).toBeGreaterThanOrEqual(0);
-        expect(files.indexOf('/src/app/features/features.module.ts')).toBeGreaterThanOrEqual(0);
+        expect(files.indexOf('/src/app/core/core.module.ts')).to.be.gte(0);
+        expect(files.indexOf('/src/app/shared/shared.module.ts')).to.be.gte(0);
+        expect(files.indexOf('/src/app/features/features.module.ts')).to.be.gte(0);
     });
 
 
     it('should contains a home feature and component', () => {
         const files = appTree.files;
 
-        expect(files.indexOf('/src/app/features/home/home.module.ts')).toBeGreaterThanOrEqual(0);
-        expect(files.indexOf('/src/app/features/home/home.component.ts')).toBeGreaterThanOrEqual(0);
-        expect(files.indexOf('/src/app/features/home/home.component.html')).toBeGreaterThanOrEqual(0);
+        expect(files.indexOf('/src/app/features/home/home.module.ts')).to.be.gte(0);
+        expect(files.indexOf('/src/app/features/home/home.component.ts')).to.be.gte(0);
+        expect(files.indexOf('/src/app/features/home/home.component.html')).to.be.gte(0);
     });
 
 
@@ -44,9 +45,9 @@ describe('Yang Init Schematic', () => {
         const fileContent = getFileContent(appTree, '/package.json');
         const pkg = JSON.parse(fileContent);
 
-        expect(pkg.scripts['prebuild']).toBe('node prebuild.js');
-        expect(pkg.dependencies['whatwg-fetch']).toBeDefined();
-        expect(pkg.devDependencies['yang-schematics']).toBeDefined();
+        expect(pkg.scripts['prebuild']).to.be.eq('node prebuild.js');
+        expect(pkg.dependencies['whatwg-fetch']).to.not.be.undefined;
+        expect(pkg.devDependencies['yang-schematics']).to.not.be.undefined;
     });
 
 
@@ -57,6 +58,6 @@ describe('Yang Init Schematic', () => {
         } catch (err) {
             thrownError = err;
         }
-        expect(thrownError).toBeDefined();
+        expect(thrownError).to.not.be.undefined;
     });
 });
