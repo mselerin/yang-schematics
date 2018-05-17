@@ -1,14 +1,14 @@
 import * as path from 'path';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { Schema as YangNewOptions } from '../ng-new/schema';
+import { Schema as YangNewOptions } from './schema';
 
 
-describe('Yang Init Schematic', () => {
+describe('Yang New Schematic', () => {
     const schematicRunner = new SchematicTestRunner(
         'yang-schematics', path.join(__dirname, '../collection.json')
     );
 
-    const defaultOptions: YangNewOptions = {
+    const newOptions: YangNewOptions = {
         name: 'foo',
         directory: 'bar',
         version: '6.0.0'
@@ -16,8 +16,7 @@ describe('Yang Init Schematic', () => {
 
     let appTree: UnitTestTree;
     beforeEach(() => {
-        const options = { ...defaultOptions };
-        appTree = schematicRunner.runSchematic('ng-new', options);
+        appTree = schematicRunner.runSchematic('ng-new', newOptions);
     });
 
 

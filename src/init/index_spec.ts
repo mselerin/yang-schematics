@@ -9,7 +9,7 @@ describe('Yang Init Schematic', () => {
         'yang-schematics', path.join(__dirname, '../collection.json'),
     );
 
-    const defaultOptions: NgNewOptions = {
+    const ngNewOptions: NgNewOptions = {
         name: 'foo',
         directory: '.',
         version: '6.0.0'
@@ -17,8 +17,7 @@ describe('Yang Init Schematic', () => {
 
     let appTree: UnitTestTree;
     beforeEach(() => {
-        const options = { ...defaultOptions };
-        appTree = schematicRunner.runExternalSchematic('@schematics/angular', 'ng-new', options);
+        appTree = schematicRunner.runExternalSchematic('@schematics/angular', 'ng-new', ngNewOptions);
         appTree = schematicRunner.runSchematic('init', {}, appTree);
     });
 
@@ -46,8 +45,8 @@ describe('Yang Init Schematic', () => {
         const pkg = JSON.parse(fileContent);
 
         expect(pkg.scripts['prebuild']).toBe('node prebuild.js');
-        expect(pkg.dependencies['whatwg-fetch']).toBeTruthy();
-        expect(pkg.devDependencies['yang-schematics']).toBeTruthy();
+        expect(pkg.dependencies['whatwg-fetch']).toBeDefined();
+        expect(pkg.devDependencies['yang-schematics']).toBeDefined();
     });
 
 

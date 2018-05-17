@@ -6,7 +6,6 @@
   "properties": {
     "directory": {
       "type": "string",
-      "format": "path",
       "description": "The directory name to create the workspace in.",
       "default": ""
     },
