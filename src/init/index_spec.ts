@@ -1,14 +1,63 @@
-import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import { Schema as NgNewOptions } from '@schematics/angular/ng-new/schema';
+import { getFileContent } from '@schematics/angular/utility/test';
 
-const collectionPath = path.join(__dirname, '../collection.json');
+
+describe('Yang Init Schematic', () => {
+    const schematicRunner = new SchematicTestRunner(
+        'yang-schematics', path.join(__dirname, '../collection.json'),
+    );
+
+    const defaultOptions: NgNewOptions = {
+        name: 'foo',
+        directory: '.',
+        version: '6.0.0'
+    };
+
+    let appTree: UnitTestTree;
+    beforeEach(() => {
+        const options = { ...defaultOptions };
+        appTree = schematicRunner.runExternalSchematic('@schematics/angular', 'ng-new', options);
+        appTree = schematicRunner.runSchematic('init', {}, appTree);
+    });
 
 
-describe('yang-schematics-init', () => {
-    it('should throw error on empty tree', () => {
-        const runner = new SchematicTestRunner('schematics', collectionPath);
-        expect(() => runner.runSchematic('init', {}, Tree.empty())).toThrow();
-        // expect(tree.files).toEqual([]);
+    it('should create files for yang', () => {
+        const files = appTree.files;
+
+        expect(files.indexOf('/src/app/core/core.module.ts')).toBeGreaterThanOrEqual(0);
+        expect(files.indexOf('/src/app/shared/shared.module.ts')).toBeGreaterThanOrEqual(0);
+        expect(files.indexOf('/src/app/features/features.module.ts')).toBeGreaterThanOrEqual(0);
+    });
+
+
+    it('should contains a home feature and component', () => {
+        const files = appTree.files;
+
+        expect(files.indexOf('/src/app/features/home/home.module.ts')).toBeGreaterThanOrEqual(0);
+        expect(files.indexOf('/src/app/features/home/home.component.ts')).toBeGreaterThanOrEqual(0);
+        expect(files.indexOf('/src/app/features/home/home.component.html')).toBeGreaterThanOrEqual(0);
+    });
+
+
+    it('should contains specific stuffs inside package.json', () => {
+        const fileContent = getFileContent(appTree, '/package.json');
+        const pkg = JSON.parse(fileContent);
+
+        expect(pkg.scripts['prebuild']).toBe('node prebuild.js');
+        expect(pkg.dependencies['whatwg-fetch']).toBeTruthy();
+        expect(pkg.devDependencies['yang-schematics']).toBeTruthy();
+    });
+
+
+    it('should fail if specified directory does not exist', () => {
+        let thrownError: Error | null = null;
+        try {
+            schematicRunner.runSchematic('init', {});
+        } catch (err) {
+            thrownError = err;
+        }
+        expect(thrownError).toBeDefined();
     });
 });
