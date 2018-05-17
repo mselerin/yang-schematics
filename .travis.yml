@@ -4,7 +4,7 @@ node_js:
    - "9"
 
 before_script:
-  - yarn global add @angular/cli
+  - npm install -g @angular/cli
 
 notifications:
    email:
