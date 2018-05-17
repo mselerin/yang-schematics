@@ -9,6 +9,9 @@ jsconfig.json
 *.map
 !*.d.ts
 
+# Ignores Unit-Test
+src/**/*_spec.js
+src/**/*_spec.d.ts
+
 # Others
-yang-schematics-*.tgz
 !src/*/files/**/*
