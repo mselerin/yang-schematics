@@ -10,13 +10,20 @@ import {
 import { strings } from '@angular-devkit/core';
 import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
+import { getWorkspace } from '@schematics/angular/utility/config';
 
 export default function (options: DirectiveOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
+        if (!options.project) {
+            const workspace = getWorkspace(host);
+            options.project = workspace.defaultProject;
+        }
+
         return chain([
             externalSchematic('@schematics/angular', 'directive', {
                 name: options.name,
                 path: 'src/app/shared/directives',
+                project: options.project,
                 spec: options.spec,
                 skipImport: true,
                 flat: true
