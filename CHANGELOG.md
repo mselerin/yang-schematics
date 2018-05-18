@@ -12,6 +12,10 @@ All notable changes to this project will be documented in this file. See [standa
 * travis build ([fa37b9e](https://github.com/mselerin/yang-schematics/commit/fa37b9e))
 
 
+### Misc
+* add unit-tests for every schematics
+* add project option for every schematics to be compliant with @schematics/angular 
+
 
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/mselerin/yang-schematics/compare/v1.2.0...v1.2.1) (2018-05-17)
