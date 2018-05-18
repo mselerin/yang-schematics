@@ -18,6 +18,7 @@ describe('Service Schematic', () => {
             appTree = runYangNew();
         });
 
+
         const serviceName = 'superDummy';
         const defaultOptions: ServiceOptions = {
             name: serviceName,
@@ -26,7 +27,7 @@ describe('Service Schematic', () => {
 
         it('should create flat files', () => {
             appTree = yangSchematicRunner.runSchematic('service', {
-                ...defaultOptions
+                ...defaultOptions, flat: true
             }, appTree);
 
             const files = appTree.files;
