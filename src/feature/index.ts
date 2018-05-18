@@ -1,7 +1,6 @@
 import { Schema as FeatureOptions } from './schema';
 import {
     apply,
-    branchAndMerge,
     chain,
     mergeWith,
     move,
@@ -17,9 +16,15 @@ import {
 import { strings } from '@angular-devkit/core';
 import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
+import { getWorkspace } from '@schematics/angular/utility/config';
 
 export default function (options: FeatureOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
+        if (!options.project) {
+            const workspace = getWorkspace(host);
+            options.project = workspace.defaultProject;
+        }
+
         const templateSource = apply(url('./files'), [
             template({
                 ...strings,
@@ -31,6 +36,7 @@ export default function (options: FeatureOptions): Rule {
 
         const createComp = options.component ? schematic('component', {
             name: options.name,
+            project: options.project,
             feature: options.name,
             routing: true,
             route: '',

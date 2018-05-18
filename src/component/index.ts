@@ -54,10 +54,15 @@ export default function (options: ComponentOptions): Rule {
 
         options.path = normalize(options.path);
 
-        const workspace = getWorkspace(host);
+        if (!options.project) {
+            const workspace = getWorkspace(host);
+            options.project = workspace.defaultProject;
+        }
+
+
         const componentOptions: NgComponentOptions = {
             name: options.name,
-            project: options.project || workspace.defaultProject,
+            project: options.project,
             path: options.path,
             spec: options.spec,
             inlineStyle: (options.styles !== undefined ? !options.styles : undefined),

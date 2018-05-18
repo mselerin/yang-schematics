@@ -22,9 +22,6 @@ import { CodeUtils } from '../utils/code-utils';
 export default function (options: InitOptions): Rule {
     return (host: Tree, context: SchematicContext) => {
 
-        options.path = options.path || process.cwd();
-        options.path = normalize(options.path);
-
         options.name = options.name || path.basename(process.cwd());
         if (!options.name) {
             throw new SchematicsException(`Invalid options, "name" is required.`);
