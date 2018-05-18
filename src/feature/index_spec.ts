@@ -32,8 +32,8 @@ describe('Feature Schematic', () => {
 
             const files = appTree.files;
 
-            expect(files.includes('/src/app/features/bar/bar.module.ts')).to.be.true;
-            expect(files.includes('/src/app/features/bar/bar.component.ts')).to.be.false;
+            expect(files).contains('/src/app/features/bar/bar.module.ts');
+            expect(files).not.contains('/src/app/features/bar/bar.component.ts');
         });
 
 
