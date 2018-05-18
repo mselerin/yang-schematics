@@ -1,5 +1,8 @@
 export interface Schema {
-    path: string;
+    /**
+     * The path to create the component.
+     */
+    path?: string;
     /**
      * The name of the project.
      */
@@ -11,7 +14,7 @@ export interface Schema {
     /**
      * The name of the feature where to create this component (optional).
      */
-    feature: string;
+    feature?: string;
     /**
      * Flag to indicate if the component should be created inside the shared module.
      */

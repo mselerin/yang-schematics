@@ -31,7 +31,7 @@ export default function (options: ComponentOptions): Rule {
 
             if ('shared' === classifier) {
                 options.shared = true;
-                options.feature = "";
+                options.feature = '';
                 options.name = nameArgs.join('/');
             }
 
@@ -52,7 +52,7 @@ export default function (options: ComponentOptions): Rule {
             options.path = path.join('src', 'app', 'shared', 'components');
         }
 
-        options.path = normalize(options.path);
+        options.path = normalize(options.path || '');
 
         if (!options.project) {
             const workspace = getWorkspace(host);
@@ -145,9 +145,12 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
     };
 }
 
-function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
+function updateFeatureRouting(options: ComponentOptions, host: Tree): void
+{
+    const featureName = options.feature as string;
+
     // Ajouter la route
-    const file = `src/app/features/${strings.dasherize(options.feature)}/${strings.dasherize(options.feature)}-routing.module.ts`;
+    const file = `src/app/features/${strings.dasherize(featureName)}/${strings.dasherize(featureName)}-routing.module.ts`;
     const text = host.read(file);
     if (text === null) {
         throw new SchematicsException(`File ${file} does not exist.`);
@@ -167,7 +170,7 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
     CodeUtils.addImport(sourceFile,
         `${strings.classify(options.name)}Component`, `${compDir}/${strings.dasherize(options.name)}.component`);
 
-    CodeUtils.insertInVariableArray(sourceFile, `${strings.classify(options.feature)}Routes`,
+    CodeUtils.insertInVariableArray(sourceFile, `${strings.classify(featureName)}Routes`,
         `    { path: '${options.route}', component: ${strings.classify(options.name)}Component }`
     );
 
