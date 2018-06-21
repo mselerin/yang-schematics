@@ -1,47 +1,45 @@
-import {Injectable, Injector} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {LOGGER, LogLevelEnum} from './services/logger.service';
-import {ConfigService} from './services/config.service';
-import {AppConfig} from '@app/models/app-config.model';
+import { Injectable, Injector } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LOGGER, LogLevelEnum } from './services/logger.service';
+import { ConfigService } from './services/config.service';
+import { AppConfig } from '@app/models/app-config.model';
 
 @Injectable()
 export class CoreInitializer
 {
-    constructor(
-        private injector: Injector
-    ) {}
+  constructor(
+    private injector: Injector
+  ) {}
 
-    public init(): Promise<void> {
-        console.log('Initializing application');
+  public async init(): Promise<void> {
+    console.log('Initializing application');
 
-        // Retrieve services via the Injector (workaround for cyclic dependency error)
-        const configService: ConfigService = this.injector.get(ConfigService);
-        const translate: TranslateService = this.injector.get(TranslateService);
+    // Retrieve services via the Injector (workaround for cyclic dependency error)
+    const configService: ConfigService = this.injector.get(ConfigService);
+    const translate: TranslateService = this.injector.get(TranslateService);
 
-        return configService.loadConfig()
-            .then((config: AppConfig) => {
-                // Logging
-                LOGGER.clientLogLevel = LogLevelEnum.DEBUG;
-                LOGGER.serverLogLevel = LogLevelEnum.ERROR;
+    let config: AppConfig = await configService.loadConfig();
 
-                // LOGGER.loggingServiceUrl = '/api/log';
+    // Logging
+    LOGGER.clientLogLevel = LogLevelEnum.DEBUG;
+    LOGGER.serverLogLevel = LogLevelEnum.ERROR;
 
-                // Translation
-                translate.addLangs(config.languages);
-                translate.setDefaultLang(config.lang);
+    // LOGGER.loggingServiceUrl = '/api/log';
 
-                // Langue du navigateur
-                let browserLang = translate.getBrowserLang();
-                LOGGER.debug(`Detected browser language : ${browserLang}`);
+    // Translation
+    translate.addLangs(config.languages);
+    translate.setDefaultLang(config.lang);
 
-                if (translate.getLangs().indexOf(browserLang) === -1)
-                    browserLang = 'fr';
+    // Langue du navigateur
+    let browserLang = translate.getBrowserLang();
+    LOGGER.debug(`Detected browser language : ${browserLang}`);
 
-                LOGGER.debug(`Using language : ${browserLang}`);
-                return translate.use(browserLang).toPromise();
-            })
-           .then(() => {
-              LOGGER.info('Application initialized');
-           });
-    }
+    if (translate.getLangs().indexOf(browserLang) === -1)
+      browserLang = 'fr';
+
+    LOGGER.debug(`Using language : ${browserLang}`);
+    await translate.use(browserLang).toPromise();
+
+    LOGGER.info('Application initialized');
+  }
 }
