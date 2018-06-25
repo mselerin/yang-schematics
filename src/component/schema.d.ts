@@ -12,13 +12,9 @@ export interface Schema {
    */
   name: string;
   /**
-   * The name of the feature where to create this component (optional).
+   * Allows specification of the declaring module.
    */
-  feature?: string;
-  /**
-   * Flag to indicate if the component should be created inside the shared module.
-   */
-  shared?: boolean;
+  module?: string;
   /**
    * Flag to indicate if a dir is created.
    */

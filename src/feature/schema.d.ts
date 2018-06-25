@@ -4,6 +4,10 @@ export interface Schema {
    */
   name: string;
   /**
+   * The path to create the feature.
+   */
+  path?: string;
+  /**
    * The name of the project.
    */
   project?: string;
@@ -11,6 +15,10 @@ export interface Schema {
    * Specifies if a spec file is generated.
    */
   spec?: boolean;
+  /**
+   * Allows specification of the declaring module.
+   */
+  module?: string;
   /**
    * Specifies if a component with the same name is generated.
    */

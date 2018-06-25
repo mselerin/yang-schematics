@@ -12,6 +12,12 @@
         "index": 0
       }
     },
+    "path": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to create the feature.",
+      "visible": false
+    },
     "project": {
       "type": "string",
       "description": "The name of the project.",
@@ -23,6 +29,11 @@
       "type": "boolean",
       "description": "Specifies if a spec file is generated.",
       "default": true
+    },
+    "module": {
+      "type": "string",
+      "description": "Allows specification of the declaring module.",
+      "alias": "m"
     },
     "component": {
       "type": "boolean",

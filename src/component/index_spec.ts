@@ -51,19 +51,6 @@ describe('Component Schematic', () => {
         expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/components\/super-dummy\/super-dummy.component['"]/);
         expect(moduleContent).to.match(/DECLARATIONS: any\[]\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyComponent\r?\n/m);
       });
-
-
-      it('should create same files with shared/name or shared: true', () => {
-        let appTreeWithBoolean = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, shared: true
-        }, appTree);
-
-        let appTreeWithName = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, name: 'shared/' + componentName
-        }, appTree);
-
-        expect(appTreeWithBoolean.files).eql(appTreeWithName.files);
-      });
     });
 
 
@@ -82,7 +69,7 @@ describe('Component Schematic', () => {
 
       it('should create files inside the foo feature', () => {
         appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, feature: 'foo'
+          ...defaultOptions, name: 'foo/' + componentName
         }, appTree);
 
         const files = appTree.files;
@@ -94,7 +81,7 @@ describe('Component Schematic', () => {
 
       it('should import component inside the foo feature', () => {
         appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, feature: 'foo'
+          ...defaultOptions, name: 'foo/' + componentName
         }, appTree);
 
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo.module.ts');
@@ -105,7 +92,7 @@ describe('Component Schematic', () => {
 
       it('should create route inside the foo feature', () => {
         appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, feature: 'foo', routing: true, route: 'bar'
+          ...defaultOptions, name: 'foo/' + componentName, routing: true, route: 'bar'
         }, appTree);
 
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo-routing.module.ts');
@@ -114,18 +101,6 @@ describe('Component Schematic', () => {
         expect(moduleContent).include(`{ path: 'bar', component: ${strings.classify(componentName)}Component }`);
       });
 
-
-      it('should create same files with foo/name or feature: foo', () => {
-        let appTreeWithBoolean = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, feature: 'foo'
-        }, appTree);
-
-        let appTreeWithName = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, name: 'foo/' + componentName
-        }, appTree);
-
-        expect(appTreeWithBoolean.files).eql(appTreeWithName.files);
-      })
     });
   });
 });

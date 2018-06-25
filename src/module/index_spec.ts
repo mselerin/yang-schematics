@@ -46,7 +46,7 @@ describe('Module Schematic', () => {
         }, appTree);
 
         const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
-        expect(moduleContent).to.match(/import.*SuperDummyModule.*from ['"].\/modules\/super-dummy\/super-dummy.module['"]/);
+        expect(moduleContent).to.match(/import.*SuperDummyModule.*from ['"]@app\/shared\/modules\/super-dummy\/super-dummy.module['"]/);
         expect(moduleContent).to.match(/MODULES: any\[]\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyModule\r?\n/m);
       });
     });
@@ -67,7 +67,7 @@ describe('Module Schematic', () => {
 
       it('should create files inside the foo feature', () => {
         appTree = yangSchematicRunner.runSchematic('module', {
-          ...defaultOptions, feature: 'foo'
+          ...defaultOptions, name: 'foo/' + moduleName
         }, appTree);
 
         const files = appTree.files;
@@ -79,11 +79,11 @@ describe('Module Schematic', () => {
 
       it('should import module inside the foo feature', () => {
         appTree = yangSchematicRunner.runSchematic('module', {
-          ...defaultOptions, feature: 'foo'
+          ...defaultOptions, name: 'foo/' + moduleName
         }, appTree);
 
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo.module.ts');
-        expect(moduleContent).to.match(/import.*SuperDummyModule.*from ['"].\/super-dummy\/super-dummy.module['"]/);
+        expect(moduleContent).to.match(/import.*SuperDummyModule.*from ['"]@app\/features\/foo\/super-dummy\/super-dummy.module['"]/);
         expect(moduleContent).to.match(/MODULES: any\[]\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyModule\r?\n/m);
       });
 

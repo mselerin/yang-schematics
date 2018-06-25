@@ -99,4 +99,36 @@ describe('Feature Schematic', () => {
       expect(fileContent).include(path);
     });
   });
+
+
+  describe('With foo feature', () => {
+    let appTree: UnitTestTree;
+    beforeEach(() => {
+      appTree = runYangNew();
+
+      appTree = yangSchematicRunner.runSchematic('feature', {
+        name: 'foo',
+        component: false,
+        template: false,
+        styles: false
+      }, appTree);
+    });
+
+
+    it('should create sub feature module with component', () => {
+      appTree = yangSchematicRunner.runSchematic('feature', {
+        name: 'foo/' + featureName,
+        component: true,
+        template: false,
+        styles: false
+      }, appTree);
+
+      const files = appTree.files;
+      console.log(files);
+
+      expect(files).contains('/src/app/features/foo/bar/bar.component.ts');
+      expect(files).not.contains('/src/app/features/foo/bar/bar.component.html');
+      expect(files).not.contains('/src/app/features/foo/bar/bar.component.scss');
+    });
+  });
 });

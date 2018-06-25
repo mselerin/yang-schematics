@@ -4,7 +4,7 @@ export interface Schema {
    */
   name: string;
   /**
-   * The path to create the pipe.
+   * The path to create the module.
    */
   path?: string;
   /**
@@ -35,8 +35,4 @@ export interface Schema {
    * Allows specification of the declaring module.
    */
   module?: string;
-  /**
-   * The name of the feature where to create this module (optional).
-   */
-  feature?: string;
 }

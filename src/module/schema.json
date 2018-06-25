@@ -56,10 +56,6 @@
       "type": "string",
       "description": "Allows specification of the declaring module.",
       "alias": "m"
-    },
-    "feature": {
-      "type": "string",
-      "description": "The name of the feature to create the module into."
     }
   },
   "required": []

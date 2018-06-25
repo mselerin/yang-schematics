@@ -16,49 +16,43 @@ import {
   url
 } from '@angular-devkit/schematics';
 import { Schema as NgComponentOptions } from '@schematics/angular/component/schema';
-import { normalize, strings } from '@angular-devkit/core';
+import { basename, normalize, Path, strings } from '@angular-devkit/core';
 import * as path from 'path';
-import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
+import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
+import { YangUtils } from '../utils/yang-utils';
 
 export default function (options: ComponentOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    // Smart detect if shared or feature_name
-    if (options.name.includes('/')) {
-      let nameArgs: string[] = options.name.split('/');
-      let classifier: string = nameArgs.shift() as string;
-
-      if ('shared' === classifier) {
-        options.shared = true;
-        options.feature = '';
-        options.name = nameArgs.join('/');
-      }
-
-      else {
-        // First argument is a feature name
-        options.shared = false;
-        options.feature = classifier;
-        options.name = nameArgs.join('/');
-      }
-    }
-
-
-    if (options.feature) {
-      options.path = path.join('src', 'app', 'features', strings.dasherize(options.feature));
-    }
-
-    if (options.shared) {
-      options.path = path.join('src', 'app', 'shared', 'components');
-    }
-
-    options.path = normalize(options.path || '');
-
     if (!options.project) {
       const workspace = getWorkspace(host);
       options.project = workspace.defaultProject;
     }
 
+    // Smart detect if shared or feature_name
+    if (options.name.includes('/')) {
+      let nameArgs: string[] = options.name.split('/');
+      let classifier: string = nameArgs.shift() as string;
+      options.name = nameArgs.pop() as string;
+
+      if (!options.path) {
+        if ('shared' === classifier) {
+          options.path = path.join('src', 'app', 'shared', ...nameArgs);
+        }
+
+        else {
+          options.path = path.join('src', 'app', 'features', classifier, ...nameArgs);
+        }
+      }
+    }
+
+    if (!options.path) {
+      options.path = path.join('src', 'app', 'shared', 'components');
+    }
+
+    options.path = normalize(options.path || '');
+    options.module = findModuleFromOptions(host, options);
 
     const componentOptions: NgComponentOptions = {
       name: options.name,
@@ -93,15 +87,13 @@ export default function (options: ComponentOptions): Rule {
 
 function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
   return (host: Tree) => {
-    let file = '';
-    let baseDir = '';
+    if (!options.module)
+      return host;
 
-    if (options.feature) {
-      file = `src/app/features/${strings.dasherize(options.feature)}/${strings.dasherize(options.feature)}.module.ts`;
-      baseDir = `.`;
-    }
-    else if (options.shared) {
-      file = YangUtils.SHARED_MODULE_FILE;
+    const file = options.module as string;
+    let baseDir = '.';
+
+    if (options.module === YangUtils.SHARED_MODULE_FILE) {
       baseDir = `./components`;
     }
 
@@ -123,7 +115,9 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
     host.overwrite(file, sourceFile.getFullText());
 
 
-    if (options.feature) {
+    let path = options.path as string;
+
+    if (path.includes('src/app/features/')) {
       if (options.routing)
         updateFeatureRouting(options, host);
     }
@@ -135,10 +129,14 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
 
 
 function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
-  const featureName = options.feature as string;
+  if (!options.module)
+    return;
+
+  let moduleName = basename(options.module as Path) as string;
+  moduleName = moduleName.replace('.module.ts', '');
 
   // Ajouter la route
-  const file = `src/app/features/${strings.dasherize(featureName)}/${strings.dasherize(featureName)}-routing.module.ts`;
+  const file = options.module.replace('.module.ts', '-routing.module.ts');
   const text = host.read(file);
   if (text === null) {
     throw new SchematicsException(`File ${file} does not exist.`);
@@ -158,7 +156,7 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
   CodeUtils.addImport(sourceFile,
     `${strings.classify(options.name)}Component`, `${compDir}/${strings.dasherize(options.name)}.component`);
 
-  CodeUtils.insertInVariableArray(sourceFile, `${strings.classify(featureName)}Routes`,
+  CodeUtils.insertInVariableArray(sourceFile, `${strings.classify(moduleName)}Routes`,
     `    { path: '${options.route}', component: ${strings.classify(options.name)}Component }`
   );
 
