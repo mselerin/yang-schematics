@@ -1,20 +1,21 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {SharedModule} from '@app/shared/shared.module';
-import {LayoutComponent} from './layout.component';
+import { SharedModule } from '@app/shared/shared.module';
+import { LayoutComponent } from './layout.component';
 
 const MODULES = [
-    SharedModule
+  SharedModule
 ];
 
 const DECLARATIONS = [
-    LayoutComponent
+  LayoutComponent
 ];
 
 
 @NgModule({
-    imports: MODULES,
-    declarations: DECLARATIONS,
-    exports: [LayoutComponent]
+  imports: MODULES,
+  declarations: DECLARATIONS,
+  exports: [LayoutComponent]
 })
-export class LayoutModule {}
+export class LayoutModule {
+}

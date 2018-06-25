@@ -38,7 +38,9 @@
     "commit": {
       "description": "Initial repository commit information.",
       "oneOf": [
-        { "type": "boolean" },
+        {
+          "type": "boolean"
+        },
         {
           "type": "object",
           "properties": {
@@ -80,7 +82,11 @@
     },
     "viewEncapsulation": {
       "description": "Specifies the view encapsulation strategy.",
-      "enum": ["Emulated", "Native", "None"],
+      "enum": [
+        "Emulated",
+        "Native",
+        "None"
+      ],
       "type": "string"
     },
     "version": {

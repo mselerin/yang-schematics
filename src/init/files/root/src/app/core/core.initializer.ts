@@ -5,11 +5,11 @@ import { ConfigService } from './services/config.service';
 import { AppConfig } from '@app/models/app-config.model';
 
 @Injectable()
-export class CoreInitializer
-{
+export class CoreInitializer {
   constructor(
     private injector: Injector
-  ) {}
+  ) {
+  }
 
   public async init(): Promise<void> {
     console.log('Initializing application');

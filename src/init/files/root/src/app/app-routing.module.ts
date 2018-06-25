@@ -5,7 +5,7 @@ import { LayoutComponent } from './features/layout/layout.component';
 
 
 export const ROUTES: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
 
   {
     path: '', component: LayoutComponent,
@@ -14,13 +14,14 @@ export const ROUTES: Routes = [
     ]
   },
 
-  { path: '**', redirectTo: '/home' }
+  {path: '**', redirectTo: '/home'}
 ];
 
 
 @NgModule({
   providers: [],
-  imports: [ RouterModule.forRoot(ROUTES, { useHash: true }) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forRoot(ROUTES, {useHash: true})],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}
