@@ -21,7 +21,9 @@
     },
     "module": {
       "aliases": [ "m" ],
-      "extends": "@schematics/angular:module"
+      "factory": "./module",
+      "schema": "./module/schema.json",
+      "description": "Yang Module"
     },
     "init": {
       "factory": "./init",

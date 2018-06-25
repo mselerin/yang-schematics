@@ -21,7 +21,7 @@ const MODULES: any[] = [
   TranslateModule
 ];
 
-const DECLARATIONS = [
+const DECLARATIONS: any[] = [
   PropercasePipe,
   PageHeaderComponent
 ];

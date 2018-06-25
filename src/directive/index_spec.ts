@@ -48,7 +48,7 @@ describe('Directive Schematic', () => {
 
       const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
       expect(moduleContent).to.match(/import.*SuperDummyDirective.*from ['"].\/directives\/super-dummy.directive['"]/);
-      expect(moduleContent).to.match(/DECLARATIONS\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyDirective\r?\n/m);
+      expect(moduleContent).to.match(/DECLARATIONS: any\[]\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyDirective\r?\n/m);
     });
   });
 });

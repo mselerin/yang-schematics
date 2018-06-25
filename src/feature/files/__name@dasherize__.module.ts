@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { <%=classify(name)%>RoutingModule } from './<%=dasherize(name)%>-routing.module';
 
-const MODULES = [
+const MODULES: any[] = [
   SharedModule,
   <%=classify(name)%>RoutingModule
 ];
 
-const DECLARATIONS = [
+const DECLARATIONS: any[] = [
 ];
 
 

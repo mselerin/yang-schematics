@@ -48,7 +48,7 @@ describe('Pipe Schematic', () => {
 
       const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
       expect(moduleContent).to.match(/import.*SuperDummyPipe.*from ['"].\/pipes\/super-dummy.pipe['"]/);
-      expect(moduleContent).to.match(/DECLARATIONS\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyPipe\r?\n/m);
+      expect(moduleContent).to.match(/DECLARATIONS: any\[]\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyPipe\r?\n/m);
     });
   });
 });

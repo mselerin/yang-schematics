@@ -75,7 +75,7 @@ export class CodeUtils {
 
 
   private static insertInBlock(block: string, str: string, startDelimiter: string, endDelimiter: string): string {
-    let startObj = block.indexOf(startDelimiter);
+    let startObj = block.lastIndexOf(startDelimiter);
     let endObj = block.lastIndexOf(endDelimiter);
     let objStr = block.substring(startObj, endObj + 1);
 
