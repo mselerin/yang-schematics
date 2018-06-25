@@ -3,15 +3,15 @@ import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/te
 import { Schema as NgNewOptions } from '../ng-new/schema';
 
 export const yangSchematicRunner = new SchematicTestRunner(
-    'yang-schematics', path.join(__dirname, '../collection.json')
+  'yang-schematics', path.join(__dirname, '../collection.json')
 );
 
 export const ngNewOptions: NgNewOptions = {
-    name: 'foo',
-    directory: '.',
-    version: '6.0.0'
+  name: 'foo',
+  directory: '.',
+  version: '6.0.0'
 };
 
 export function runYangNew(): UnitTestTree {
-    return yangSchematicRunner.runSchematic('ng-new', ngNewOptions);
+  return yangSchematicRunner.runSchematic('ng-new', ngNewOptions);
 }

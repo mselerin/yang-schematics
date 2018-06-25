@@ -1,3 +1,3 @@
 export interface Schema {
-    name?: string;
+  name?: string;
 }
