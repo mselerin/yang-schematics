@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'page-header',
-  template: `
+    selector: 'page-header',
+    template: `
         <header class="content-header">
             <h1>
                 {{ title }}
@@ -12,6 +12,6 @@ import { Component, Input } from '@angular/core';
     `
 })
 export class PageHeaderComponent {
-  @Input() title: string;
-  @Input() subtitle: string;
+    @Input() title: string;
+    @Input() subtitle: string;
 }

@@ -1,17 +1,17 @@
 import { Schema as InitOptions } from './schema';
 import {
-  apply,
-  chain,
-  MergeStrategy,
-  mergeWith,
-  move,
-  Rule,
-  schematic,
-  SchematicContext,
-  SchematicsException,
-  template,
-  Tree,
-  url
+    apply,
+    chain,
+    MergeStrategy,
+    mergeWith,
+    move,
+    Rule,
+    schematic,
+    SchematicContext,
+    SchematicsException,
+    template,
+    Tree,
+    url
 } from '@angular-devkit/schematics';
 import { normalize, strings } from '@angular-devkit/core';
 import * as path from "path";
@@ -20,186 +20,189 @@ import { forceOverwrite } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 
 export default function (options: InitOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+    return (host: Tree, context: SchematicContext) => {
 
-    options.name = options.name || path.basename(process.cwd());
-    if (!options.name) {
-      throw new SchematicsException(`Invalid options, "name" is required.`);
-    }
+        options.name = options.name || path.basename(process.cwd());
+        if (!options.name) {
+            throw new SchematicsException(`Invalid options, "name" is required.`);
+        }
 
-    return chain([
-      mergeWith(apply(url('./files/root'), [
-        template({
-          ...strings,
-          ...options
-        }),
-        move(''),
-        forceOverwrite(host)
-      ]), MergeStrategy.Overwrite),
+        return chain([
+            mergeWith(apply(url('./files/root'), [
+                template({
+                    ...strings,
+                    ...options
+                }),
+                move(''),
+                forceOverwrite(host)
+            ]), MergeStrategy.Overwrite),
 
-      updatePackageJson(),
-      updateTsConfig(),
-      updateGitIgnore(),
-      updatePolyfills(),
-      updateEnvironments(),
+            updatePackageJson(),
+            updateTsConfig(),
+            updateGitIgnore(),
+            updatePolyfills(),
+            updateEnvironments(),
 
-      schematic('feature', {
-        name: 'home',
-        component: true,
-        template: true,
-        styles: true
-      }),
+            schematic('feature', {
+                name: 'home',
+                component: true,
+                template: true,
+                styles: true
+            }),
 
-      mergeWith(apply(url('./files/home'), [
-        template({
-          ...strings,
-          ...options
-        }),
-        move('src/app/features/home'),
-      ]), MergeStrategy.Overwrite)
-    ])(host, context);
-  };
+            mergeWith(apply(url('./files/home'), [
+                template({
+                    ...strings,
+                    ...options
+                }),
+                move('src/app/features/home'),
+            ]), MergeStrategy.Overwrite)
+        ])(host, context);
+    };
 }
 
 
+
+
+
 function updatePackageJson(): (host: Tree) => Tree {
-  return (host: Tree) => {
-    const pkg = require('../../package.json');
+    return (host: Tree) => {
+        const pkg = require('../../package.json');
 
-    const filePath = 'package.json';
-    if (!host.exists(filePath)) {
-      throw new SchematicsException(`File ${filePath} does not exist.`);
-    }
+        const filePath = 'package.json';
+        if (!host.exists(filePath)) {
+            throw new SchematicsException(`File ${filePath} does not exist.`);
+        }
 
-    const source = host.read(filePath);
-    if (!source)
-      return host;
+        const source = host.read(filePath);
+        if (!source)
+            return host;
 
-    const json = JSON.parse(source.toString('utf-8'));
+        const json = JSON.parse(source.toString('utf-8'));
 
-    json.scripts = {
-      ...json.scripts,
-      "prebuild": "node prebuild.js",
-      "prestart": "node prebuild.js"
+        json.scripts = {
+            ...json.scripts,
+            "prebuild": "node prebuild.js",
+            "prestart": "node prebuild.js"
+        };
+
+        json.dependencies = {
+            ...json.dependencies,
+            "whatwg-fetch": "2.0.4",
+            "@ngx-translate/core": "10.0.1",
+            "rxjs-compat": "6.1.0"
+        };
+
+        json.devDependencies[pkg.name] = pkg.version;
+
+
+        // Remove ^ and ~ dependencies
+        fixDepsVersions(json.dependencies);
+        fixDepsVersions(json.devDependencies);
+
+        host.overwrite(filePath, JSON.stringify(json, null, 2));
+        return host;
     };
-
-    json.dependencies = {
-      ...json.dependencies,
-      "whatwg-fetch": "2.0.4",
-      "@ngx-translate/core": "10.0.1",
-      "rxjs-compat": "6.1.0"
-    };
-
-    json.devDependencies[pkg.name] = pkg.version;
-
-
-    // Remove ^ and ~ dependencies
-    fixDepsVersions(json.dependencies);
-    fixDepsVersions(json.devDependencies);
-
-    host.overwrite(filePath, JSON.stringify(json, null, 2));
-    return host;
-  };
 }
 
 
 function fixDepsVersions(deps: any): void {
-  for (let key in deps) {
-    let value: string = deps[key];
-    if (value.startsWith('^') || value.startsWith('~'))
-      value = value.substring(1);
+    for (let key in deps) {
+        let value: string = deps[key];
+        if (value.startsWith('^') || value.startsWith('~'))
+            value = value.substring(1);
 
-    deps[key] = value;
-  }
+        deps[key] = value;
+    }
 }
 
 
 function updateTsConfig(): (host: Tree) => Tree {
-  return (host: Tree) => {
-    const filePath = 'tsconfig.json';
-    if (!host.exists(filePath)) {
-      throw new SchematicsException(`File ${filePath} does not exist.`);
-    }
+    return (host: Tree) => {
+        const filePath = 'tsconfig.json';
+        if (!host.exists(filePath)) {
+            throw new SchematicsException(`File ${filePath} does not exist.`);
+        }
 
-    const source = host.read(filePath);
-    if (!source)
-      return host;
+        const source = host.read(filePath);
+        if (!source)
+            return host;
 
-    const json = JSON.parse(source.toString('utf-8'));
+        const json = JSON.parse(source.toString('utf-8'));
 
-    json.compilerOptions = {
-      ...json.compilerOptions,
-      "paths": {
-        "@app/*": ["src/app/*"],
-        "@env/*": ["src/environments/*"]
-      }
+        json.compilerOptions = {
+            ...json.compilerOptions,
+            "paths": {
+                "@app/*": ["src/app/*"],
+                "@env/*": ["src/environments/*"]
+            }
+        };
+
+        host.overwrite(filePath, JSON.stringify(json, null, 2));
+        return host;
     };
-
-    host.overwrite(filePath, JSON.stringify(json, null, 2));
-    return host;
-  };
 }
 
 
 function updateGitIgnore(): (host: Tree) => Tree {
-  return (host: Tree) => {
-    const filePath = '.gitignore';
-    if (!host.exists(filePath))
-      return host;
+    return (host: Tree) => {
+        const filePath = '.gitignore';
+        if (!host.exists(filePath))
+            return host;
 
-    const source = host.read(filePath);
-    if (!source)
-      return host;
+        const source = host.read(filePath);
+        if (!source)
+            return host;
 
-    let content = source.toString('utf-8');
-    content += `${EOL}# Custom Files${EOL}`;
-    content += `*.iml${EOL}`;
-    content += `/src/assets/app-manifest.json${EOL}`;
+        let content = source.toString('utf-8');
+        content += `${EOL}# Custom Files${EOL}`;
+        content += `*.iml${EOL}`;
+        content += `/src/assets/app-manifest.json${EOL}`;
 
-    host.overwrite(filePath, content);
-    return host;
-  };
+        host.overwrite(filePath, content);
+        return host;
+    };
 }
 
 
 function updatePolyfills(): (host: Tree) => Tree {
-  return (host: Tree) => {
-    const filePath = 'src/polyfills.ts';
-    if (!host.exists(filePath))
-      return host;
+    return (host: Tree) => {
+        const filePath = 'src/polyfills.ts';
+        if (!host.exists(filePath))
+            return host;
 
-    const source = host.read(filePath);
-    if (!source)
-      return host;
+        const source = host.read(filePath);
+        if (!source)
+            return host;
 
-    let content = source.toString('utf-8');
-    content += `import 'whatwg-fetch';${EOL}`;
+        let content = source.toString('utf-8');
+        content += `import 'whatwg-fetch';${EOL}`;
 
-    host.overwrite(filePath, content);
-    return host;
-  };
+        host.overwrite(filePath, content);
+        return host;
+    };
 }
 
 function updateEnvironments(): (host: Tree) => Tree {
-  return (host: Tree) => {
-    updateEnvironment(host, 'src/environments/environment.ts');
-    updateEnvironment(host, 'src/environments/environment.prod.ts');
-    return host;
-  };
+    return (host: Tree) => {
+        updateEnvironment(host, 'src/environments/environment.ts');
+        updateEnvironment(host, 'src/environments/environment.prod.ts');
+        return host;
+    };
 }
 
 function updateEnvironment(host: Tree, file: string): void {
-  if (!host.exists(file))
-    return;
+    if (!host.exists(file))
+        return;
 
-  const text = host.read(file);
-  if (text === null) {
-    return;
-  }
+    const text = host.read(file);
+    if (text === null) {
+        return;
+    }
 
-  const sourceText = text.toString('utf-8');
-  const sourceFile = CodeUtils.getSourceFile(file, sourceText);
+    const sourceText = text.toString('utf-8');
+    const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-  CodeUtils.insertInVariableObject(sourceFile, "environment", `  apiUrl: '/api/'`);
-  host.overwrite(file, sourceFile.getFullText());
+    CodeUtils.insertInVariableObject(sourceFile, "environment", `  apiUrl: '/api/'`);
+    host.overwrite(file, sourceFile.getFullText());
 }

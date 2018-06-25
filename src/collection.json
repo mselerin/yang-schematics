@@ -20,9 +20,7 @@
       "extends": "@schematics/angular:application"
     },
     "module": {
-      "aliases": [
-        "m"
-      ],
+      "aliases": [ "m" ],
       "extends": "@schematics/angular:module"
     },
     "init": {
@@ -31,41 +29,31 @@
       "description": "Yang Init from a new application"
     },
     "feature": {
-      "aliases": [
-        "f"
-      ],
+      "aliases": [ "f" ],
       "factory": "./feature",
       "schema": "./feature/schema.json",
       "description": "Yang Feature"
     },
     "component": {
-      "aliases": [
-        "c"
-      ],
+      "aliases": [ "c" ],
       "factory": "./component",
       "schema": "./component/schema.json",
       "description": "Yang Component"
     },
     "directive": {
-      "aliases": [
-        "d"
-      ],
+      "aliases": [ "d" ],
       "factory": "./directive",
       "schema": "./directive/schema.json",
       "description": "Yang Directive"
     },
     "pipe": {
-      "aliases": [
-        "p"
-      ],
+      "aliases": [ "p" ],
       "factory": "./pipe",
       "schema": "./pipe/schema.json",
       "description": "Yang Pipe"
     },
     "service": {
-      "aliases": [
-        "s"
-      ],
+      "aliases": [ "s" ],
       "factory": "./service",
       "schema": "./service/schema.json",
       "description": "Yang Service"

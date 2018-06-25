@@ -23,7 +23,7 @@
       "type": "boolean",
       "default": false,
       "description": "Specifies if a spec file is generated."
-    }
+    },
   },
   "required": []
 }

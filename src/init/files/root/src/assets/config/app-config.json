@@ -1,8 +1,5 @@
 {
   "lang": "fr",
-  "languages": [
-    "fr",
-    "en"
-  ],
+  "languages": ["fr", "en"],
   "multiLang": true
 }
