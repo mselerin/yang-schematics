@@ -93,48 +93,37 @@ export default function (options: ComponentOptions): Rule {
 
 function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
   return (host: Tree) => {
-    if (options.shared) {
-      let compDir = `./components`;
-      if (!options.flat)
-        compDir += `/${strings.dasherize(options.name)}`;
+    let file = '';
+    let baseDir = '';
 
-      const file = YangUtils.SHARED_MODULE_FILE;
-      const text = host.read(file);
-      if (text === null) {
-        throw new SchematicsException(`File ${file} does not exist.`);
-      }
-
-      const sourceText = text.toString('utf-8');
-      const sourceFile = CodeUtils.getSourceFile(file, sourceText);
-
-      CodeUtils.addImport(sourceFile,
-        `${strings.classify(options.name)}Component`, `${compDir}/${strings.dasherize(options.name)}.component`);
-
-      CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Component`);
-      host.overwrite(file, sourceFile.getFullText());
+    if (options.feature) {
+      file = `src/app/features/${strings.dasherize(options.feature)}/${strings.dasherize(options.feature)}.module.ts`;
+      baseDir = `.`;
+    }
+    else if (options.shared) {
+      file = YangUtils.SHARED_MODULE_FILE;
+      baseDir = `./components`;
     }
 
+    if (!options.flat)
+      baseDir += `/${strings.dasherize(options.name)}`;
 
-    else if (options.feature) {
-      let compDir = `.`;
-      if (!options.flat)
-        compDir += `/${strings.dasherize(options.name)}`;
+    const text = host.read(file);
+    if (text === null) {
+      throw new SchematicsException(`File ${file} does not exist.`);
+    }
 
-      const file = `src/app/features/${strings.dasherize(options.feature)}/${strings.dasherize(options.feature)}.module.ts`;
-      const text = host.read(file);
-      if (text === null) {
-        throw new SchematicsException(`File ${file} does not exist.`);
-      }
+    const sourceText = text.toString('utf-8');
+    const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-      const sourceText = text.toString('utf-8');
-      const sourceFile = CodeUtils.getSourceFile(file, sourceText);
+    CodeUtils.addImport(sourceFile,
+      `${strings.classify(options.name)}Component`, `${baseDir}/${strings.dasherize(options.name)}.component`);
 
-      CodeUtils.addImport(sourceFile,
-        `${strings.classify(options.name)}Component`, `${compDir}/${strings.dasherize(options.name)}.component`);
+    CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Component`);
+    host.overwrite(file, sourceFile.getFullText());
 
-      CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Component`);
-      host.overwrite(file, sourceFile.getFullText());
 
+    if (options.feature) {
       if (options.routing)
         updateFeatureRouting(options, host);
     }
@@ -142,6 +131,8 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
     return host;
   };
 }
+
+
 
 function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
   const featureName = options.feature as string;

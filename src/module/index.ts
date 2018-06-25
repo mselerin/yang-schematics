@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { Schema as ModuleOptions } from './schema';
 import {
   chain,
@@ -7,13 +8,39 @@ import {
   SchematicsException,
   Tree
 } from '@angular-devkit/schematics';
-import { strings } from '@angular-devkit/core';
+import { normalize, strings } from '@angular-devkit/core';
 import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 
 export default function (options: ModuleOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
+    // Smart detect if shared or feature_name
+    if (options.name.includes('/')) {
+      let nameArgs: string[] = options.name.split('/');
+      let classifier: string = nameArgs.shift() as string;
+
+      if ('shared' === classifier) {
+        options.feature = '';
+        options.name = nameArgs.join('/');
+      }
+
+      else {
+        // First argument is a feature name
+        options.feature = classifier;
+        options.name = nameArgs.join('/');
+      }
+    }
+
+    if (options.feature) {
+      options.path = path.join('src', 'app', 'features', strings.dasherize(options.feature));
+    }
+    else {
+      options.path = path.join('src', 'app', 'shared', 'modules');
+    }
+
+    options.path = normalize(options.path || '');
+
     if (!options.project) {
       const workspace = getWorkspace(host);
       options.project = workspace.defaultProject;
@@ -22,11 +49,10 @@ export default function (options: ModuleOptions): Rule {
     return chain([
       externalSchematic('@schematics/angular', 'module', {
         name: options.name,
-        path: 'src/app/shared/modules',
+        path: options.path,
         project: options.project,
         spec: options.spec,
-        skipImport: true,
-        flat: true
+        flat: options.flat
       }),
 
       addNgModule(options)
@@ -37,7 +63,22 @@ export default function (options: ModuleOptions): Rule {
 
 function addNgModule(options: ModuleOptions): (host: Tree) => Tree {
   return (host: Tree) => {
-    const file = YangUtils.SHARED_MODULE_FILE;
+    let file = '';
+    let baseDir = '';
+
+    if (options.feature) {
+      file = `src/app/features/${strings.dasherize(options.feature)}/${strings.dasherize(options.feature)}.module.ts`;
+      baseDir = `.`;
+    }
+    else {
+      file = YangUtils.SHARED_MODULE_FILE;
+      baseDir = `./modules`;
+    }
+
+    if (!options.flat)
+      baseDir += `/${strings.dasherize(options.name)}`;
+
+
     const text = host.read(file);
     if (text === null) {
       throw new SchematicsException(`File ${file} does not exist.`);
@@ -47,7 +88,7 @@ function addNgModule(options: ModuleOptions): (host: Tree) => Tree {
     const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
     CodeUtils.addImport(sourceFile,
-      `${strings.classify(options.name)}Module`, `./modules/${strings.dasherize(options.name)}.module`);
+      `${strings.classify(options.name)}Module`, `${baseDir}/${strings.dasherize(options.name)}.module`);
 
     CodeUtils.insertInVariableArray(sourceFile, "MODULES", `   ${strings.classify(options.name)}Module`);
     host.overwrite(file, sourceFile.getFullText());

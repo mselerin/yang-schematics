@@ -35,4 +35,8 @@ export interface Schema {
    * Allows specification of the declaring module.
    */
   module?: string;
+  /**
+   * The name of the feature where to create this module (optional).
+   */
+  feature?: string;
 }
