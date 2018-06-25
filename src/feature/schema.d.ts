@@ -8,6 +8,10 @@ export interface Schema {
    */
   project?: string;
   /**
+   * Specifies if a spec file is generated.
+   */
+  spec?: boolean;
+  /**
    * Specifies if a component with the same name is generated.
    */
   component: boolean;

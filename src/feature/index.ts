@@ -1,7 +1,7 @@
 import { Schema as FeatureOptions } from './schema';
 import {
   apply,
-  chain,
+  chain, externalSchematic, filter,
   mergeWith,
   move,
   noop,
@@ -26,6 +26,7 @@ export default function (options: FeatureOptions): Rule {
     }
 
     const templateSource = apply(url('./files'), [
+      options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
         ...strings,
         ...options
