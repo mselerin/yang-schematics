@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/mselerin/yang-schematics/compare/v1.2.2...v2.0.0) (2018-06-26)
+
+
+### Bug Fixes
+
+* array types (any[]) ([5b0b932](https://github.com/mselerin/yang-schematics/commit/5b0b932))
+* component name not required (passed as first argument is OK) ([3c48940](https://github.com/mselerin/yang-schematics/commit/3c48940))
+* Creating feature/module/component inside other feature/module ([#2](https://github.com/mselerin/yang-schematics/issues/2)) ([d161d81](https://github.com/mselerin/yang-schematics/commit/d161d81))
+* service schematic aware of project / lib ([904326d](https://github.com/mselerin/yang-schematics/commit/904326d))
+* SharedModule should be imported inside AppModule ([f105461](https://github.com/mselerin/yang-schematics/commit/f105461))
+* unit test for component should use NO_ERROR_SCHEMA and not import modules ([7722c27](https://github.com/mselerin/yang-schematics/commit/7722c27))
+* yang-schematics should extends angular-schematics ([bd5b7a5](https://github.com/mselerin/yang-schematics/commit/bd5b7a5))
+
+
+### Code Refactoring
+
+* Routes constant name inside feature is now 'ROUTES' ([6463e68](https://github.com/mselerin/yang-schematics/commit/6463e68))
+
+
+### Features
+
+* directive schematic aware of project / lib ([4a2ad50](https://github.com/mselerin/yang-schematics/commit/4a2ad50))
+* feature schematic aware of project / lib ([c8e228a](https://github.com/mselerin/yang-schematics/commit/c8e228a))
+* feature spec file ([e30ac43](https://github.com/mselerin/yang-schematics/commit/e30ac43))
+* generate custom module files ([38649b9](https://github.com/mselerin/yang-schematics/commit/38649b9))
+* generate directives inside modules ([0a9f439](https://github.com/mselerin/yang-schematics/commit/0a9f439))
+* generate pipes inside modules ([6d20d89](https://github.com/mselerin/yang-schematics/commit/6d20d89))
+* module schematic ([3fc4d32](https://github.com/mselerin/yang-schematics/commit/3fc4d32))
+* module schematic (resolve [#1](https://github.com/mselerin/yang-schematics/issues/1)) ([c9a626c](https://github.com/mselerin/yang-schematics/commit/c9a626c))
+* module schematic aware of project / lib ([3fdcf82](https://github.com/mselerin/yang-schematics/commit/3fdcf82))
+* module schematic aware of project / lib ([05345eb](https://github.com/mselerin/yang-schematics/commit/05345eb))
+* pipe schematic aware of project / lib ([8a5858a](https://github.com/mselerin/yang-schematics/commit/8a5858a))
+* yang-schematics now extends angular-schematics ([d393fd2](https://github.com/mselerin/yang-schematics/commit/d393fd2))
+
+
+### Reverts
+
+* extends ([fade034](https://github.com/mselerin/yang-schematics/commit/fade034))
+
+
+### BREAKING CHANGES
+
+* Routes constant name inside feature is now 'ROUTES'
+* yang-schematics now extends angular-schematics
+
+
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/mselerin/yang-schematics/compare/v1.2.1...v1.2.2) (2018-05-18)
 
