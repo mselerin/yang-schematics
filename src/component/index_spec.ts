@@ -49,7 +49,7 @@ describe('Component Schematic', () => {
 
         const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
         expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/components\/super-dummy\/super-dummy.component['"]/);
-        expect(moduleContent).to.match(/DECLARATIONS: any\[]\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyComponent\r?\n/m);
+        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
       });
     });
 
@@ -86,7 +86,7 @@ describe('Component Schematic', () => {
 
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo.module.ts');
         expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
-        expect(moduleContent).to.match(/DECLARATIONS: any\[]\s*=\s*\[\r?\n\s+SuperDummyComponent\r?\n/m);
+        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
       });
 
 
