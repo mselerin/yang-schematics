@@ -12,7 +12,7 @@ import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { parseName } from '@schematics/angular/utility/parse-name';
-import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
+import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
 
 export default function (options: PipeOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -51,17 +51,22 @@ export default function (options: PipeOptions): Rule {
 
 function addNgModule(options: PipeOptions): (host: Tree) => Tree {
   return (host: Tree) => {
-    const file = YangUtils.SHARED_MODULE_FILE;
+    if (options.skipImport || !options.module)
+      return host;
+
+    const file = options.module;
     const text = host.read(file);
     if (text === null) {
       throw new SchematicsException(`File ${file} does not exist.`);
     }
 
+    const relativePath = buildRelativePath(options.module, options.path || '');
+
     const sourceText = text.toString('utf-8');
     const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
     CodeUtils.addImport(sourceFile,
-      `${strings.classify(options.name)}Pipe`, `./pipes/${strings.dasherize(options.name)}.pipe`);
+      `${strings.classify(options.name)}Pipe`, `${relativePath}/${strings.dasherize(options.name)}.pipe`);
 
     CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Pipe`);
     host.overwrite(file, sourceFile.getFullText());
