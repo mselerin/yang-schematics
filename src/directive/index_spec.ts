@@ -48,11 +48,13 @@ describe('Directive Schematic', () => {
 
 
     describe('With path-like name', () => {
-      it('should create files inside shared/path', () => {
+      beforeEach(() => {
         appTree = yangSchematicRunner.runSchematic('directive', {
           ...defaultOptions, name: 'shared/foo/bar/' + elementName
         }, appTree);
+      });
 
+      it('should create files inside shared/path', () => {
         const files = appTree.files;
 
         expect(files).contains(`/src/app/shared/modules/foo/bar/super-dummy.directive.ts`);
