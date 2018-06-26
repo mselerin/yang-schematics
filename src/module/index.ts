@@ -1,11 +1,12 @@
 import { Schema as ModuleOptions } from './schema';
 import {
+  apply,
   chain,
-  externalSchematic,
+  externalSchematic, filter, mergeWith, move, noop,
   Rule,
   SchematicContext,
-  SchematicsException,
-  Tree
+  SchematicsException, template,
+  Tree, url
 } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
 import { CodeUtils } from '../utils/code-utils';
@@ -44,15 +45,18 @@ export default function (options: ModuleOptions): Rule {
 
     options.module = findModuleFromOptions(host, options);
 
-    return chain([
-      externalSchematic('@schematics/angular', 'module', {
-        name: options.name,
-        path: options.path,
-        project: options.project,
-        spec: options.spec,
-        flat: options.flat
+    const templateSource = apply(url('./files'), [
+      options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
+      template({
+        ...strings,
+        'if-flat': (s: string) => options.flat ? '' : s,
+        ...options
       }),
+      move(options.path)
+    ]);
 
+    return chain([
+      mergeWith(templateSource),
       addNgModule(options)
     ])(host, context);
   };
