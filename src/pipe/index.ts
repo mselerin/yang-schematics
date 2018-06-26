@@ -59,13 +59,18 @@ function addNgModule(options: PipeOptions): (host: Tree) => Tree {
       throw new SchematicsException(`File ${file} does not exist.`);
     }
 
-    const relativePath = buildRelativePath(options.module, options.path || '');
-
     const sourceText = text.toString('utf-8');
     const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-    CodeUtils.addImport(sourceFile,
-      `${strings.classify(options.name)}Pipe`, `${relativePath}/${strings.dasherize(options.name)}.pipe`);
+
+    const pipePath = `/${options.path}/`
+      + (options.flat ? '' : strings.dasherize(options.name) + '/')
+      + strings.dasherize(options.name)
+      + '.pipe';
+
+    const relativePath = buildRelativePath(options.module, pipePath);
+
+    CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Pipe`, relativePath);
 
     CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Pipe`);
     host.overwrite(file, sourceFile.getFullText());

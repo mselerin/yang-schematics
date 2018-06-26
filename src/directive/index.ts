@@ -59,13 +59,18 @@ function addNgModule(options: DirectiveOptions): (host: Tree) => Tree {
       throw new SchematicsException(`File ${file} does not exist.`);
     }
 
-    const relativePath = buildRelativePath(options.module, options.path || '');
-
     const sourceText = text.toString('utf-8');
     const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-    CodeUtils.addImport(sourceFile,
-      `${strings.classify(options.name)}Directive`, `${relativePath}/${strings.dasherize(options.name)}.directive`);
+
+    const directivePath = `/${options.path}/`
+      + (options.flat ? '' : strings.dasherize(options.name) + '/')
+      + strings.dasherize(options.name)
+      + '.directive';
+
+    const relativePath = buildRelativePath(options.module, directivePath);
+
+    CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Directive`, relativePath);
 
     CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Directive`);
     host.overwrite(file, sourceFile.getFullText());

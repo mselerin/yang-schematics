@@ -7,10 +7,10 @@ import {
   SchematicsException,
   Tree
 } from '@angular-devkit/schematics';
-import { normalize, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
+import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
 import { parseName } from '@schematics/angular/utility/parse-name';
 
 export default function (options: ModuleOptions): Rule {
@@ -69,12 +69,6 @@ function addNgModule(options: ModuleOptions): (host: Tree) => Tree {
       return host;
 
     const file = options.module;
-    let baseDir = (options.path || '').replace('/src/app/', '@app/');
-
-    if (!options.flat)
-      baseDir += `/${strings.dasherize(options.name)}`;
-
-
     const text = host.read(file);
     if (text === null) {
       throw new SchematicsException(`File ${file} does not exist.`);
@@ -83,8 +77,14 @@ function addNgModule(options: ModuleOptions): (host: Tree) => Tree {
     const sourceText = text.toString('utf-8');
     const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-    CodeUtils.addImport(sourceFile,
-      `${strings.classify(options.name)}Module`, `${baseDir}/${strings.dasherize(options.name)}.module`);
+    const modulePath = `/${options.path}/`
+      + (options.flat ? '' : strings.dasherize(options.name) + '/')
+      + strings.dasherize(options.name)
+      + '.module';
+
+    const relativePath = buildRelativePath(options.module, modulePath);
+
+    CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Module`, relativePath);
 
     CodeUtils.insertInVariableArray(sourceFile, "MODULES", `   ${strings.classify(options.name)}Module`);
     host.overwrite(file, sourceFile.getFullText());
