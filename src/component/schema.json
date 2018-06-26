@@ -60,7 +60,5 @@
       "description": "Specifies the name of the route to generate."
     }
   },
-  "required": [
-    "name"
-  ]
+  "required": []
 }
