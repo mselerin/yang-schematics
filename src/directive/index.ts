@@ -8,7 +8,6 @@ import {
   Tree
 } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
-import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
