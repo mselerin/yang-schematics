@@ -124,7 +124,6 @@ describe('Feature Schematic', () => {
       }, appTree);
 
       const files = appTree.files;
-      console.log(files);
 
       expect(files).contains('/src/app/features/foo/bar/bar.component.ts');
       expect(files).not.contains('/src/app/features/foo/bar/bar.component.html');

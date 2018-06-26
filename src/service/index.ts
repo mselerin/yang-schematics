@@ -6,11 +6,9 @@ import { parseName } from '@schematics/angular/utility/parse-name';
 export default function (options: ServiceOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     const workspace = getWorkspace(host);
-
     if (!options.project) {
       options.project = workspace.defaultProject;
     }
-
     const project = workspace.projects[options.project as string];
 
     if (!options.path) {

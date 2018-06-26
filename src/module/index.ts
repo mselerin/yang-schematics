@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { Schema as ModuleOptions } from './schema';
 import {
   chain,
@@ -12,13 +11,18 @@ import { normalize, strings } from '@angular-devkit/core';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
+import { parseName } from '@schematics/angular/utility/parse-name';
 
 export default function (options: ModuleOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
+    const workspace = getWorkspace(host);
     if (!options.project) {
-      const workspace = getWorkspace(host);
       options.project = workspace.defaultProject;
     }
+    const project = workspace.projects[options.project as string];
+
+    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
+    const rootPath = `/${project.root}/src/${projectDirName}`;
 
     // Smart detect if shared or feature_name
     if (options.name.includes('/')) {
@@ -27,19 +31,21 @@ export default function (options: ModuleOptions): Rule {
       options.name = nameArgs.pop() as string;
 
       if ('shared' === classifier) { // src/app/shared/modules/.../<name>
-        options.path = path.join('src', 'app', 'shared', 'modules', ...nameArgs);
+        options.path = `${rootPath}/shared/modules/${nameArgs.join('/')}`;
       }
 
       else { // src/app/features/<classifier>/.../<name>
-        options.path = path.join('src', 'app', 'features', classifier, ...nameArgs);
+        options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
       }
     }
 
     if (!options.path) {
-      options.path = path.join('src', 'app', 'shared', 'modules');
+      options.path = `${rootPath}/shared/modules`;
     }
 
-    options.path = normalize(options.path || '');
+    const parsedPath = parseName(options.path, options.name);
+    options.path = parsedPath.path;
+
     options.module = findModuleFromOptions(host, options);
 
     return chain([
@@ -63,7 +69,7 @@ function addNgModule(options: ModuleOptions): (host: Tree) => Tree {
       return host;
 
     const file = options.module;
-    let baseDir = (options.path || '').replace('src/app/', '@app/');
+    let baseDir = (options.path || '').replace('/src/app/', '@app/');
 
     if (!options.flat)
       baseDir += `/${strings.dasherize(options.name)}`;
