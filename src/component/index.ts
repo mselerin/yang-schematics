@@ -16,19 +16,21 @@ import {
   url
 } from '@angular-devkit/schematics';
 import { Schema as NgComponentOptions } from '@schematics/angular/component/schema';
-import { basename, normalize, Path, strings } from '@angular-devkit/core';
-import * as path from 'path';
+import { basename, Path, strings } from '@angular-devkit/core';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
-import { YangUtils } from '../utils/yang-utils';
+import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
+import { parseName } from '@schematics/angular/utility/parse-name';
 
 export default function (options: ComponentOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
+    const workspace = getWorkspace(host);
     if (!options.project) {
-      const workspace = getWorkspace(host);
       options.project = workspace.defaultProject;
     }
+    const project = workspace.projects[options.project as string];
+    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
+    const rootPath = `/${project.root}/src/${projectDirName}`;
 
     // Smart detect if shared or feature_name
     if (options.name.includes('/')) {
@@ -37,21 +39,20 @@ export default function (options: ComponentOptions): Rule {
       options.name = nameArgs.pop() as string;
 
       if (!options.path) {
-        if ('shared' === classifier) {
-          options.path = path.join('src', 'app', 'shared', ...nameArgs);
-        }
-
-        else {
-          options.path = path.join('src', 'app', 'features', classifier, ...nameArgs);
-        }
+        if ('shared' === classifier)
+          options.path = `${rootPath}/shared/${nameArgs.join('/')}`;
+        else
+          options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
       }
     }
 
     if (!options.path) {
-      options.path = path.join('src', 'app', 'shared', 'components');
+      options.path = `${rootPath}/shared/components`;
     }
 
-    options.path = normalize(options.path || '');
+    const parsedPath = parseName(options.path, options.name);
+    options.path = parsedPath.path;
+
     options.module = findModuleFromOptions(host, options);
 
     const componentOptions: NgComponentOptions = {
@@ -90,16 +91,7 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
     if (!options.module)
       return host;
 
-    const file = options.module as string;
-    let baseDir = '.';
-
-    if (options.module === YangUtils.SHARED_MODULE_FILE) {
-      baseDir = `./components`;
-    }
-
-    if (!options.flat)
-      baseDir += `/${strings.dasherize(options.name)}`;
-
+    const file = options.module;
     const text = host.read(file);
     if (text === null) {
       throw new SchematicsException(`File ${file} does not exist.`);
@@ -108,8 +100,16 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
     const sourceText = text.toString('utf-8');
     const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-    CodeUtils.addImport(sourceFile,
-      `${strings.classify(options.name)}Component`, `${baseDir}/${strings.dasherize(options.name)}.component`);
+
+    const componentPath = `/${options.path}/`
+      + (options.flat ? '' : strings.dasherize(options.name) + '/')
+      + strings.dasherize(options.name)
+      + '.component';
+
+    const relativePath = buildRelativePath(options.module, componentPath);
+
+
+    CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Component`, relativePath);
 
     CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Component`);
     host.overwrite(file, sourceFile.getFullText());
@@ -132,33 +132,29 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
   if (!options.module)
     return;
 
-  let moduleName = basename(options.module as Path) as string;
-  moduleName = moduleName.replace('.module.ts', '');
-
   // Ajouter la route
   const file = options.module.replace('.module.ts', '-routing.module.ts');
-  const text = host.read(file);
-  if (text === null) {
-    throw new SchematicsException(`File ${file} does not exist.`);
-  }
+  const sourceFile = CodeUtils.readSourceFile(host, file);
+
+  let moduleName = basename(options.module as Path) as string;
+  moduleName = moduleName.replace('.module.ts', '');
 
   if (options.route === undefined) {
     options.route = strings.dasherize(options.name);
   }
 
-  const sourceText = text.toString('utf-8');
-  const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-  let compDir = `.`;
-  if (!options.flat)
-    compDir += `/${strings.dasherize(options.name)}`;
+  const componentPath = `/${options.path}/`
+    + (options.flat ? '' : strings.dasherize(options.name) + '/')
+    + strings.dasherize(options.name)
+    + '.component';
 
-  CodeUtils.addImport(sourceFile,
-    `${strings.classify(options.name)}Component`, `${compDir}/${strings.dasherize(options.name)}.component`);
+  const relativePath = buildRelativePath(file, componentPath);
 
+  CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Component`, relativePath);
   CodeUtils.insertInVariableArray(sourceFile, `${strings.classify(moduleName)}Routes`,
     `    { path: '${options.route}', component: ${strings.classify(options.name)}Component }`
   );
 
-  host.overwrite(file, sourceFile.getFullText());
+  CodeUtils.writeSourceFile(host, file, sourceFile);
 }

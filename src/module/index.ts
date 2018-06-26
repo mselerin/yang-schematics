@@ -20,7 +20,6 @@ export default function (options: ModuleOptions): Rule {
       options.project = workspace.defaultProject;
     }
     const project = workspace.projects[options.project as string];
-
     const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
     const rootPath = `/${project.root}/src/${projectDirName}`;
 
@@ -30,13 +29,10 @@ export default function (options: ModuleOptions): Rule {
       let classifier: string = nameArgs.shift() as string;
       options.name = nameArgs.pop() as string;
 
-      if ('shared' === classifier) { // src/app/shared/modules/.../<name>
+      if ('shared' === classifier)
         options.path = `${rootPath}/shared/modules/${nameArgs.join('/')}`;
-      }
-
-      else { // src/app/features/<classifier>/.../<name>
+      else
         options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
-      }
     }
 
     if (!options.path) {
@@ -85,10 +81,9 @@ function addNgModule(options: ModuleOptions): (host: Tree) => Tree {
     const relativePath = buildRelativePath(options.module, modulePath);
 
     CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Module`, relativePath);
-
     CodeUtils.insertInVariableArray(sourceFile, "MODULES", `   ${strings.classify(options.name)}Module`);
-    host.overwrite(file, sourceFile.getFullText());
 
+    CodeUtils.writeSourceFile(host, file, sourceFile);
     return host;
   };
 }

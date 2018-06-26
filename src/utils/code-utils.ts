@@ -1,8 +1,27 @@
 import { StringUtils } from "./string-utils";
 import { ImportDeclarationStructure, SourceFile, VariableDeclaration } from "ts-simple-ast";
 import TsSimpleAst from "ts-simple-ast";
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 
-export class CodeUtils {
+export class CodeUtils
+{
+  static readSourceFile(host: Tree, file: string): SourceFile {
+    const text = host.read(file);
+    if (text === null) {
+      throw new SchematicsException(`File ${file} does not exist.`);
+    }
+
+    const sourceText = text.toString('utf-8');
+    const sourceFile = CodeUtils.getSourceFile(file, sourceText);
+
+    return sourceFile;
+  }
+
+  static writeSourceFile(host: Tree, file: string, sourceFile: SourceFile): void {
+    host.overwrite(file, sourceFile.getFullText());
+  }
+
+
   static getSourceFile(file: string, content: string): SourceFile {
     let ast = new TsSimpleAst({useVirtualFileSystem: true});
 

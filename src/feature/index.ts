@@ -23,10 +23,11 @@ import { classify } from '@angular-devkit/core/src/utils/strings';
 
 export default function (options: FeatureOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
+    const workspace = getWorkspace(host);
     if (!options.project) {
-      const workspace = getWorkspace(host);
       options.project = workspace.defaultProject;
     }
+    const project = workspace.projects[options.project as string];
 
     let originalName = options.name;
 
