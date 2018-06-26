@@ -13,13 +13,13 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { basename, normalize, Path, strings } from '@angular-devkit/core';
+import { basename, Path, strings } from '@angular-devkit/core';
 import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
-import * as path from "path";
 import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
 import { classify } from '@angular-devkit/core/src/utils/strings';
+import { parseName } from '@schematics/angular/utility/parse-name';
 
 export default function (options: FeatureOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -28,6 +28,8 @@ export default function (options: FeatureOptions): Rule {
       options.project = workspace.defaultProject;
     }
     const project = workspace.projects[options.project as string];
+    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
+    const rootPath = `/${project.root}/src/${projectDirName}`;
 
     let originalName = options.name;
 
@@ -35,13 +37,14 @@ export default function (options: FeatureOptions): Rule {
       let nameArgs: string[] = options.name.split('/');
 
       options.name = nameArgs.pop() as string;
-      options.path = path.join(...nameArgs);
+      options.path = nameArgs.join('/');
     }
 
-    options.path = path.join('src', 'app', 'features', options.path || '', strings.dasherize(options.name));
-    options.path = normalize(options.path || '');
+    options.path = `${rootPath}/features/${options.path || ''}/${strings.dasherize(options.name)}`;
 
-    // Find the closest module
+    const parsedPath = parseName(options.path, options.name);
+    options.path = parsedPath.path;
+
     options.module = findModuleFromOptions(host, options);
 
 
@@ -104,7 +107,7 @@ function updateRouting(options: FeatureOptions): (host: Tree) => Tree {
     const sourceText = text.toString('utf-8');
     const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-    let path = (options.path || '').replace('src/app/', '@app/');
+    let path = (options.path || '').replace('/src/app/', '@app/');
 
     CodeUtils.insertInVariableArray(sourceFile, varName,
       `    { path: '${strings.dasherize(options.name)}', loadChildren: '${path}/${strings.dasherize(options.name)}.module#${strings.classify(options.name)}Module' }`
