@@ -8,6 +8,12 @@ import { YangUtils } from '../utils/yang-utils';
 import { getFileContent } from '@schematics/angular/utility/test';
 
 
+const elementName = 'superDummy';
+const defaultOptions: PipeOptions = {
+  name: elementName,
+  spec: true
+};
+
 describe('Pipe Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
@@ -21,34 +27,67 @@ describe('Pipe Schematic', () => {
       appTree = runYangNew();
     });
 
+    describe('With default options', () => {
+      beforeEach(() => {
+        appTree = yangSchematicRunner.runSchematic('pipe', defaultOptions, appTree);
+      });
 
-    const pipeName = 'superDummy';
-    const defaultOptions: PipeOptions = {
-      name: pipeName,
-      spec: true
-    };
+      it('should create files inside shared', () => {
+        const files = appTree.files;
+
+        expect(files).contains(`/src/app/shared/pipes/${strings.dasherize(elementName)}.pipe.ts`);
+        expect(files).contains(`/src/app/shared/pipes/${strings.dasherize(elementName)}.pipe.spec.ts`);
+      });
 
 
-    it('should create files inside shared', () => {
-      appTree = yangSchematicRunner.runSchematic('pipe', {
-        ...defaultOptions
-      }, appTree);
-
-      const files = appTree.files;
-
-      expect(files).contains(`/src/app/shared/pipes/${strings.dasherize(pipeName)}.pipe.ts`);
-      expect(files).contains(`/src/app/shared/pipes/${strings.dasherize(pipeName)}.pipe.spec.ts`);
+      it('should import pipe inside shared.module', () => {
+        const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
+        expect(moduleContent).to.match(/import.*SuperDummyPipe.*from ['"].\/pipes\/super-dummy.pipe['"]/);
+        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyPipe\r?\n/m);
+      });
     });
 
 
-    it('should import pipe inside shared.module', () => {
-      appTree = yangSchematicRunner.runSchematic('pipe', {
-        ...defaultOptions
-      }, appTree);
+    describe('With path-like name', () => {
+      beforeEach(() => {
+        appTree = yangSchematicRunner.runSchematic('pipe', {
+          ...defaultOptions, name: 'shared/foo/bar/' + elementName
+        }, appTree);
+      });
 
-      const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
-      expect(moduleContent).to.match(/import.*SuperDummyPipe.*from ['"].\/pipes\/super-dummy.pipe['"]/);
-      expect(moduleContent).to.match(/DECLARATIONS: any\[]\s*=\s*\[[^\]]+?,\r?\n\s+SuperDummyPipe\r?\n/m);
+      it('should create files inside shared/path', () => {
+        const files = appTree.files;
+
+        expect(files).contains(`/src/app/shared/modules/foo/bar/super-dummy.pipe.ts`);
+        expect(files).contains(`/src/app/shared/modules/foo/bar/super-dummy.pipe.spec.ts`);
+      });
     });
+
+
+    describe('With foo module + non-flat', () => {
+      beforeEach(() => {
+        appTree = yangSchematicRunner.runSchematic('module', {
+          name: 'shared/foo'
+        }, appTree);
+
+        appTree = yangSchematicRunner.runSchematic('pipe', {
+          ...defaultOptions, name: 'shared/foo/' + elementName, flat: false
+        }, appTree);
+      });
+
+      it('should create files inside shared/foo/super-dummy', () => {
+        const files = appTree.files;
+
+        expect(files).contains(`/src/app/shared/modules/foo/super-dummy/super-dummy.pipe.ts`);
+        expect(files).contains(`/src/app/shared/modules/foo/super-dummy/super-dummy.pipe.spec.ts`);
+      });
+
+      it('should import pipe inside shared/modules/foo/foo.module', () => {
+        const moduleContent = getFileContent(appTree, '/src/app/shared/modules/foo/foo.module.ts');
+        expect(moduleContent).to.match(/import.*SuperDummyPipe.*from ['"].\/super-dummy\/super-dummy.pipe['"]/);
+        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyPipe\r?\n/m);
+      });
+    });
+
   });
 });
