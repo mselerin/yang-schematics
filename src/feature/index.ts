@@ -91,11 +91,8 @@ function updateRouting(options: FeatureOptions): (host: Tree) => Tree {
       varName = 'FEATURES_ROUTES';
     }
     else {
-      let moduleName = basename(options.module as Path) as string;
-      moduleName = moduleName.replace('.module.ts', '');
-
       file = options.module.replace('.module.ts', '-routing.module.ts');
-      varName = `${classify(moduleName)}Routes`;
+      varName = 'ROUTES';
     }
 
     // Ajouter la route

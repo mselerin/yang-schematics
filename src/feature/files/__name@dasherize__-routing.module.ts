@@ -2,12 +2,12 @@ import { NgModule} from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 
-export const <%=classify(name)%>Routes: Routes = [
+export const ROUTES: Routes = [
 ];
 
 
 @NgModule({
   providers: [],
-  imports: [ RouterModule.forChild(<%=classify(name)%>Routes) ]
+  imports: [ RouterModule.forChild(ROUTES) ]
 })
 export class <%=classify(name)%>RoutingModule {}

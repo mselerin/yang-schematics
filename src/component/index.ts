@@ -136,9 +136,6 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
   const file = options.module.replace('.module.ts', '-routing.module.ts');
   const sourceFile = CodeUtils.readSourceFile(host, file);
 
-  let moduleName = basename(options.module as Path) as string;
-  moduleName = moduleName.replace('.module.ts', '');
-
   if (options.route === undefined) {
     options.route = strings.dasherize(options.name);
   }
@@ -152,7 +149,7 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
   const relativePath = buildRelativePath(file, componentPath);
 
   CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Component`, relativePath);
-  CodeUtils.insertInVariableArray(sourceFile, `${strings.classify(moduleName)}Routes`,
+  CodeUtils.insertInVariableArray(sourceFile, 'ROUTES',
     `    { path: '${options.route}', component: ${strings.classify(options.name)}Component }`
   );
 
