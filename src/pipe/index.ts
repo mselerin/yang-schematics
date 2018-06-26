@@ -11,22 +11,36 @@ import { strings } from '@angular-devkit/core';
 import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
+import { parseName } from '@schematics/angular/utility/parse-name';
+import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
 
 export default function (options: PipeOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
+    const workspace = getWorkspace(host);
     if (!options.project) {
-      const workspace = getWorkspace(host);
       options.project = workspace.defaultProject;
     }
+    const project = workspace.projects[options.project as string];
+
+    if (!options.path) {
+      const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
+      options.path = `/${project.root}/src/${projectDirName}/shared/pipes`;
+    }
+
+    const parsedPath = parseName(options.path, options.name);
+    options.name = parsedPath.name;
+    options.path = parsedPath.path;
+
+    options.module = findModuleFromOptions(host, options);
 
     return chain([
       externalSchematic('@schematics/angular', 'pipe', {
         name: options.name,
-        path: 'src/app/shared/pipes',
+        path: options.path,
         project: options.project,
         spec: options.spec,
         skipImport: true,
-        flat: true
+        flat: options.flat
       }),
 
       addNgModule(options)
