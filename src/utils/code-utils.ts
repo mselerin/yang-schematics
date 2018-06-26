@@ -12,9 +12,7 @@ export class CodeUtils
     }
 
     const sourceText = text.toString('utf-8');
-    const sourceFile = CodeUtils.getSourceFile(file, sourceText);
-
-    return sourceFile;
+    return CodeUtils.getSourceFile(file, sourceText);
   }
 
   static writeSourceFile(host: Tree, file: string, sourceFile: SourceFile): void {

@@ -20,10 +20,24 @@ export default function (options: DirectiveOptions): Rule {
       options.project = workspace.defaultProject;
     }
     const project = workspace.projects[options.project as string];
+    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
+    const rootPath = `/${project.root}/src/${projectDirName}`;
+
+    if (options.name.includes('/')) {
+      let nameArgs: string[] = options.name.split('/');
+      let classifier: string = nameArgs.shift() as string;
+      options.name = nameArgs.pop() as string;
+
+      if (!options.path) {
+        if ('shared' === classifier)
+          options.path = `${rootPath}/shared/modules/${nameArgs.join('/')}`;
+        else
+          options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
+      }
+    }
 
     if (!options.path) {
-      const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
-      options.path = `/${project.root}/src/${projectDirName}/shared/directives`;
+      options.path = `/${rootPath}/shared/directives`;
     }
 
     const parsedPath = parseName(options.path, options.name);
@@ -39,7 +53,7 @@ export default function (options: DirectiveOptions): Rule {
         project: options.project,
         spec: options.spec,
         skipImport: true,
-        flat: true
+        flat: options.flat
       }),
 
       addNgModule(options)
@@ -54,14 +68,7 @@ function addNgModule(options: DirectiveOptions): (host: Tree) => Tree {
       return host;
 
     const file = options.module;
-    const text = host.read(file);
-    if (text === null) {
-      throw new SchematicsException(`File ${file} does not exist.`);
-    }
-
-    const sourceText = text.toString('utf-8');
-    const sourceFile = CodeUtils.getSourceFile(file, sourceText);
-
+    const sourceFile = CodeUtils.readSourceFile(host, file);
 
     const directivePath = `/${options.path}/`
       + (options.flat ? '' : strings.dasherize(options.name) + '/')

@@ -16,7 +16,7 @@ import {
   url
 } from '@angular-devkit/schematics';
 import { Schema as NgComponentOptions } from '@schematics/angular/component/schema';
-import { basename, Path, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
