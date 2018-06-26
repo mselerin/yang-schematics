@@ -40,7 +40,7 @@ export default function (options: ComponentOptions): Rule {
 
       if (!options.path) {
         if ('shared' === classifier)
-          options.path = `${rootPath}/shared/${nameArgs.join('/')}`;
+          options.path = `${rootPath}/shared/components/${nameArgs.join('/')}`;
         else
           options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
       }

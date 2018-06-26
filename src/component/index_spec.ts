@@ -8,6 +8,13 @@ import { YangUtils } from '../utils/yang-utils';
 import { getFileContent } from '@schematics/angular/utility/test';
 
 
+const elementName = 'superDummy';
+const defaultOptions: ComponentOptions = {
+  name: elementName,
+  spec: true,
+  flat: false
+};
+
 describe('Component Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
@@ -16,37 +23,26 @@ describe('Component Schematic', () => {
   });
 
   describe('With fresh project', () => {
-    const componentName = 'superDummy';
-    const defaultOptions: ComponentOptions = {
-      name: componentName,
-      spec: true,
-      flat: false
-    };
+    let appTree: UnitTestTree;
+    beforeEach(() => {
+      appTree = runYangNew();
+    });
 
     describe('Shared component', () => {
-      let appTree: UnitTestTree;
       beforeEach(() => {
-        appTree = runYangNew();
+        appTree = yangSchematicRunner.runSchematic('component', {
+          ...defaultOptions, name: 'shared/' + elementName
+        }, appTree);
       });
 
-
       it('should create files inside shared', () => {
-        appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, shared: true
-        }, appTree);
-
         const files = appTree.files;
-
-        expect(files).contains(`/src/app/shared/components/${strings.dasherize(componentName)}/${strings.dasherize(componentName)}.component.ts`);
-        expect(files).contains(`/src/app/shared/components/${strings.dasherize(componentName)}/${strings.dasherize(componentName)}.component.spec.ts`);
+        expect(files).contains(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).contains(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
       });
 
 
       it('should import component inside the shared module', () => {
-        appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, shared: true
-        }, appTree);
-
         const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
         expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/components\/super-dummy\/super-dummy.component['"]/);
         expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
@@ -55,35 +51,28 @@ describe('Component Schematic', () => {
 
 
     describe('Feature component', () => {
-      let appTree: UnitTestTree;
       beforeEach(() => {
-        appTree = runYangNew();
         appTree = yangSchematicRunner.runSchematic('feature', {
           name: 'foo',
           component: false,
           template: false,
           styles: false
         }, appTree);
+
+        appTree = yangSchematicRunner.runSchematic('component', {
+          ...defaultOptions, name: 'foo/' + elementName, routing: true, route: 'bar'
+        }, appTree);
       });
 
 
       it('should create files inside the foo feature', () => {
-        appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, name: 'foo/' + componentName
-        }, appTree);
-
         const files = appTree.files;
-
-        expect(files).contains(`/src/app/features/foo/${strings.dasherize(componentName)}/${strings.dasherize(componentName)}.component.ts`);
-        expect(files).contains(`/src/app/features/foo/${strings.dasherize(componentName)}/${strings.dasherize(componentName)}.component.spec.ts`);
+        expect(files).contains(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).contains(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
       });
 
 
       it('should import component inside the foo feature', () => {
-        appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, name: 'foo/' + componentName
-        }, appTree);
-
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo.module.ts');
         expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
         expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
@@ -91,14 +80,44 @@ describe('Component Schematic', () => {
 
 
       it('should create route inside the foo feature', () => {
-        appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, name: 'foo/' + componentName, routing: true, route: 'bar'
+        const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo-routing.module.ts');
+        expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
+        expect(moduleContent).include(`{ path: 'bar', component: ${strings.classify(elementName)}Component }`);
+      });
+
+    });
+
+
+    describe('Module component', () => {
+      beforeEach(() => {
+        appTree = yangSchematicRunner.runSchematic('feature', {
+          name: 'foo',
+          component: false,
+          template: false,
+          styles: false
         }, appTree);
 
-        const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo-routing.module.ts');
+        appTree = yangSchematicRunner.runSchematic('module', {
+          name: 'foo/bar'
+        }, appTree);
 
+        appTree = yangSchematicRunner.runSchematic('component', {
+          ...defaultOptions, name: 'foo/bar/' + elementName
+        }, appTree);
+      });
+
+
+      it('should create files inside the foo/bar module', () => {
+        const files = appTree.files;
+        expect(files).contains(`/src/app/features/foo/bar/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).contains(`/src/app/features/foo/bar/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
+      });
+
+
+      it('should import component inside the foo/bar module', () => {
+        const moduleContent = getFileContent(appTree, '/src/app/features/foo/bar/bar.module.ts');
         expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
-        expect(moduleContent).include(`{ path: 'bar', component: ${strings.classify(componentName)}Component }`);
+        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
       });
 
     });
