@@ -17,4 +17,4 @@ const DECLARATIONS = [
   declarations: DECLARATIONS,
   exports: [LayoutComponent]
 })
-export class LayoutModule {}
+export class MainLayoutModule {}
