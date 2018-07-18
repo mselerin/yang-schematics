@@ -51,12 +51,10 @@ Generates a complete feature under app/features.
 `ng g yang-schematics:component my-nice-component`  
 Generates a component under the current directory.
 
-`ng g yang-schematics:component my-shared-component --shared`  
-OR `ng g yang-schematics:component shared/my-shared-component`  
+`ng g yang-schematics:component shared/my-shared-component`  
 Generates a component under `app/shared/components`.
 
-`ng g yang-schematics:component my-feature-component --feature my-super-feature`  
-OR `ng g yang-schematics:component my-super-feature/my-feature-component`  
+`ng g yang-schematics:component my-super-feature/my-feature-component`  
 Generates a component under `app/features/my-super-feature/my-feature-component`.
 
 
