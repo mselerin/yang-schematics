@@ -1,19 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FEATURES_ROUTES } from './features/features.module';
-import { LayoutComponent } from './layouts/main/layout.component';
 
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-
-  {
-    path: '', component: LayoutComponent,
-    children: [
-      ...FEATURES_ROUTES
-    ]
-  },
-
+  { path: '', children: [...FEATURES_ROUTES] },
   { path: '**', redirectTo: '/home' }
 ];
 
