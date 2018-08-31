@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/mselerin/yang-schematics/compare/v2.0.0...v2.1.0) (2018-08-31)
+
+
+### Features
+
+* app-layout directly inside app-root ([bc5786d](https://github.com/mselerin/yang-schematics/commit/bc5786d))
+* Moving layout outside features ([a851f35](https://github.com/mselerin/yang-schematics/commit/a851f35))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/mselerin/yang-schematics/compare/v1.2.2...v2.0.0) (2018-06-26)
 
