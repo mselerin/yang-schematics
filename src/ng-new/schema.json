@@ -21,7 +21,7 @@
     "skipInstall": {
       "description": "Skip installing dependency packages.",
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "linkCli": {
       "description": "Link CLI to global version (internal development only).",
