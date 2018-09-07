@@ -16,18 +16,14 @@ Install Yang-Schematics using [yarn](https://yarnpkg.com/) `yarn global add yang
 Generate your new project inside any folder:
 
 ```bash
-ng new my-awesome-project
+ng new my-awesome-project -c yang-schematics
 ```
 
-This will create a new folder `my-awesome-project` containing a fresh Angular application.
-Just go inside this folder and initialize this project with Yang:
-```bash
-cd my-awesome-project
-ng g yang-schematics:init
-```
+This will create a new folder `my-awesome-project` containing a fresh Angular application, powered with the YANG structure. 
 
 Next : install dependencies and run the project :
 ```bash
+cd my-awesome-project
 yarn
 yarn start
 ```
@@ -38,8 +34,11 @@ That's all !
 
 ## Schematics
 
+*The default schematics for this project is 'yang-schematics'.  
+If you have changed it, don't forget to append `yang-schematics:` before every schematic call.*
+
 ### Feature
-`ng g yang-schematics:feature my-super-feature`
+`ng g feature my-super-feature` (or `ng g f...`)  
 Generates a complete feature under app/features.
 
 ##### Options
@@ -48,13 +47,13 @@ Generates a complete feature under app/features.
 
 ***
 ### Component
-`ng g yang-schematics:component my-nice-component`  
+`ng g component my-nice-component` (or `ng g c...`)  
 Generates a component under the current directory.
 
-`ng g yang-schematics:component shared/my-shared-component`  
+`ng g component shared/my-shared-component`  
 Generates a component under `app/shared/components`.
 
-`ng g yang-schematics:component my-super-feature/my-feature-component`  
+`ng g component my-super-feature/my-feature-component`  
 Generates a component under `app/features/my-super-feature/my-feature-component`.
 
 
@@ -67,18 +66,19 @@ Generates a component under `app/features/my-super-feature/my-feature-component`
 
 ***
 ### Service
-`ng g yang-schematics:service my-cool-service`  
+`ng g service my-cool-service` (or `ng g s...`)  
 Generates a service under app/services.
 
 ***
 ### Directive
-`ng g yang-schematics:directive my-small-directive`  
+`ng g directive my-small-directive` (or `ng g d...`)  
 Generates a stub directive under app/shared/directives.
 
 ***
 ### Pipe
-`ng g yang-schematics:directive my-nice-pipe`  
+`ng g pipe my-nice-pipe` (or `ng g p...`)  
 Generates a pipe under app/shared/pipes.
+
 
 
 ## License
