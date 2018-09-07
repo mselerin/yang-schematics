@@ -42,6 +42,7 @@ export default function (options: InitOptions): Rule {
       updateGitIgnore(),
       updatePolyfills(),
       updateEnvironments(),
+      updateAngularJson(),
 
       schematic('feature', {
         name: 'home',
@@ -202,4 +203,26 @@ function updateEnvironment(host: Tree, file: string): void {
 
   CodeUtils.insertInVariableObject(sourceFile, "environment", `  apiUrl: '/api/'`);
   host.overwrite(file, sourceFile.getFullText());
+}
+
+
+function updateAngularJson(): (host: Tree) => Tree {
+  return (host: Tree) => {
+    const filePath = 'angular.json';
+    if (!host.exists(filePath)) {
+      throw new SchematicsException(`File ${filePath} does not exist.`);
+    }
+
+    const source = host.read(filePath);
+    if (!source)
+      return host;
+
+    const json = JSON.parse(source.toString('utf-8'));
+    json['cli'] = {
+      'defaultCollection': 'yang-schematics'
+    };
+
+    host.overwrite(filePath, JSON.stringify(json, null, 2));
+    return host;
+  }
 }
