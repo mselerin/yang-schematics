@@ -9,7 +9,7 @@
 ## Installation
 > _(You have pre-installed [node.js](https://nodejs.org/), right ?)_
 
-Install Yang-Schematics using [yarn](https://yarnpkg.com/) `yarn global add yang-schematics` or using [npm](https://www.npmjs.com/) `npm install -g yang-schematics`.
+Install Yang-Schematics using [npm](https://www.npmjs.com/) `npm install -g yang-schematics`.
 
 
 ## Usage
@@ -24,8 +24,8 @@ This will create a new folder `my-awesome-project` containing a fresh Angular ap
 Next : install dependencies and run the project :
 ```bash
 cd my-awesome-project
-yarn
-yarn start
+npm install
+npm run start
 ```
 
 Browse to http://localhost:4200.
