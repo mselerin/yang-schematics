@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file. See [standa
 <a name="2.2.1"></a>
 ## [2.2.1](https://github.com/mselerin/yang-schematics/compare/v2.2.0...v2.2.1) (2018-09-25)
 
+### Misc
+* Dependencies update
 
 
 <a name="2.2.0"></a>
