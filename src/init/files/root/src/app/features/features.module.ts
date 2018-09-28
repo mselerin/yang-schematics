@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
 
-const MODULES: any[] = [
-];
-
 
 export const FEATURES_ROUTES: Routes = [
 ];
 
+
+const MODULES: any[] = [
+];
 
 @NgModule({
   imports: MODULES,
