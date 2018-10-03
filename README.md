@@ -82,7 +82,7 @@ Generates a pipe under app/shared/pipes.
 
 
 ## License
-MIT © [Michel Selerin]()
+MIT © [Michel Selerin](https://github.com/mselerin)
 
 
 [npm-image]: https://badge.fury.io/js/yang-schematics.svg
