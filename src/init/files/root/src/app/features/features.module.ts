@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 
 export const FEATURES_ROUTES: Routes = [
@@ -9,8 +9,12 @@ export const FEATURES_ROUTES: Routes = [
 const MODULES: any[] = [
 ];
 
+
 @NgModule({
-  imports: MODULES,
+  imports: [
+    ...MODULES,
+    RouterModule.forChild(FEATURES_ROUTES)
+  ],
   exports: MODULES
 })
 export class FeaturesModule {}
