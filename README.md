@@ -5,10 +5,66 @@
 # Yang Schematics
 > Yet Another Angular Generator - Powered by Schematics
 
+## Intro
+
+The purpose of YANG is to create a more production-ready Angular application.
+
+It use the Angular Schematics to generate the code.
+
+YANG use the LIFT principle :
+* Locating our code is easy
+* Identify code at a glance
+* Flat structure as long as we can
+* Try to stay DRY (Don't Repeat Yourself) or T-DRY 
+
+When generating a new Angular application with the Yang-Schematics, you have :
+
+* A 4 main modules structure : core, shared, layouts and features (see below)
+* Lazy loading for all modules inside 'features'
+* Sample bootstrap code
+* Sample interceptor code
+* i18n with [@ngx-translate](http://www.ngx-translate.com/)
+
+
+
+
+
+### CoreModule
+
+The CoreModule contains all the `@Injectable` elements that should be instantiate only once in the application.  
+
+Ex: services, interceptors, etc.  
+
+You can also add the modules with a `.forRoot()` method inside the `imports` array of the CoreModule.
+
+
+### SharedModule
+
+The SharedModule contains all elements (components, directives, pipes) that will be used accross the entire application.
+
+Ex: a PageHeaderComponent, a security directive, etc.
+
+You can also add the modules you want to use everywhere inside the `MODULES` array of the SharedModule.  
+Then, you just have import the `SharedModule` inside your module.
+
+
+### LayoutsModule
+
+This module contains a `MainLayoutModule` where you can customise the application layout.  
+You can also add others layout inside (for example, a LoginLayout).
+
+
+### FeaturesModule
+
+You can see a feature as a "business block" for your application.  
+A good example would be an "admin feature" where you can have a component to manage the users, the configuration, etc.  
+
+Each feature is lazy-loaded by default.  
+
+You can create what you want inside a feature (a component, a directive, a module, another feature). 
+
 
 ## Installation
-> _(You have pre-installed [node.js](https://nodejs.org/), right ?)_
-
 Install Yang-Schematics using [npm](https://www.npmjs.com/) `npm install -g yang-schematics`.
 
 
