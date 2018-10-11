@@ -61,7 +61,72 @@ A good example would be an "admin feature" where you can have a component to man
 
 Each feature is lazy-loaded by default.  
 
-You can create what you want inside a feature (a component, a directive, a module, another feature). 
+You can create what you want inside a feature (a component, a directive, a module, another feature).
+
+
+### Folder Structure
+```
+PROJECT_ROOT
+│  ...
+│  prebuild.js            <----------------- Script for generating "app-manifest.json" (version number and built date)
+│  ...
+│
+├───e2e
+└───src
+   │  ...
+   │  tsconfig.json
+   │
+   ├───app
+   │  │  app-routing.module.ts    <------ Main routing
+   │  │  app.component.spec.ts
+   │  │  app.component.ts
+   │  │  app.module.ts
+   │  │  app.session.ts         <-------- Session data (use it as you want)
+   │  │
+   │  ├───core                            
+   │  │  │  core.initializer.ts   <------ Code to execute when the application starts
+   │  │  │  core.interceptors.ts  <------ HttpClient interceptors (rewrite /api/ to the api url inside environment config file)
+   │  │  │  core.module.ts
+   │  │  │  core.services.ts     <------- Module pour regrouper tous les services
+   │  │  │
+   │  │  └───services
+   │  │        config.service.ts  <------ Load assets/config/app-config.json and expose an AppConfig object
+   │  │        logger.service.ts  <------ Logging that can send error to a server
+   │  │
+   │  ├───features
+   │  │  │  features.module.ts
+   │  │  │
+   │  │  ├───home
+   │  │  │     home-routing.module.ts
+   │  │  │     home.component.spec.ts
+   │  │  │     home.component.ts
+   │  │  │     home.module.ts
+   │  │  │
+   │  │  └───layout
+   │  │
+   │  ├───models
+   │  │     app-config.model.ts  <------- See assets/config/app-config.json
+   │  │
+   │  └───shared
+   │     │  shared.module.ts    <-------- Shared modules (where you can add 3rd party modules)
+   │     │
+   │     ├───components
+   │     └───pipes
+   │
+   ├───assets                <----------- Assets folders (images, styles, etc)
+   │  ├───config
+   │  │     app-config.json
+   │  │
+   │  ├───i18n
+   │  ├───images
+   │  └───styles
+   │        app-styles.scss
+   │        _variables.scss
+   │
+   └───environments            <--------- Environnements configuration
+        environment.prod.ts
+        environment.ts
+``` 
 
 
 ## Installation
