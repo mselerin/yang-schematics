@@ -96,13 +96,13 @@ PROJECT_ROOT
    │  ├───features
    │  │  │  features.module.ts
    │  │  │
-   │  │  ├───home
-   │  │  │     home-routing.module.ts
-   │  │  │     home.component.spec.ts
-   │  │  │     home.component.ts
-   │  │  │     home.module.ts
-   │  │  │
-   │  │  └───layout
+   │  │  └───home
+   │  │       home-routing.module.ts
+   │  │       home.component.spec.ts
+   │  │       home.component.ts
+   │  │       home.module.ts
+   │  │  
+   │  ├───layouts
    │  │
    │  ├───models
    │  │     app-config.model.ts  <------- See assets/config/app-config.json
