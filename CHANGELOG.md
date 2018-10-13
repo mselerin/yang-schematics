@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/mselerin/yang-schematics/compare/v2.2.2...v2.3.0) (2018-10-13)
+
+
+### Features
+
+* Services are now generated inside app/services ([41c5e96](https://github.com/mselerin/yang-schematics/commit/41c5e96))
+
+
+### BREAKING CHANGES
+
+* Services folder moved from app/core/services to app/services
+
+
+
 <a name="2.2.2"></a>
 ## [2.2.2](https://github.com/mselerin/yang-schematics/compare/v2.2.1...v2.2.2) (2018-10-05)
 
