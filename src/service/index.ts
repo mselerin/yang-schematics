@@ -13,7 +13,7 @@ export default function (options: ServiceOptions): Rule {
 
     if (!options.path) {
       const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
-      options.path = `/${project.root}/src/${projectDirName}/core/services`;
+      options.path = `/${project.root}/src/${projectDirName}/services`;
     }
 
     const parsedPath = parseName(options.path, options.name);

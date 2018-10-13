@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LOGGER, LogLevelEnum } from './services/logger.service';
-import { ConfigService } from './services/config.service';
+import { LOGGER, LogLevelEnum } from '@app/services/logger.service';
+import { ConfigService } from '@app/services/config.service';
 import { AppConfig } from '@app/models/app-config.model';
 
 @Injectable()

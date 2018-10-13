@@ -33,8 +33,8 @@ describe('Service Schematic', () => {
 
       const files = appTree.files;
 
-      expect(files).contains(`/src/app/core/services/${strings.dasherize(elementName)}.service.ts`);
-      expect(files).contains(`/src/app/core/services/${strings.dasherize(elementName)}.service.spec.ts`);
+      expect(files).contains(`/src/app/services/${strings.dasherize(elementName)}.service.ts`);
+      expect(files).contains(`/src/app/services/${strings.dasherize(elementName)}.service.spec.ts`);
     });
   });
 });
