@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/mselerin/yang-schematics/compare/v2.3.1...v2.4.0) (2018-10-15)
+
+
+### Bug Fixes
+
+* prebuild.js not included ([e275853](https://github.com/mselerin/yang-schematics/commit/e275853))
+* remove unused schematics from collection.json ([1cb37ef](https://github.com/mselerin/yang-schematics/commit/1cb37ef))
+* unit test ([aa0c05f](https://github.com/mselerin/yang-schematics/commit/aa0c05f))
+
+
+### Features
+
+* add default app-manifest.json with ng-new ([04db3a2](https://github.com/mselerin/yang-schematics/commit/04db3a2))
+* LoggerService not longer exported (use createLogger() function instead) ([317bd0f](https://github.com/mselerin/yang-schematics/commit/317bd0f))
+* options for styles & template read the [@schematics](https://github.com/schematics)/angular:component config values ([0b3d001](https://github.com/mselerin/yang-schematics/commit/0b3d001))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/mselerin/yang-schematics/compare/v2.2.2...v2.3.0) (2018-10-13)
 
