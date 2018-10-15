@@ -36,9 +36,12 @@ describe('Init Schematic', () => {
     it('should create files for yang', () => {
       const files = appTree.files;
 
+      expect(files).contains('/angular.json');
+      expect(files).contains('/prebuild.js');
       expect(files).contains('/src/app/core/core.module.ts');
       expect(files).contains('/src/app/shared/shared.module.ts');
       expect(files).contains('/src/app/features/features.module.ts');
+      expect(files).contains('/src/app/services/config.service.ts');
     });
 
 
