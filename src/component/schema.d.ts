@@ -11,26 +11,74 @@ export interface Schema {
    * The name of the component.
    */
   name: string;
+  // /**
+  //  * Specifies if the style will be in the ts file.
+  //  */
+  // inlineStyle?: boolean;
+  // /**
+  //  * Specifies if the template will be in the ts file.
+  //  */
+  // inlineTemplate?: boolean;
   /**
-   * Allows specification of the declaring module.
+   * Specifies the view encapsulation strategy.
    */
-  module?: string;
+  viewEncapsulation?: ('Emulated' | 'Native' | 'None');
   /**
-   * Flag to indicate if a dir is created.
+   * Specifies the change detection strategy.
    */
-  flat?: boolean;
+  changeDetection?: ('Default' | 'OnPush');
+  /**
+   * The prefix to apply to generated selectors.
+   */
+  prefix?: string;
+  /**
+   * The file extension to be used for style files.
+   */
+  styleext?: string;
   /**
    * Specifies if a spec file is generated.
    */
   spec?: boolean;
   /**
-   * Specifies if the component generation should have a separate style file.
+   * Flag to indicate if a dir is created.
    */
-  styles?: boolean;
+  flat?: boolean;
+  /**
+   * Flag to skip the module import.
+   */
+  skipImport?: boolean;
+  /**
+   * The selector to use for the component.
+   */
+  selector?: string;
+  /**
+   * Allows specification of the declaring module.
+   */
+  module?: string;
+  /**
+   * Specifies if declaring module exports the component.
+   */
+  export?: boolean;
+  /**
+   * Specifies if the component is an entry component of declaring module.
+   */
+  entryComponent?: boolean;
+  /**
+   * Specifies whether to apply lint fixes after generating the component.
+   */
+  lintFix?: boolean;
+
+
+
+
   /**
    * Specifies if the component generation should have a separate template file.
    */
   template?: boolean;
+  /**
+   * Specifies if the component generation should have a separate style file.
+   */
+  styles?: boolean;
   /**
    * Specifies if a route for this component should be created (feature component only).
    */

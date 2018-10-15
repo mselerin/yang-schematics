@@ -1,7 +1,8 @@
 import { Schema as FeatureOptions } from './schema';
 import {
   apply,
-  chain, filter,
+  chain,
+  filter,
   mergeWith,
   move,
   noop,
@@ -13,12 +14,11 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { basename, Path, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import { YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
-import { classify } from '@angular-devkit/core/src/utils/strings';
 import { parseName } from '@schematics/angular/utility/parse-name';
 
 export default function (options: FeatureOptions): Rule {
@@ -64,6 +64,7 @@ export default function (options: FeatureOptions): Rule {
       routing: true,
       route: '',
       flat: true,
+      styleext: options.styleext,
       template: options.template,
       styles: options.styles
     }) : noop();

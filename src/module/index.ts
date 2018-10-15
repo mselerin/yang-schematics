@@ -2,7 +2,7 @@ import { Schema as ModuleOptions } from './schema';
 import {
   apply,
   chain,
-  externalSchematic, filter, mergeWith, move, noop,
+  filter, mergeWith, move, noop,
   Rule,
   SchematicContext,
   SchematicsException, template,

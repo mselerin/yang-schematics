@@ -31,4 +31,8 @@ export interface Schema {
    * Specifies if the component generation should have a separate style file.
    */
   styles: boolean;
+  /**
+   * The file extension to be used for style files.
+   */
+  styleext?: string;
 }

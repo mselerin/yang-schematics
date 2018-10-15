@@ -13,7 +13,7 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { normalize, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import * as path from "path";
 import { EOL } from "os";
 import { forceOverwrite } from '../utils/yang-utils';

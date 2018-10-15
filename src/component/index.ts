@@ -55,16 +55,36 @@ export default function (options: ComponentOptions): Rule {
 
     options.module = findModuleFromOptions(host, options);
 
+
+    let inlineStyle = true;
+    let inlineTemplate = true;
+
+    if (project.schematics && project.schematics['@schematics/angular:component']) {
+      inlineStyle = project.schematics['@schematics/angular:component'].inlineStyle;
+      inlineTemplate = project.schematics['@schematics/angular:component'].inlineTemplate;
+    }
+
+    inlineStyle = (options.styles !== undefined ? !options.styles : inlineStyle);
+    inlineTemplate = (options.template !== undefined ? !options.template : inlineTemplate);
+
     const componentOptions: NgComponentOptions = {
-      name: options.name,
-      project: options.project,
       path: options.path,
+      project: options.project,
+      name: options.name,
+      inlineStyle: inlineStyle,
+      inlineTemplate: inlineTemplate,
+      viewEncapsulation: options.viewEncapsulation,
+      changeDetection: options.changeDetection,
+      prefix: options.prefix,
+      styleext: options.styleext,
       spec: options.spec,
-      inlineStyle: (options.styles !== undefined ? !options.styles : undefined),
-      inlineTemplate: (options.template !== undefined ? !options.template : undefined),
       flat: options.flat,
-      styleext: 'scss',
-      skipImport: true
+      skipImport: true,
+      selector: options.selector,
+      module: options.module,
+      export: options.export,
+      entryComponent: options.entryComponent,
+      lintFix: options.lintFix
     };
 
 
