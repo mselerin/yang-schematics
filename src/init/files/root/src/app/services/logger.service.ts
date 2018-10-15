@@ -7,7 +7,7 @@ export enum LogLevelEnum {
 }
 
 
-export class LoggerService
+class LoggerService
 {
   public loggingServiceUrl: string;
   public clientLogLevel: LogLevelEnum;
@@ -71,4 +71,8 @@ export class LoggerService
   }
 }
 
-export const LOGGER = new LoggerService();
+export function createLogger() {
+  return new LoggerService();
+}
+
+export const LOGGER = createLogger();
