@@ -13,13 +13,6 @@
       "description": "Create an Angular workspace.",
       "hidden": true
     },
-    "workspace": {
-      "extends": "@schematics/angular:workspace",
-      "hidden": true
-    },
-    "application": {
-      "extends": "@schematics/angular:application"
-    },
     "module": {
       "aliases": [ "m" ],
       "factory": "./module",
