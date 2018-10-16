@@ -2,15 +2,19 @@ import { Schema as ModuleOptions } from './schema';
 import {
   apply,
   chain,
-  filter, mergeWith, move, noop,
+  filter,
+  mergeWith,
+  move,
+  noop,
   Rule,
   SchematicContext,
-  SchematicsException, template,
-  Tree, url
+  SchematicsException,
+  template,
+  Tree,
+  url
 } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
 import { CodeUtils } from '../utils/code-utils';
-import { getWorkspace } from '@schematics/angular/utility/config';
 import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
 import { parseName } from '@schematics/angular/utility/parse-name';
 import { getRootPath, smartPath } from '../utils/yang-utils';
@@ -31,6 +35,8 @@ export default function (options: ModuleOptions): Rule {
 
     const templateSource = apply(url('./files'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
+      options.routing ? noop() : filter(path => !path.endsWith('-routing.module.ts')),
+
       template({
         ...strings,
         'if-flat': (s: string) => options.flat ? '' : s,
