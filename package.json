@@ -15,7 +15,7 @@
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -p tsconfig.json --watch",
     "test": "ts-mocha src/**/*_spec.ts",
-    "prepack": "npm run build",
+    "prepack": "npm run build && npm run test",
     "release": "standard-version"
   },
   "keywords": [
