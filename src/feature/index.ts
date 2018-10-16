@@ -15,21 +15,14 @@ import {
   url
 } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
-import { YangUtils } from '../utils/yang-utils';
+import { getRootPath, YangUtils } from '../utils/yang-utils';
 import { CodeUtils } from '../utils/code-utils';
-import { getWorkspace } from '@schematics/angular/utility/config';
 import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
 import { parseName } from '@schematics/angular/utility/parse-name';
 
 export default function (options: FeatureOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const workspace = getWorkspace(host);
-    if (!options.project) {
-      options.project = workspace.defaultProject;
-    }
-    const project = workspace.projects[options.project as string];
-    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
-    const rootPath = `/${project.root}/src/${projectDirName}`;
+    const rootPath = getRootPath(host, options);
 
     let originalName = options.name;
 

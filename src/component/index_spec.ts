@@ -28,17 +28,68 @@ describe('Component Schematic', () => {
       appTree = runYangNew();
     });
 
+
+    describe('Not existing module', () =>{
+      it('should create files inside a nothing folder & +template +style', () => {
+        appTree = yangSchematicRunner.runSchematic('component', {
+          ...defaultOptions, name: 'nothing/' + elementName,
+          flat: true,
+          inlineTemplate: false,
+          inlineStyle: false
+        }, appTree);
+
+        const files = appTree.files;
+        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
+        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
+      });
+
+
+      it('should create files inside a nothing folder & -template -style', () => {
+        appTree = yangSchematicRunner.runSchematic('component', {
+          ...defaultOptions, name: 'nothing/' + elementName,
+          flat: true,
+          template: false,
+          styles: false
+        }, appTree);
+
+        const files = appTree.files;
+        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).not.contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
+        expect(files).not.contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
+      });
+
+
+      it('should create files inside a nothing folder & +template -style', () => {
+        appTree = yangSchematicRunner.runSchematic('component', {
+          ...defaultOptions, name: 'nothing/' + elementName,
+          flat: true,
+          inlineTemplate: false
+        }, appTree);
+
+        const files = appTree.files;
+        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
+        expect(files).not.contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
+      });
+    });
+
+
     describe('Shared component', () => {
       beforeEach(() => {
         appTree = yangSchematicRunner.runSchematic('component', {
-          ...defaultOptions, name: 'shared/' + elementName
+          ...defaultOptions, name: 'shared/' + elementName,
+          template: true,
+          styles: false
         }, appTree);
       });
 
       it('should create files inside shared', () => {
         const files = appTree.files;
+        console.log(files);
         expect(files).contains(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
         expect(files).contains(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
+        expect(files).contains(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.html`);
       });
 
 
@@ -53,10 +104,7 @@ describe('Component Schematic', () => {
     describe('Feature component', () => {
       beforeEach(() => {
         appTree = yangSchematicRunner.runSchematic('feature', {
-          name: 'foo',
-          component: false,
-          template: false,
-          styles: false
+          name: 'foo'
         }, appTree);
 
         appTree = yangSchematicRunner.runSchematic('component', {
@@ -91,10 +139,7 @@ describe('Component Schematic', () => {
     describe('Module component', () => {
       beforeEach(() => {
         appTree = yangSchematicRunner.runSchematic('feature', {
-          name: 'foo',
-          component: false,
-          template: false,
-          styles: false
+          name: 'foo'
         }, appTree);
 
         appTree = yangSchematicRunner.runSchematic('module', {

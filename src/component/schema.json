@@ -25,6 +25,18 @@
         "index": 0
       }
     },
+//    "inlineStyle": {
+//      "description": "Specifies if the style will be in the ts file.",
+//      "type": "boolean",
+//      "default": false,
+//      "alias": "s"
+//    },
+//    "inlineTemplate": {
+//      "description": "Specifies if the template will be in the ts file.",
+//      "type": "boolean",
+//      "default": false,
+//      "alias": "t"
+//    },
     "viewEncapsulation": {
       "description": "Specifies the view encapsulation strategy.",
       "enum": ["Emulated", "Native", "None"],

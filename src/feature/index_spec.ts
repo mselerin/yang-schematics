@@ -25,9 +25,7 @@ describe('Feature Schematic', () => {
     it('should create feature module without component', () => {
       appTree = yangSchematicRunner.runSchematic('feature', {
         name: featureName,
-        component: false,
-        template: false,
-        styles: false
+        component: false
       }, appTree);
 
       const files = appTree.files;
@@ -40,36 +38,17 @@ describe('Feature Schematic', () => {
     it('should create feature module with component', () => {
       appTree = yangSchematicRunner.runSchematic('feature', {
         name: featureName,
-        component: true,
-        template: false,
-        styles: false
+        component: true
       }, appTree);
 
       const files = appTree.files;
 
+      expect(files).contains('/src/app/features/bar/bar.module.ts');
       expect(files).contains('/src/app/features/bar/bar.component.ts');
-      expect(files).not.contains('/src/app/features/bar/bar.component.html');
-      expect(files).not.contains('/src/app/features/bar/bar.component.scss');
     });
 
 
-    it('should create feature module with component and template', () => {
-      appTree = yangSchematicRunner.runSchematic('feature', {
-        name: featureName,
-        component: true,
-        template: true,
-        styles: false
-      }, appTree);
-
-      const files = appTree.files;
-
-      expect(files).contains('/src/app/features/bar/bar.component.ts');
-      expect(files).contains('/src/app/features/bar/bar.component.html');
-      expect(files).not.contains('/src/app/features/bar/bar.component.scss');
-    });
-
-
-    it('should create feature module with component, template and styles', () => {
+    it('should create feature module with component +template +styles', () => {
       appTree = yangSchematicRunner.runSchematic('feature', {
         name: featureName,
         component: true,
@@ -79,18 +58,17 @@ describe('Feature Schematic', () => {
 
       const files = appTree.files;
 
+      expect(files).contains('/src/app/features/bar/bar.module.ts');
       expect(files).contains('/src/app/features/bar/bar.component.ts');
       expect(files).contains('/src/app/features/bar/bar.component.html');
       expect(files).contains('/src/app/features/bar/bar.component.scss');
     });
 
 
+
     it('should update routing', () => {
       appTree = yangSchematicRunner.runSchematic('feature', {
-        name: featureName,
-        component: false,
-        template: false,
-        styles: false
+        name: featureName
       }, appTree);
 
       const fileContent = getFileContent(appTree, YangUtils.FEATURES_MODULE_FILE);
@@ -107,10 +85,7 @@ describe('Feature Schematic', () => {
       appTree = runYangNew();
 
       appTree = yangSchematicRunner.runSchematic('feature', {
-        name: 'foo',
-        component: false,
-        template: false,
-        styles: false
+        name: 'foo'
       }, appTree);
     });
 
@@ -118,16 +93,12 @@ describe('Feature Schematic', () => {
     it('should create sub feature module with component', () => {
       appTree = yangSchematicRunner.runSchematic('feature', {
         name: 'foo/' + featureName,
-        component: true,
-        template: false,
-        styles: false
+        component: true
       }, appTree);
 
       const files = appTree.files;
 
       expect(files).contains('/src/app/features/foo/bar/bar.component.ts');
-      expect(files).not.contains('/src/app/features/foo/bar/bar.component.html');
-      expect(files).not.contains('/src/app/features/foo/bar/bar.component.scss');
     });
   });
 });

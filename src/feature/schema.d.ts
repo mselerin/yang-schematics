@@ -22,15 +22,15 @@ export interface Schema {
   /**
    * Specifies if a component with the same name is generated.
    */
-  component: boolean;
+  component?: boolean;
   /**
    * Specifies if the component generation should have a separate template file.
    */
-  template: boolean;
+  template?: boolean;
   /**
    * Specifies if the component generation should have a separate style file.
    */
-  styles: boolean;
+  styles?: boolean;
   /**
    * The file extension to be used for style files.
    */

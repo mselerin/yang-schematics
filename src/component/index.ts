@@ -15,36 +15,17 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { Schema as NgComponentOptions } from '@schematics/angular/component/schema';
-import { strings } from '@angular-devkit/core';
+import { strings, terminal } from '@angular-devkit/core';
 import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
 import { parseName } from '@schematics/angular/utility/parse-name';
+import { getRootPath, smartPath } from '../utils/yang-utils';
 
 export default function (options: ComponentOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const workspace = getWorkspace(host);
-    if (!options.project) {
-      options.project = workspace.defaultProject;
-    }
-    const project = workspace.projects[options.project as string];
-    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
-    const rootPath = `/${project.root}/src/${projectDirName}`;
-
-    // Smart detect if shared or feature_name
-    if (options.name.includes('/')) {
-      let nameArgs: string[] = options.name.split('/');
-      let classifier: string = nameArgs.shift() as string;
-      options.name = nameArgs.pop() as string;
-
-      if (!options.path) {
-        if ('shared' === classifier)
-          options.path = `${rootPath}/shared/components/${nameArgs.join('/')}`;
-        else
-          options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
-      }
-    }
+    const rootPath = getRootPath(host, options);
+    smartPath(rootPath, options, 'components');
 
     if (!options.path) {
       options.path = `${rootPath}/shared/components`;
@@ -56,40 +37,31 @@ export default function (options: ComponentOptions): Rule {
     options.module = findModuleFromOptions(host, options);
 
 
-    let inlineStyle = true;
-    let inlineTemplate = true;
+
+    const workspace = getWorkspace(host);
+    const project = workspace.projects[options.project as string];
+
+    let inlineStyle = options.inlineStyle;
+    let inlineTemplate = options.inlineTemplate;
 
     if (project.schematics && project.schematics['@schematics/angular:component']) {
-      inlineStyle = project.schematics['@schematics/angular:component'].inlineStyle;
-      inlineTemplate = project.schematics['@schematics/angular:component'].inlineTemplate;
+      if (inlineStyle === undefined)
+        inlineStyle = project.schematics['@schematics/angular:component'].inlineStyle;
+
+      if (inlineTemplate === undefined)
+        inlineTemplate = project.schematics['@schematics/angular:component'].inlineTemplate;
     }
 
-    inlineStyle = (options.styles !== undefined ? !options.styles : inlineStyle);
-    inlineTemplate = (options.template !== undefined ? !options.template : inlineTemplate);
+    options.inlineStyle = (options.styles !== undefined ? !options.styles : inlineStyle);
+    options.inlineTemplate = (options.template !== undefined ? !options.template : inlineTemplate);
 
-    const componentOptions: NgComponentOptions = {
-      path: options.path,
-      project: options.project,
-      name: options.name,
-      inlineStyle: inlineStyle,
-      inlineTemplate: inlineTemplate,
-      viewEncapsulation: options.viewEncapsulation,
-      changeDetection: options.changeDetection,
-      prefix: options.prefix,
-      styleext: options.styleext,
-      spec: options.spec,
-      flat: options.flat,
-      skipImport: true,
-      selector: options.selector,
-      module: options.module,
-      export: options.export,
-      entryComponent: options.entryComponent,
-      lintFix: options.lintFix
+    const ngOptions = {
+      ...options,
+      skipImport: true
     };
 
-
     return chain([
-      externalSchematic('@schematics/angular', 'component', componentOptions),
+      externalSchematic('@schematics/angular', 'component', ngOptions),
       mergeWith(apply(url('./files'), [
         options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
         template({
@@ -108,10 +80,17 @@ export default function (options: ComponentOptions): Rule {
 
 function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
   return (host: Tree) => {
-    if (!options.module)
+    if (!options.module || options.skipImport)
       return host;
 
     const file = options.module;
+
+    // If features module: warn & skip !
+    if (file === '/src/app/features/features.module.ts') {
+      console.log(terminal.yellow('Cannot declare component inside features module: skipping import.'));
+      return host;
+    }
+
     const text = host.read(file);
     if (text === null) {
       throw new SchematicsException(`File ${file} does not exist.`);

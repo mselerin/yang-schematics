@@ -13,28 +13,12 @@ import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
 import { parseName } from '@schematics/angular/utility/parse-name';
+import { getRootPath, smartPath } from '../utils/yang-utils';
 
 export default function (options: ModuleOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const workspace = getWorkspace(host);
-    if (!options.project) {
-      options.project = workspace.defaultProject;
-    }
-    const project = workspace.projects[options.project as string];
-    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
-    const rootPath = `/${project.root}/src/${projectDirName}`;
-
-    // Smart detect if shared or feature_name
-    if (options.name.includes('/')) {
-      let nameArgs: string[] = options.name.split('/');
-      let classifier: string = nameArgs.shift() as string;
-      options.name = nameArgs.pop() as string;
-
-      if ('shared' === classifier)
-        options.path = `${rootPath}/shared/modules/${nameArgs.join('/')}`;
-      else
-        options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
-    }
+    const rootPath = getRootPath(host, options);
+    smartPath(rootPath, options);
 
     if (!options.path) {
       options.path = `${rootPath}/shared/modules`;

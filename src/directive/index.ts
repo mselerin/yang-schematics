@@ -11,32 +11,15 @@ import { CodeUtils } from '../utils/code-utils';
 import { getWorkspace } from '@schematics/angular/utility/config';
 import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
 import { parseName } from '@schematics/angular/utility/parse-name';
+import { getRootPath, smartPath } from '../utils/yang-utils';
 
 export default function (options: DirectiveOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const workspace = getWorkspace(host);
-    if (!options.project) {
-      options.project = workspace.defaultProject;
-    }
-    const project = workspace.projects[options.project as string];
-    const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
-    const rootPath = `/${project.root}/src/${projectDirName}`;
-
-    if (options.name.includes('/')) {
-      let nameArgs: string[] = options.name.split('/');
-      let classifier: string = nameArgs.shift() as string;
-      options.name = nameArgs.pop() as string;
-
-      if (!options.path) {
-        if ('shared' === classifier)
-          options.path = `${rootPath}/shared/modules/${nameArgs.join('/')}`;
-        else
-          options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
-      }
-    }
+    const rootPath = getRootPath(host, options);
+    smartPath(rootPath, options);
 
     if (!options.path) {
-      options.path = `/${rootPath}/shared/directives`;
+      options.path = `${rootPath}/shared/directives`;
     }
 
     const parsedPath = parseName(options.path, options.name);
@@ -45,16 +28,13 @@ export default function (options: DirectiveOptions): Rule {
 
     options.module = findModuleFromOptions(host, options);
 
-    return chain([
-      externalSchematic('@schematics/angular', 'directive', {
-        name: options.name,
-        path: options.path,
-        project: options.project,
-        spec: options.spec,
-        skipImport: true,
-        flat: options.flat
-      }),
+    const ngOptions = {
+      ...options,
+      skipImport: true
+    };
 
+    return chain([
+      externalSchematic('@schematics/angular', 'directive', ngOptions),
       addNgModule(options)
     ])(host, context);
   };
