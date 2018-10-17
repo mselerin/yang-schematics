@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/mselerin/yang-schematics/compare/v2.5.0...v3.0.0) (2018-10-17)
+
+
+### Features
+
+* Add 'src/assets/styles' inside stylePreprocessorOptions ([a0c6f3a](https://github.com/mselerin/yang-schematics/commit/a0c6f3a))
+* Adding a brand new Yang Logo ([976b5cd](https://github.com/mselerin/yang-schematics/commit/976b5cd))
+* better default application styles & layout ([4ad7085](https://github.com/mselerin/yang-schematics/commit/4ad7085))
+* Cleaning ConfigService & Initializer ([56ca71e](https://github.com/mselerin/yang-schematics/commit/56ca71e))
+* ConfigService API Change ([7c96516](https://github.com/mselerin/yang-schematics/commit/7c96516))
+* enhanced config service ([5544225](https://github.com/mselerin/yang-schematics/commit/5544225))
+* expose addSplashItem as a function ([f9432d2](https://github.com/mselerin/yang-schematics/commit/f9432d2))
+* Initial build date from the creation date ([f811db7](https://github.com/mselerin/yang-schematics/commit/f811db7))
+* Initializers Factory to easily add new initializers class ([1e05232](https://github.com/mselerin/yang-schematics/commit/1e05232))
+* Loading with splash text ([fe1765a](https://github.com/mselerin/yang-schematics/commit/fe1765a))
+* Yang Logo as favicon ([52608b9](https://github.com/mselerin/yang-schematics/commit/52608b9))
+
+
+### BREAKING CHANGES
+
+* ConfigService API Change
+
+
+
 <a name="2.5.0"></a>
 # [2.5.0](https://github.com/mselerin/yang-schematics/compare/v2.4.0...v2.5.0) (2018-10-16)
 
