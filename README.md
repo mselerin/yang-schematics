@@ -5,6 +5,8 @@
 # Yang Schematics
 > Yet Another Angular Generator - Powered by Schematics
 
+![Yang Logo](yang-logo.png)
+
 ## Intro
 
 The purpose of YANG is to create a more production-ready Angular application.
