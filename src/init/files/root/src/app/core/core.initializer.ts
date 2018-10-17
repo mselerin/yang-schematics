@@ -4,7 +4,7 @@ import { LOGGER, LogLevelEnum } from '@app/services/logger.service';
 import { ConfigService } from '@app/services/config.service';
 import { AppConfig } from '@app/models/app-config.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CoreInitializer
 {
   constructor(
@@ -15,20 +15,24 @@ export class CoreInitializer
     console.log('Initializing application');
 
     // Retrieve services via the Injector (workaround for cyclic dependency error)
+    CoreInitializer.addSplashItem('Configuration');
     const config: ConfigService = this.injector.get(ConfigService);
     const i18n: TranslateService = this.injector.get(TranslateService);
 
     await config.loadAppConfig();
+    const app = config.app as AppConfig;
 
     // Logging
+    CoreInitializer.addSplashItem('Logging');
     LOGGER.clientLogLevel = LogLevelEnum.DEBUG;
     LOGGER.serverLogLevel = LogLevelEnum.ERROR;
 
     // LOGGER.loggingServiceUrl = '/api/log';
 
     // Translation
-    i18n.addLangs(config.app.languages);
-    i18n.setDefaultLang(config.app.lang);
+    CoreInitializer.addSplashItem('i18n');
+    i18n.addLangs(app.languages || ['fr', 'en']);
+    i18n.setDefaultLang(app.lang || 'fr');
 
     // Langue du navigateur
     let browserLang = i18n.getBrowserLang();
@@ -41,5 +45,14 @@ export class CoreInitializer
     await i18n.use(browserLang).toPromise();
 
     LOGGER.info('Application initialized');
+    CoreInitializer.addSplashItem('Starting application');
+  }
+
+
+  private static addSplashItem(txt: string): void {
+    const el: any = document.querySelector('#splash-text ul');
+    if (el) {
+      el.innerHTML += `<li>${txt}</li>`;
+    }
   }
 }

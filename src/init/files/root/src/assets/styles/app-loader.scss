@@ -1,0 +1,23 @@
+@import "variables";
+
+#splash-text {
+  margin: 2rem;
+  font-size: 1rem;
+  color: $loading-main-color;
+
+  ul {
+    list-style: none;
+    padding-left: 1rem;
+
+    li {
+      padding-top: 0.25rem;
+      color: $loading-done-color;
+      list-style-type: disc;
+    }
+
+    li:last-child {
+      color: $loading-current-color;
+      list-style-type: circle;
+    }
+  }
+}
