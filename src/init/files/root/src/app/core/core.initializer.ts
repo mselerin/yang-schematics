@@ -15,7 +15,7 @@ export class CoreInitializer
     console.log('Initializing application');
 
     // Retrieve services via the Injector (workaround for cyclic dependency error)
-    CoreInitializer.addSplashItem('Configuration');
+    addSplashItem('Configuration');
     const config: ConfigService = this.injector.get(ConfigService);
     const i18n: TranslateService = this.injector.get(TranslateService);
 
@@ -23,14 +23,14 @@ export class CoreInitializer
     const app = config.app as AppConfig;
 
     // Logging
-    CoreInitializer.addSplashItem('Logging');
+    addSplashItem('Logging');
     LOGGER.clientLogLevel = LogLevelEnum.DEBUG;
     LOGGER.serverLogLevel = LogLevelEnum.ERROR;
 
     // LOGGER.loggingServiceUrl = '/api/log';
 
     // Translation
-    CoreInitializer.addSplashItem('i18n');
+    addSplashItem('i18n');
     i18n.addLangs(app.languages || ['fr', 'en']);
     i18n.setDefaultLang(app.lang || 'fr');
 
@@ -45,14 +45,14 @@ export class CoreInitializer
     await i18n.use(browserLang).toPromise();
 
     LOGGER.info('Application initialized');
-    CoreInitializer.addSplashItem('Starting application');
+    addSplashItem('Starting application');
   }
+}
 
 
-  public static addSplashItem(txt: string): void {
-    const el: any = document.querySelector('#splash-text ul');
-    if (el) {
-      el.innerHTML += `<li>${txt}</li>`;
-    }
+export function addSplashItem(txt: string): void {
+  const el: any = document.querySelector('#splash-text ul');
+  if (el) {
+    el.innerHTML += `<li>${txt}</li>`;
   }
 }
