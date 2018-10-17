@@ -41,11 +41,10 @@ export function httpLoaderFactory(http: HttpClient) {
 
 
 const PROVIDERS = [
-  // Initialisation de l'application
+  // Init application
   {
     provide: APP_INITIALIZER,
     multi: true,
-    // Doit retourner une fonction qui renvoie une Promise
     useFactory: coreInitFactory,
     deps: [CoreInitializer]
   }

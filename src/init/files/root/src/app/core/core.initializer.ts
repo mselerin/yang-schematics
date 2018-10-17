@@ -19,7 +19,7 @@ export class CoreInitializer
     const config: ConfigService = this.injector.get(ConfigService);
     const i18n: TranslateService = this.injector.get(TranslateService);
 
-    await config.loadAppConfig();
+    await config.load('app', 'assets/config/app-config.json');
     const app = config.app as AppConfig;
 
     // Logging
@@ -49,7 +49,7 @@ export class CoreInitializer
   }
 
 
-  private static addSplashItem(txt: string): void {
+  public static addSplashItem(txt: string): void {
     const el: any = document.querySelector('#splash-text ul');
     if (el) {
       el.innerHTML += `<li>${txt}</li>`;

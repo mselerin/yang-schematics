@@ -12,11 +12,7 @@ export class ConfigService
     this.app = {};
   }
 
-  async loadAppConfig(): Promise<void> {
-    await this.loadConfig('app', 'assets/config/app-config.json');
-  }
-
-  async loadConfig(prefix: string, url: string) {
+  async load(prefix: string, url: string) {
     this[prefix] = await this.http.get(url).toPromise();
   }
 
