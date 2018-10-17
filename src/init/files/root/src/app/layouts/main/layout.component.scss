@@ -1,0 +1,26 @@
+@import "variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  > header {
+    flex: 0 0 auto;
+    padding-left: 1rem;
+    background-color: $header-bg;
+  }
+
+  > main {
+    flex: 1 1 auto;
+    padding-left: 1rem;
+  }
+
+  > footer {
+    flex: 0 0 auto;
+    padding: 0.3rem;
+    background-color: $footer-bg;
+    color: $footer-color;
+    text-align: right;
+  }
+}

@@ -1,17 +1,7 @@
 @import "variables";
 
 body {
+  font-family: $font-family-base;
   background-color: $body-bg;
-}
-
-#main-header {
-
-}
-
-#main-footer {
-  background-color: rgba(0, 0, 0, 0.3) !important;
-
-  p,a {
-    color: #ddd;
-  }
+  margin: 0;
 }
