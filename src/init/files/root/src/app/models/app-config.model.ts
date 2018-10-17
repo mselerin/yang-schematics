@@ -1,6 +1,6 @@
-export class AppConfig
+export interface AppConfig
 {
-  lang: string = 'fr';
-  languages: string[] = ['fr', 'en'];
-  multiLang: boolean = true;
+  lang?: string;
+  languages?: string[];
+  multiLang?: boolean;
 }
