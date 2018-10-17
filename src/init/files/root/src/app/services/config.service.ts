@@ -5,16 +5,18 @@ import { AppConfig } from '@app/models/app-config.model';
 @Injectable({ providedIn: 'root' })
 export class ConfigService
 {
-  constructor(
-    private http: HttpClient,
-    public appConfig: AppConfig
-  ) { }
+  public app: AppConfig;
 
-  async loadConfig(): Promise<AppConfig> {
+  constructor(
+    private http: HttpClient
+  ) {
+    this.app = new AppConfig();
+  }
+
+  async loadAppConfig(): Promise<void> {
     let url = 'assets/config/app-config.json';
     let data = await this.http.get(url).toPromise();
 
-    Object.assign(this.appConfig, new AppConfig(), data);
-    return this.appConfig;
+    Object.assign(this.app, new AppConfig(), data);
   }
 }

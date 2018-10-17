@@ -1,5 +1,5 @@
 // Rxjs
-import { of as observableOf, Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 // Angular Modules
@@ -9,9 +9,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-
-// Constants
-import { AppConfig } from '@app/models/app-config.model';
 
 // Services
 import { CoreInitializer } from './core.initializer';
@@ -31,8 +28,10 @@ export class CoreTranslationLoader implements TranslateLoader {
   constructor(private http: HttpClient) {}
 
   public getTranslation(lang: string): any {
-    return this.http.get(`assets/i18n/${lang}.json`).pipe(
-      catchError(() => observableOf({})));
+    return this.http.get(`assets/i18n/${lang}.json`)
+      .pipe(
+        catchError(() => of({}))
+      );
   }
 }
 
@@ -43,16 +42,13 @@ export function httpLoaderFactory(http: HttpClient) {
 
 const PROVIDERS = [
   // Initialisation de l'application
-  CoreInitializer,
   {
     provide: APP_INITIALIZER,
     multi: true,
     // Doit retourner une fonction qui renvoie une Promise
     useFactory: coreInitFactory,
     deps: [CoreInitializer]
-  },
-
-  AppConfig
+  }
 ];
 
 

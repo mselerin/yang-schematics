@@ -15,10 +15,10 @@ export class CoreInitializer
     console.log('Initializing application');
 
     // Retrieve services via the Injector (workaround for cyclic dependency error)
-    const configService: ConfigService = this.injector.get(ConfigService);
-    const translate: TranslateService = this.injector.get(TranslateService);
+    const config: ConfigService = this.injector.get(ConfigService);
+    const i18n: TranslateService = this.injector.get(TranslateService);
 
-    let config: AppConfig = await configService.loadConfig();
+    await config.loadAppConfig();
 
     // Logging
     LOGGER.clientLogLevel = LogLevelEnum.DEBUG;
@@ -27,18 +27,18 @@ export class CoreInitializer
     // LOGGER.loggingServiceUrl = '/api/log';
 
     // Translation
-    translate.addLangs(config.languages);
-    translate.setDefaultLang(config.lang);
+    i18n.addLangs(config.app.languages);
+    i18n.setDefaultLang(config.app.lang);
 
     // Langue du navigateur
-    let browserLang = translate.getBrowserLang();
+    let browserLang = i18n.getBrowserLang();
     LOGGER.debug(`Detected browser language : ${browserLang}`);
 
-    if (translate.getLangs().indexOf(browserLang) === -1)
+    if (i18n.getLangs().indexOf(browserLang) === -1)
       browserLang = 'fr';
 
     LOGGER.debug(`Using language : ${browserLang}`);
-    await translate.use(browserLang).toPromise();
+    await i18n.use(browserLang).toPromise();
 
     LOGGER.info('Application initialized');
   }
