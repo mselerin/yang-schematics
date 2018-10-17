@@ -31,7 +31,8 @@ export default function (options: InitOptions): Rule {
       mergeWith(apply(url('./files/root'), [
         template({
           ...strings,
-          ...options
+          ...options,
+          buildDate: new Date().toISOString()
         }),
         move(''),
         forceOverwrite(host)
