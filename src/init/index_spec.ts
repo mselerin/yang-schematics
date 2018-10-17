@@ -62,5 +62,19 @@ describe('Init Schematic', () => {
       expect(pkg.dependencies['whatwg-fetch']).to.not.be.undefined;
       expect(pkg.devDependencies['yang-schematics']).to.not.be.undefined;
     });
+
+
+    it('should contains specific stuffs inside angular.json', () => {
+      const fileContent = getFileContent(appTree, '/angular.json');
+      const json = JSON.parse(fileContent);
+      const defaultProject = json.defaultProject;
+      let architect = json.projects[defaultProject].architect;
+      if (!architect)
+        architect = json.projects[defaultProject].targets;
+
+      expect(json.cli.defaultCollection).to.be.eq('yang-schematics');
+      expect(architect.build.options['stylePreprocessorOptions']).to.exist;
+      expect(architect.test.options['stylePreprocessorOptions']).to.exist;
+    });
   });
 });

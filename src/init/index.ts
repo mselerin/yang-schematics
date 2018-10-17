@@ -219,9 +219,26 @@ function updateAngularJson(): (host: Tree) => Tree {
       return host;
 
     const json = JSON.parse(source.toString('utf-8'));
+
+    // Add yang-schematics as default collection
     json['cli'] = {
       'defaultCollection': 'yang-schematics'
     };
+
+    const defaultProject = json.defaultProject;
+    let architect = json.projects[defaultProject].architect;
+    if (!architect)
+      architect = json.projects[defaultProject].targets;
+
+    // Add stylePreprocessorOptions
+    const stylePreprocessorOptions = {
+      "includePaths": [
+        "src/assets/styles"
+      ]
+    };
+
+    architect.build.options['stylePreprocessorOptions'] = stylePreprocessorOptions;
+    architect.test.options['stylePreprocessorOptions'] = stylePreprocessorOptions;
 
     host.overwrite(filePath, JSON.stringify(json, null, 2));
     return host;
