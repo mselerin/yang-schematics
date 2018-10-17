@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 // Angular Modules
-import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
+import { APP_INITIALIZER, NgModule, Optional, SkipSelf, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,11 +16,6 @@ import { CoreInitializer } from './core.initializer';
 // Modules
 import { InterceptorsModule } from './core.interceptors';
 
-
-// App init
-export function coreInitFactory(coreInit: CoreInitializer) {
-  return () => coreInit.init();
-}
 
 
 // Translation
@@ -40,13 +35,28 @@ export function httpLoaderFactory(http: HttpClient) {
 }
 
 
+
+// App init
+const INITIALIZERS = [
+  CoreInitializer
+];
+
+export function initializersFactory(injector: Injector) {
+  return async () => {
+    for (let i = 0; i < INITIALIZERS.length; i++) {
+      await injector.get(INITIALIZERS[i]).init();
+    }
+  }
+}
+
+
 const PROVIDERS = [
   // Init application
   {
     provide: APP_INITIALIZER,
     multi: true,
-    useFactory: coreInitFactory,
-    deps: [CoreInitializer]
+    useFactory: initializersFactory,
+    deps: [Injector]
   }
 ];
 
