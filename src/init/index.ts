@@ -81,6 +81,7 @@ function updatePackageJson(): (host: Tree) => Tree {
 
     json.scripts = {
       ...json.scripts,
+      "build": "ng build --prod",
       "prebuild": "node prebuild.js",
       "prestart": "node prebuild.js"
     };
