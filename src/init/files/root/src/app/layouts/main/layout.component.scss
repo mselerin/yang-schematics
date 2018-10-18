@@ -9,6 +9,11 @@
     flex: 0 0 auto;
     padding-left: 1rem;
     background-color: $header-bg;
+    color: $header-color;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   > main {
