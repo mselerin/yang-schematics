@@ -115,10 +115,18 @@ export class CodeUtils
 
   static addImport(sourceFile: SourceFile, importName: string, importFile: string) {
     if (importName.includes(" as ")) {
-      sourceFile.addImportDeclaration({
-        defaultImport: importName,
-        moduleSpecifier: importFile
-      });
+      if (importName.startsWith('*')) {
+        sourceFile.addImportDeclaration({
+          defaultImport: importName,
+          moduleSpecifier: importFile
+        });
+      }
+      else {
+        sourceFile.addImportDeclaration({
+          namedImports: [importName],
+          moduleSpecifier: importFile
+        });
+      }
     }
     else {
       sourceFile.addImportDeclaration({
