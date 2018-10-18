@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/mselerin/yang-schematics/compare/v3.0.0...v3.1.0) (2018-10-18)
+
+
+### Bug Fixes
+
+* addImport should add a namedImport if not starting with * ([6c8e951](https://github.com/mselerin/yang-schematics/commit/6c8e951))
+
+
+### Features
+
+* adding '--prod' flag to the build script ([123bea2](https://github.com/mselerin/yang-schematics/commit/123bea2))
+* converting 'initializers' as simple function ([5449e52](https://github.com/mselerin/yang-schematics/commit/5449e52))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/mselerin/yang-schematics/compare/v2.5.0...v3.0.0) (2018-10-17)
 
