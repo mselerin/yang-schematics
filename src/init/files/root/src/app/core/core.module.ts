@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 // Services
-import { CoreInitializer } from './core.initializer';
+import { init as coreInitializer } from './core.initializer';
 
 // Modules
 import { InterceptorsModule } from './core.interceptors';
@@ -38,13 +38,13 @@ export function httpLoaderFactory(http: HttpClient) {
 
 // App init
 const INITIALIZERS = [
-  CoreInitializer
+  coreInitializer
 ];
 
 export function initializersFactory(injector: Injector) {
   return async () => {
     for (let i = 0; i < INITIALIZERS.length; i++) {
-      await injector.get(INITIALIZERS[i]).init();
+      await INITIALIZERS[i](injector);
     }
   }
 }
