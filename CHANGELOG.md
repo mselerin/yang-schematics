@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/mselerin/yang-schematics/compare/v3.1.0...v3.2.0) (2018-10-22)
+
+
+### Bug Fixes
+
+* app-config.json is not a valid json file ([0e0369c](https://github.com/mselerin/yang-schematics/commit/0e0369c))
+* ConfigService & Manifest loading should log error when not found ([1bca802](https://github.com/mselerin/yang-schematics/commit/1bca802))
+* default styles for component ([a6a8f0c](https://github.com/mselerin/yang-schematics/commit/a6a8f0c))
+* Removing 'multilang' property (unused) ([78b353a](https://github.com/mselerin/yang-schematics/commit/78b353a))
+
+
+### Features
+
+* Adding ReactiveFormsModule to SharedModule ([bb6af7b](https://github.com/mselerin/yang-schematics/commit/bb6af7b))
+* better layout ([3e4841d](https://github.com/mselerin/yang-schematics/commit/3e4841d))
+* better layout ([095cab9](https://github.com/mselerin/yang-schematics/commit/095cab9))
+* dependencies versions in package.json are no longer fixed, thanks to package-lock.json :-) ([d63683b](https://github.com/mselerin/yang-schematics/commit/d63683b))
+* update to Angular 7 ([30588cb](https://github.com/mselerin/yang-schematics/commit/30588cb))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/mselerin/yang-schematics/compare/v3.0.0...v3.1.0) (2018-10-18)
 
