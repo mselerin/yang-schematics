@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { LOGGER } from './logger.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigService
@@ -13,7 +14,12 @@ export class ConfigService
   }
 
   async load(prefix: string, url: string) {
-    this[prefix] = await this.http.get(url).toPromise();
+    try {
+      this[prefix] = await this.http.get(url).toPromise();
+    }
+    catch (err) {
+      LOGGER.error(`Cannot load configuration file [${url}]`);
+    }
   }
 
   get(key: string, def: any = null): any {

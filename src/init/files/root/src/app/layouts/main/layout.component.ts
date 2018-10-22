@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
+import { LOGGER } from '@app/services/logger.service';
 
 @Component({
   selector: 'app-layout',
@@ -17,6 +18,15 @@ export class LayoutComponent implements OnInit
   ) {}
 
   async ngOnInit() {
-    this.manifest = await this.http.get('assets/app-manifest.json').toPromise();
+    try {
+      this.manifest = await this.http.get('assets/app-manifest.json').toPromise();
+    }
+    catch (err) {
+      LOGGER.warn(`Cannot load manifest file`);
+      this.manifest = {
+        'version': 'unknown',
+        'buildDate': '2018-01-01T00:00:00.000Z'
+      };
+    }
   }
 }
