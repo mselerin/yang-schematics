@@ -39,6 +39,7 @@ describe('Component Schematic', () => {
         }, appTree);
 
         const files = appTree.files;
+        console.log(files);
         expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
         expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
         expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);

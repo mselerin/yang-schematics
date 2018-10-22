@@ -9,7 +9,8 @@ export const yangSchematicRunner = new SchematicTestRunner(
 export const ngNewOptions: NgNewOptions = {
   name: 'foo',
   directory: '.',
-  version: '6.0.0'
+  version: '7.0.0',
+  style: 'scss'
 };
 
 export function runYangNew(): UnitTestTree {
