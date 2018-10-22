@@ -10,7 +10,8 @@
       "$default": {
         "$source": "argv",
         "index": 0
-      }
+      },
+      "x-prompt": "What name would you like to use for the pipe?"
     },
     "path": {
       "type": "string",
@@ -42,7 +43,6 @@
     },
     "module": {
       "type": "string",
-      "default": "",
       "description": "Allows specification of the declaring module.",
       "alias": "m"
     },

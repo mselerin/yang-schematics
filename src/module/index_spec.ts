@@ -9,8 +9,7 @@ import { getFileContent } from '@schematics/angular/utility/test';
 
 const elementName = 'superDummy';
 const defaultOptions: ModuleOptions = {
-  name: elementName,
-  spec: true
+  name: elementName
 };
 
 
@@ -36,7 +35,6 @@ describe('Module Schematic', () => {
         const files = appTree.files;
 
         expect(files).contains(`/src/app/shared/modules/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.ts`);
-        expect(files).contains(`/src/app/shared/modules/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.spec.ts`);
       });
 
 
@@ -66,7 +64,6 @@ describe('Module Schematic', () => {
       it('should create files inside the foo feature', () => {
         const files = appTree.files;
         expect(files).contains(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.ts`);
-        expect(files).contains(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.spec.ts`);
       });
 
 

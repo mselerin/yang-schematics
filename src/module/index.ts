@@ -34,7 +34,6 @@ export default function (options: ModuleOptions): Rule {
     options.module = findModuleFromOptions(host, options);
 
     const templateSource = apply(url('./files'), [
-      options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
       options.routing ? noop() : filter(path => !path.endsWith('-routing.module.ts')),
 
       template({

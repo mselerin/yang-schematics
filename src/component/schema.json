@@ -23,7 +23,8 @@
       "$default": {
         "$source": "argv",
         "index": 0
-      }
+      },
+      "x-prompt": "What name would you like to use for the component?"
     },
 //    "inlineStyle": {
 //      "description": "Specifies if the style will be in the ts file.",
@@ -39,7 +40,7 @@
 //    },
     "viewEncapsulation": {
       "description": "Specifies the view encapsulation strategy.",
-      "enum": ["Emulated", "Native", "None"],
+      "enum": ["Emulated", "Native", "None", "ShadowDom"],
       "type": "string",
       "alias": "v"
     },
@@ -67,7 +68,7 @@
     "styleext": {
       "description": "The file extension to be used for style files.",
       "type": "string",
-      "default": "scss"
+      "default": "css"
     },
     "spec": {
       "type": "boolean",

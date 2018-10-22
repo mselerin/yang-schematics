@@ -10,7 +10,8 @@
       "$default": {
         "$source": "argv",
         "index": 0
-      }
+      },
+      "x-prompt": "What name would you like to use for the module?"
     },
     "path": {
       "type": "string",
@@ -35,11 +36,6 @@
       "type": "string",
       "description": "The scope for the generated routing.",
       "default": "Child"
-    },
-    "spec": {
-      "type": "boolean",
-      "description": "Specifies if a spec file is generated.",
-      "default": true
     },
     "flat": {
       "type": "boolean",
