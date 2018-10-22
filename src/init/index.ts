@@ -81,40 +81,25 @@ function updatePackageJson(): (host: Tree) => Tree {
 
     json.scripts = {
       ...json.scripts,
-      "build": "ng build --prod",
-      "prebuild": "node prebuild.js",
-      "prestart": "node prebuild.js"
+      'build': 'ng build --prod',
+      'prebuild': 'node prebuild.js',
+      'prestart': 'node prebuild.js'
     };
 
     json.dependencies = {
       ...json.dependencies,
-      "whatwg-fetch": "2.0.4",
-      "@ngx-translate/core": "10.0.1",
-      "rxjs-compat": "6.1.0"
+      'whatwg-fetch': '^2.0.4',
+      '@ngx-translate/core': '^10.0.1',
+      'rxjs-compat': '^6.1.0'
     };
 
-    json.devDependencies[pkg.name] = pkg.version;
-
-
-    // Remove ^ and ~ dependencies
-    fixDepsVersions(json.dependencies);
-    fixDepsVersions(json.devDependencies);
+    json.devDependencies[pkg.name] = `^${pkg.version}`;
 
     host.overwrite(filePath, JSON.stringify(json, null, 2));
     return host;
   };
 }
 
-
-function fixDepsVersions(deps: any): void {
-  for (let key in deps) {
-    let value: string = deps[key];
-    if (value.startsWith('^') || value.startsWith('~'))
-      value = value.substring(1);
-
-    deps[key] = value;
-  }
-}
 
 
 function updateTsConfig(): (host: Tree) => Tree {
