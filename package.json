@@ -14,9 +14,10 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -p tsconfig.json --watch",
-    "test": "ts-mocha src/**/*_spec.ts",
+    "test": "jest --coverage",
     "prepack": "npm run build && npm run test",
-    "release": "standard-version"
+    "release": "standard-version",
+    "codecov": "cat coverage/lcovonly/lcov.info | codecov"
   },
   "keywords": [
     "angular",
@@ -31,13 +32,12 @@
     "ts-simple-ast": "^12.4.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^5.2.5",
+    "@types/jest": "^23.3.7",
     "@types/node": "^10.12.0",
-    "chai": "^4.2.0",
-    "mocha": "^5.1.1",
+    "codecov": "^3.1.0",
+    "jest": "^23.6.0",
     "standard-version": "^4.4.0",
-    "ts-mocha": "^2.0.0",
+    "ts-jest": "^23.10.4",
     "typescript": "^3.1.3"
   }
 }

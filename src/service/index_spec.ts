@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { Tree } from '@angular-devkit/schematics';
 import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
@@ -10,7 +9,7 @@ const elementName = 'superDummy';
 describe('Service Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('service', {}, Tree.empty())).to.throw();
+      expect(() => yangSchematicRunner.runSchematic('service', {}, Tree.empty())).toThrow();
     });
   });
 
@@ -33,8 +32,8 @@ describe('Service Schematic', () => {
 
       const files = appTree.files;
 
-      expect(files).contains(`/src/app/services/${strings.dasherize(elementName)}.service.ts`);
-      expect(files).contains(`/src/app/services/${strings.dasherize(elementName)}.service.spec.ts`);
+      expect(files).toContain(`/src/app/services/${strings.dasherize(elementName)}.service.ts`);
+      expect(files).toContain(`/src/app/services/${strings.dasherize(elementName)}.service.spec.ts`);
     });
   });
 });

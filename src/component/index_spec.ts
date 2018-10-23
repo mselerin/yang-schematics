@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { Tree } from '@angular-devkit/schematics';
 import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
@@ -18,7 +17,7 @@ const defaultOptions: ComponentOptions = {
 describe('Component Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('component', {}, Tree.empty())).to.throw();
+      expect(() => yangSchematicRunner.runSchematic('component', {}, Tree.empty())).toThrow();
     });
   });
 
@@ -39,10 +38,9 @@ describe('Component Schematic', () => {
         }, appTree);
 
         const files = appTree.files;
-        console.log(files);
-        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
-        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
-        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
+        expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
+        expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
       });
 
 
@@ -55,9 +53,9 @@ describe('Component Schematic', () => {
         }, appTree);
 
         const files = appTree.files;
-        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
-        expect(files).not.contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
-        expect(files).not.contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
+        expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).not.toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
+        expect(files).not.toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
       });
 
 
@@ -69,9 +67,9 @@ describe('Component Schematic', () => {
         }, appTree);
 
         const files = appTree.files;
-        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
-        expect(files).contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
-        expect(files).not.contains(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
+        expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
+        expect(files).not.toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
       });
     });
 
@@ -87,17 +85,16 @@ describe('Component Schematic', () => {
 
       it('should create files inside shared', () => {
         const files = appTree.files;
-        console.log(files);
-        expect(files).contains(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
-        expect(files).contains(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
-        expect(files).contains(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.html`);
+        expect(files).toContain(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).toContain(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
+        expect(files).toContain(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.html`);
       });
 
 
       it('should import component inside the shared module', () => {
         const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
-        expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/components\/super-dummy\/super-dummy.component['"]/);
-        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
+        expect(moduleContent).toMatch(/import.*SuperDummyComponent.*from ['"].\/components\/super-dummy\/super-dummy.component['"]/);
+        expect(moduleContent).toMatch(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
       });
     });
 
@@ -116,22 +113,22 @@ describe('Component Schematic', () => {
 
       it('should create files inside the foo feature', () => {
         const files = appTree.files;
-        expect(files).contains(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
-        expect(files).contains(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
+        expect(files).toContain(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).toContain(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
       });
 
 
       it('should import component inside the foo feature', () => {
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo.module.ts');
-        expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
-        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
+        expect(moduleContent).toMatch(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
+        expect(moduleContent).toMatch(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
       });
 
 
       it('should create route inside the foo feature', () => {
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo-routing.module.ts');
-        expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
-        expect(moduleContent).include(`{ path: 'bar', component: ${strings.classify(elementName)}Component }`);
+        expect(moduleContent).toMatch(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
+        expect(moduleContent).toContain(`{ path: 'bar', component: ${strings.classify(elementName)}Component }`);
       });
 
     });
@@ -155,15 +152,15 @@ describe('Component Schematic', () => {
 
       it('should create files inside the foo/bar module', () => {
         const files = appTree.files;
-        expect(files).contains(`/src/app/features/foo/bar/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
-        expect(files).contains(`/src/app/features/foo/bar/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
+        expect(files).toContain(`/src/app/features/foo/bar/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
+        expect(files).toContain(`/src/app/features/foo/bar/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
       });
 
 
       it('should import component inside the foo/bar module', () => {
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/bar/bar.module.ts');
-        expect(moduleContent).to.match(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
-        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
+        expect(moduleContent).toMatch(/import.*SuperDummyComponent.*from ['"].\/super-dummy\/super-dummy.component['"]/);
+        expect(moduleContent).toMatch(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyComponent\r?\n/m);
       });
 
     });
