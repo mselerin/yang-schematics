@@ -1,6 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/yang-schematics.svg)](https://www.npmjs.com/package/yang-schematics)
 [![Build Status](https://travis-ci.org/mselerin/yang-schematics.svg?branch=master)](https://travis-ci.org/mselerin/yang-schematics)
+[![codecov](https://codecov.io/gh/mselerin/yang-schematics/branch/master/graph/badge.svg)](https://codecov.io/gh/mselerin/yang-schematics)
 
 # Yang Schematics
 > Yet Another Angular Generator - Powered by Schematics
