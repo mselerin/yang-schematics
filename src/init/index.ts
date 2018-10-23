@@ -74,8 +74,9 @@ function updatePackageJson(): (host: Tree) => Tree {
     }
 
     const source = host.read(filePath);
-    if (!source)
-      return host;
+    if (!source) {
+      throw new SchematicsException(`File ${filePath} is empty.`);
+    }
 
     const json = JSON.parse(source.toString('utf-8'));
 
@@ -110,8 +111,9 @@ function updateTsConfig(): (host: Tree) => Tree {
     }
 
     const source = host.read(filePath);
-    if (!source)
-      return host;
+    if (!source) {
+      throw new SchematicsException(`File ${filePath} is empty.`);
+    }
 
     const json = JSON.parse(source.toString('utf-8'));
 
@@ -201,8 +203,9 @@ function updateAngularJson(): (host: Tree) => Tree {
     }
 
     const source = host.read(filePath);
-    if (!source)
-      return host;
+    if (!source) {
+      throw new SchematicsException(`File ${filePath} is empty.`);
+    }
 
     const json = JSON.parse(source.toString('utf-8'));
 

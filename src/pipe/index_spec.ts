@@ -88,5 +88,17 @@ describe('Pipe Schematic', () => {
       });
     });
 
+
+    describe('With custom options', () => {
+      it('should skip import if specified', () => {
+        appTree = yangSchematicRunner.runSchematic('pipe', {
+          ...defaultOptions, skipImport: true
+        }, appTree);
+
+        const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
+        expect(moduleContent).not.toContain('SuperDummyPipe');
+      });
+    });
+
   });
 });

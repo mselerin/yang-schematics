@@ -13,6 +13,50 @@ describe('Init Schematic', () => {
   });
 
 
+  describe('With broken project', () => {
+    const ngNewOptions: NgNewOptions = {
+      name: 'foo',
+      directory: '.',
+      version: '6.0.0'
+    };
+
+    let appTree: UnitTestTree;
+    beforeEach(() => {
+      appTree = yangSchematicRunner.runExternalSchematic('@schematics/angular', 'ng-new', ngNewOptions);
+    });
+
+    it('should throw error when no package.json', () => {
+      appTree.delete('/package.json');
+      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+    });
+
+    it('should throw error when empty package.json', () => {
+      appTree.overwrite('/package.json', '');
+      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+    });
+
+    it('should throw error when no tsconfig.json', () => {
+      appTree.delete('/tsconfig.json');
+      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+    });
+
+    it('should throw error when empty tsconfig.json', () => {
+      appTree.overwrite('/tsconfig.json', '');
+      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+    });
+
+    it('should throw error when no angular.json', () => {
+      appTree.delete('/angular.json');
+      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+    });
+
+    it('should throw error when empty angular.json', () => {
+      appTree.overwrite('/angular.json', '');
+      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+    });
+  });
+
+
   describe('With fresh project', () => {
     const ngNewOptions: NgNewOptions = {
       name: 'foo',

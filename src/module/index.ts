@@ -59,7 +59,7 @@ function addNgModule(options: ModuleOptions): (host: Tree) => Tree {
 
     const file = options.module;
     const text = host.read(file);
-    if (text === null) {
+    if (!text) {
       throw new SchematicsException(`File ${file} does not exist.`);
     }
 

@@ -19,6 +19,22 @@ describe('Module Schematic', () => {
     });
   });
 
+  describe('With broken project', () => {
+    let appTree: UnitTestTree;
+    beforeEach(() => {
+      appTree = runYangNew();
+    });
+
+    it('should throw when bad module options', () => {
+      expect(() => {
+        yangSchematicRunner.runSchematic('module', {
+          ...defaultOptions,
+          module: 'xyz'
+        }, appTree);
+      }).toThrow();
+    });
+  });
+
   describe('With fresh project', () => {
     let appTree: UnitTestTree;
     beforeEach(() => {
