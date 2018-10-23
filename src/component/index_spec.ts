@@ -38,7 +38,6 @@ describe('Component Schematic', () => {
         }, appTree);
 
         const files = appTree.files;
-        console.log(files);
         expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
         expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.html`);
         expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.scss`);
@@ -86,7 +85,6 @@ describe('Component Schematic', () => {
 
       it('should create files inside shared', () => {
         const files = appTree.files;
-        console.log(files);
         expect(files).toContain(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.ts`);
         expect(files).toContain(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.spec.ts`);
         expect(files).toContain(`/src/app/shared/components/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.component.html`);
