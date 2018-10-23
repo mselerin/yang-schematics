@@ -19,6 +19,8 @@
     "release": "standard-version"
   },
   "keywords": [
+    "angular",
+    "generator",
     "schematics"
   ],
   "schematics": "./src/collection.json",
