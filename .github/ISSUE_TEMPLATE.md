@@ -17,10 +17,6 @@
 
 
 ## Steps to Reproduce the Problem
-<!--
-For bug reports please provide if possible a *MINIMAL DEMO* of the problem via
-https://stackblitz.com or similar (you can use this template as a starting point: https://stackblitz.com/edit/angular-ngx-security-template).
--->
   1. 
   1. 
   1. 
@@ -28,4 +24,4 @@ https://stackblitz.com or similar (you can use this template as a starting point
 
 ## Environment
  * Angular version: X.Y.Z
- * ngx-security version: X.Y.Z
+ * yang-schematics version: X.Y.Z
