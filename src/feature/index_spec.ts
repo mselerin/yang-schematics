@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
 import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
 import { Tree } from '@angular-devkit/schematics';
@@ -11,7 +10,7 @@ const featureName = 'bar';
 describe('Feature Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('feature', {}, Tree.empty())).to.throw();
+      expect(() => yangSchematicRunner.runSchematic('feature', {}, Tree.empty())).toThrow();
     });
   });
 
@@ -30,8 +29,8 @@ describe('Feature Schematic', () => {
 
       const files = appTree.files;
 
-      expect(files).contains('/src/app/features/bar/bar.module.ts');
-      expect(files).not.contains('/src/app/features/bar/bar.component.ts');
+      expect(files).toContain('/src/app/features/bar/bar.module.ts');
+      expect(files).not.toContain('/src/app/features/bar/bar.component.ts');
     });
 
 
@@ -43,8 +42,8 @@ describe('Feature Schematic', () => {
 
       const files = appTree.files;
 
-      expect(files).contains('/src/app/features/bar/bar.module.ts');
-      expect(files).contains('/src/app/features/bar/bar.component.ts');
+      expect(files).toContain('/src/app/features/bar/bar.module.ts');
+      expect(files).toContain('/src/app/features/bar/bar.component.ts');
     });
 
 
@@ -58,10 +57,10 @@ describe('Feature Schematic', () => {
 
       const files = appTree.files;
 
-      expect(files).contains('/src/app/features/bar/bar.module.ts');
-      expect(files).contains('/src/app/features/bar/bar.component.ts');
-      expect(files).contains('/src/app/features/bar/bar.component.html');
-      expect(files).contains('/src/app/features/bar/bar.component.scss');
+      expect(files).toContain('/src/app/features/bar/bar.module.ts');
+      expect(files).toContain('/src/app/features/bar/bar.component.ts');
+      expect(files).toContain('/src/app/features/bar/bar.component.html');
+      expect(files).toContain('/src/app/features/bar/bar.component.scss');
     });
 
 
@@ -74,7 +73,7 @@ describe('Feature Schematic', () => {
       const fileContent = getFileContent(appTree, YangUtils.FEATURES_MODULE_FILE);
       const path = `{ path: '${strings.dasherize(featureName)}', loadChildren: '@app/features/${strings.dasherize(featureName)}/${strings.dasherize(featureName)}.module#${strings.classify(featureName)}Module' }`;
 
-      expect(fileContent).include(path);
+      expect(fileContent).toContain(path);
     });
   });
 
@@ -98,7 +97,7 @@ describe('Feature Schematic', () => {
 
       const files = appTree.files;
 
-      expect(files).contains('/src/app/features/foo/bar/bar.component.ts');
+      expect(files).toContain('/src/app/features/foo/bar/bar.component.ts');
     });
   });
 });

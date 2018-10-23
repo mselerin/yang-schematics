@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { Tree } from '@angular-devkit/schematics';
 import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
@@ -16,7 +15,7 @@ const defaultOptions: ModuleOptions = {
 describe('Module Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('module', {}, Tree.empty())).to.throw();
+      expect(() => yangSchematicRunner.runSchematic('module', {}, Tree.empty())).toThrow();
     });
   });
 
@@ -34,14 +33,14 @@ describe('Module Schematic', () => {
       it('should create files inside shared', () => {
         const files = appTree.files;
 
-        expect(files).contains(`/src/app/shared/modules/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.ts`);
+        expect(files).toContain(`/src/app/shared/modules/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.ts`);
       });
 
 
       it('should import module inside shared.module', () => {
         const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
-        expect(moduleContent).to.match(/import.*SuperDummyModule.*from ['"]\.\/modules\/super-dummy\/super-dummy.module['"]/);
-        expect(moduleContent).to.match(/const MODULES: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyModule\r?\n/m);
+        expect(moduleContent).toMatch(/import.*SuperDummyModule.*from ['"]\.\/modules\/super-dummy\/super-dummy.module['"]/);
+        expect(moduleContent).toMatch(/const MODULES: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyModule\r?\n/m);
       });
     });
 
@@ -63,14 +62,14 @@ describe('Module Schematic', () => {
 
       it('should create files inside the foo feature', () => {
         const files = appTree.files;
-        expect(files).contains(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.ts`);
+        expect(files).toContain(`/src/app/features/foo/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.ts`);
       });
 
 
       it('should import module inside the foo feature', () => {
         const moduleContent = getFileContent(appTree, '/src/app/features/foo/foo.module.ts');
-        expect(moduleContent).to.match(/import.*SuperDummyModule.*from ['"]\.\/super-dummy\/super-dummy.module['"]/);
-        expect(moduleContent).to.match(/const MODULES: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyModule\r?\n/m);
+        expect(moduleContent).toMatch(/import.*SuperDummyModule.*from ['"]\.\/super-dummy\/super-dummy.module['"]/);
+        expect(moduleContent).toMatch(/const MODULES: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyModule\r?\n/m);
       });
     });
 

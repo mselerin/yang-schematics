@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { Tree } from '@angular-devkit/schematics';
 import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
@@ -17,7 +16,7 @@ const defaultOptions: PipeOptions = {
 describe('Pipe Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('pipe', {}, Tree.empty())).to.throw();
+      expect(() => yangSchematicRunner.runSchematic('pipe', {}, Tree.empty())).toThrow();
     });
   });
 
@@ -35,15 +34,15 @@ describe('Pipe Schematic', () => {
       it('should create files inside shared', () => {
         const files = appTree.files;
 
-        expect(files).contains(`/src/app/shared/pipes/${strings.dasherize(elementName)}.pipe.ts`);
-        expect(files).contains(`/src/app/shared/pipes/${strings.dasherize(elementName)}.pipe.spec.ts`);
+        expect(files).toContain(`/src/app/shared/pipes/${strings.dasherize(elementName)}.pipe.ts`);
+        expect(files).toContain(`/src/app/shared/pipes/${strings.dasherize(elementName)}.pipe.spec.ts`);
       });
 
 
       it('should import pipe inside shared.module', () => {
         const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
-        expect(moduleContent).to.match(/import.*SuperDummyPipe.*from ['"].\/pipes\/super-dummy.pipe['"]/);
-        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyPipe\r?\n/m);
+        expect(moduleContent).toMatch(/import.*SuperDummyPipe.*from ['"].\/pipes\/super-dummy.pipe['"]/);
+        expect(moduleContent).toMatch(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyPipe\r?\n/m);
       });
     });
 
@@ -58,8 +57,8 @@ describe('Pipe Schematic', () => {
       it('should create files inside shared/path', () => {
         const files = appTree.files;
 
-        expect(files).contains(`/src/app/shared/modules/foo/bar/super-dummy.pipe.ts`);
-        expect(files).contains(`/src/app/shared/modules/foo/bar/super-dummy.pipe.spec.ts`);
+        expect(files).toContain(`/src/app/shared/modules/foo/bar/super-dummy.pipe.ts`);
+        expect(files).toContain(`/src/app/shared/modules/foo/bar/super-dummy.pipe.spec.ts`);
       });
     });
 
@@ -78,14 +77,14 @@ describe('Pipe Schematic', () => {
       it('should create files inside shared/foo/super-dummy', () => {
         const files = appTree.files;
 
-        expect(files).contains(`/src/app/shared/modules/foo/super-dummy/super-dummy.pipe.ts`);
-        expect(files).contains(`/src/app/shared/modules/foo/super-dummy/super-dummy.pipe.spec.ts`);
+        expect(files).toContain(`/src/app/shared/modules/foo/super-dummy/super-dummy.pipe.ts`);
+        expect(files).toContain(`/src/app/shared/modules/foo/super-dummy/super-dummy.pipe.spec.ts`);
       });
 
       it('should import pipe inside shared/modules/foo/foo.module', () => {
         const moduleContent = getFileContent(appTree, '/src/app/shared/modules/foo/foo.module.ts');
-        expect(moduleContent).to.match(/import.*SuperDummyPipe.*from ['"].\/super-dummy\/super-dummy.pipe['"]/);
-        expect(moduleContent).to.match(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyPipe\r?\n/m);
+        expect(moduleContent).toMatch(/import.*SuperDummyPipe.*from ['"].\/super-dummy\/super-dummy.pipe['"]/);
+        expect(moduleContent).toMatch(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyPipe\r?\n/m);
       });
     });
 
