@@ -13,6 +13,7 @@ jsconfig.json
 .vscode/
 
 # Misc
+coverage/
 node_modules/
 npm-debug.log*
 yarn-error.log*
