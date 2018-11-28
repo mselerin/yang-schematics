@@ -84,7 +84,6 @@ PROJECT_ROOT
    │  │  app.component.spec.ts
    │  │  app.component.ts
    │  │  app.module.ts
-   │  │  app.session.ts         <-------- Session data (use it as you want)
    │  │
    │  ├───core                            
    │  │  │  core.initializer.ts   <------ Code to execute when the application starts
