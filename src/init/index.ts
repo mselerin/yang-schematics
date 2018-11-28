@@ -19,6 +19,7 @@ import {EOL} from "os";
 import {forceOverwrite} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
 import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
+import {latestVersions} from "@schematics/angular/utility/latest-versions";
 
 export default function (options: InitOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -83,19 +84,22 @@ function updatePackageJson(): (host: Tree) => Tree {
 
     json.scripts = {
       ...json.scripts,
-      'build': 'ng build --prod',
-      'prebuild': 'node prebuild.js',
-      'prestart': 'node prebuild.js'
+      'build': 'ng build --prod'
     };
 
     json.dependencies = {
       ...json.dependencies,
-      'whatwg-fetch': '^2.0.4',
-      '@ngx-translate/core': '^10.0.1',
-      'rxjs-compat': '^6.1.0'
+      'whatwg-fetch': '~3.0.0',
+      '@ngx-translate/core': '~11.0.1',
+      'rxjs-compat': latestVersions.RxJs
     };
 
-    json.devDependencies[pkg.name] = `^${pkg.version}`;
+    json.devDependencies[pkg.name] = `~${pkg.version}`;
+
+    json.devDependencies = {
+      ...json.devDependencies,
+      'ngx-build-plus': '~7.2.3'
+    };
 
     host.overwrite(filePath, JSON.stringify(json, null, 2));
     return host;
@@ -224,6 +228,17 @@ function updateProjectWorkspace(): (host: Tree) => Rule {
 
     (<any>build.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
     (<any>test.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
+
+
+    // Add ngx-build-plus
+    build.builder = <any>'ngx-build-plus:build';
+    (<any>build.options)['extraWebpackConfig'] = 'webpack.extra.js';
+
+    const serve = architect.serve;
+    if (!serve) throw new Error(`expected node projects/${project}/architect/serve in angular.json`);
+
+    serve.builder = <any>'ngx-build-plus:dev-server';
+    (<any>serve.options)['extraWebpackConfig'] = 'webpack.extra.js';
 
     return updateWorkspace(workspace);
   }

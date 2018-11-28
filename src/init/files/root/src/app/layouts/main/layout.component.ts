@@ -1,32 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { LOGGER } from '@app/services/logger.service';
+
+declare const APP_MANIFEST: any;
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit
+export class LayoutComponent
 {
-  public manifest: any = {};
+  public manifest: any = APP_MANIFEST;
 
   constructor(
-    public i18n: TranslateService,
-    private http: HttpClient
+    public i18n: TranslateService
   ) {}
-
-  async ngOnInit() {
-    try {
-      this.manifest = await this.http.get('assets/app-manifest.json').toPromise();
-    }
-    catch (err) {
-      LOGGER.warn(`Cannot load manifest file`);
-      this.manifest = {
-        'version': 'unknown',
-        'buildDate': '2018-01-01T00:00:00.000Z'
-      };
-    }
-  }
 }

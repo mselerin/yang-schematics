@@ -80,7 +80,7 @@ describe('Init Schematic', () => {
       const files = appTree.files;
 
       expect(files).toContain('/angular.json');
-      expect(files).toContain('/prebuild.js');
+      expect(files).toContain('/webpack.extra.js');
       expect(files).toContain('/src/app/core/core.module.ts');
       expect(files).toContain('/src/app/shared/shared.module.ts');
       expect(files).toContain('/src/app/features/features.module.ts');
@@ -101,7 +101,6 @@ describe('Init Schematic', () => {
       const fileContent = getFileContent(appTree, '/package.json');
       const pkg = JSON.parse(fileContent);
 
-      expect(pkg.scripts['prebuild']).toEqual('node prebuild.js');
       expect(pkg.dependencies['whatwg-fetch']).toBeDefined();
       expect(pkg.devDependencies['yang-schematics']).toBeDefined();
     });
@@ -118,6 +117,11 @@ describe('Init Schematic', () => {
       expect(json.cli.defaultCollection).toEqual('yang-schematics');
       expect(architect.build.options['stylePreprocessorOptions']).not.toBeNull();
       expect(architect.test.options['stylePreprocessorOptions']).not.toBeNull();
+
+      expect(architect.build.builder).toEqual('ngx-build-plus:build');
+      expect(architect.build.options.extraWebpackConfig).toEqual('webpack.extra.js');
+      expect(architect.serve.builder).toEqual('ngx-build-plus:dev-server');
+      expect(architect.serve.options.extraWebpackConfig).toEqual('webpack.extra.js');
     });
   });
 });
