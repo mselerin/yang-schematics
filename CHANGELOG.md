@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.3.0"></a>
+# [3.3.0](https://github.com/mselerin/yang-schematics/compare/v3.2.0...v3.3.0) (2018-11-28)
+
+
+### Bug Fixes
+
+* no-prompt for routing when generating app ([b3cff31](https://github.com/mselerin/yang-schematics/commit/b3cff31))
+
+
+### Features
+
+* removing app.session (should be replaced with a real state manager) ([20687ab](https://github.com/mselerin/yang-schematics/commit/20687ab))
+* update to schematics 7.1 ([52f4b71](https://github.com/mselerin/yang-schematics/commit/52f4b71))
+* using ngx-build-plus to generate the app-manifest.json and expose it as an 'APP_MANIFEST' symbol ([1c2707f](https://github.com/mselerin/yang-schematics/commit/1c2707f))
+
+
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/mselerin/yang-schematics/compare/v3.1.0...v3.2.0) (2018-10-22)
 
