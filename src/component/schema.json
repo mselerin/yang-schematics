@@ -69,7 +69,7 @@
     "styleext": {
       "description": "The file extension to use for style files.",
       "type": "string",
-      "default": "css"
+      "default": "scss"
     },
     "spec": {
       "type": "boolean",

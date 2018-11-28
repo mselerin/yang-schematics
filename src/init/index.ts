@@ -1,4 +1,4 @@
-import { Schema as InitOptions } from './schema';
+import {Schema as InitOptions} from './schema';
 import {
   apply,
   chain,
@@ -13,11 +13,12 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { strings } from '@angular-devkit/core';
+import {strings} from '@angular-devkit/core';
 import * as path from "path";
-import { EOL } from "os";
-import { forceOverwrite } from '../utils/yang-utils';
-import { CodeUtils } from '../utils/code-utils';
+import {EOL} from "os";
+import {forceOverwrite} from '../utils/yang-utils';
+import {CodeUtils} from '../utils/code-utils';
+import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
 
 export default function (options: InitOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -43,7 +44,7 @@ export default function (options: InitOptions): Rule {
       updateGitIgnore(),
       updatePolyfills(),
       updateEnvironments(),
-      updateAngularJson(),
+      updateProjectWorkspace(),
 
       schematic('feature', {
         name: 'home',
@@ -195,29 +196,24 @@ function updateEnvironment(host: Tree, file: string): void {
 }
 
 
-function updateAngularJson(): (host: Tree) => Tree {
+
+function updateProjectWorkspace(): (host: Tree) => Rule {
   return (host: Tree) => {
-    const filePath = 'angular.json';
-    if (!host.exists(filePath)) {
-      throw new SchematicsException(`File ${filePath} does not exist.`);
-    }
+    const workspace = getWorkspace(host);
+    const project = workspace.defaultProject as string;
 
-    const source = host.read(filePath);
-    if (!source) {
-      throw new SchematicsException(`File ${filePath} is empty.`);
-    }
-
-    const json = JSON.parse(source.toString('utf-8'));
-
-    // Add yang-schematics as default collection
-    json['cli'] = {
+    workspace.cli = {
       'defaultCollection': 'yang-schematics'
     };
 
-    const defaultProject = json.defaultProject;
-    let architect = json.projects[defaultProject].architect;
-    if (!architect)
-      architect = json.projects[defaultProject].targets;
+    const architect = workspace.projects[project].architect;
+    if (!architect) throw new Error(`expected node projects/${project}/architect in angular.json`);
+
+    const build = architect.build;
+    if (!build) throw new Error(`expected node projects/${project}/architect/build in angular.json`);
+
+    const test = architect.test;
+    if (!test) throw new Error(`expected node projects/${project}/architect/test in angular.json`);
 
     // Add stylePreprocessorOptions
     const stylePreprocessorOptions = {
@@ -226,10 +222,9 @@ function updateAngularJson(): (host: Tree) => Tree {
       ]
     };
 
-    architect.build.options['stylePreprocessorOptions'] = stylePreprocessorOptions;
-    architect.test.options['stylePreprocessorOptions'] = stylePreprocessorOptions;
+    (<any>build.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
+    (<any>test.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
 
-    host.overwrite(filePath, JSON.stringify(json, null, 2));
-    return host;
+    return updateWorkspace(workspace);
   }
 }
