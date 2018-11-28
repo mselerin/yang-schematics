@@ -100,7 +100,7 @@
       "type": "boolean",
       "description": "When true, generates a routing module for the initial project.",
       "default": true,
-      "x-prompt": "Would you like to add Angular routing?"
+      "no-x-prompt": "Would you like to add Angular routing?"
     },
     "prefix": {
       "type": "string",
