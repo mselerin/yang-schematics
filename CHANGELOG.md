@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.3.2"></a>
+## [3.3.2](https://github.com/mselerin/yang-schematics/compare/v3.3.1...v3.3.2) (2018-12-14)
+
+
+### Bug Fixes
+
+* removing .npmrc with save-exact (not needed anymore with package-lock.json) ([0f19f15](https://github.com/mselerin/yang-schematics/commit/0f19f15))
+
+
+
 <a name="3.3.1"></a>
 ## [3.3.1](https://github.com/mselerin/yang-schematics/compare/v3.3.0...v3.3.1) (2018-12-14)
 
