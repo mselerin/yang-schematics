@@ -98,7 +98,7 @@ function updatePackageJson(): (host: Tree) => Tree {
 
     json.devDependencies = {
       ...json.devDependencies,
-      'ngx-build-plus': '~7.2.3'
+      'ngx-build-plus': '~7.3.2'
     };
 
     host.overwrite(filePath, JSON.stringify(json, null, 2));
