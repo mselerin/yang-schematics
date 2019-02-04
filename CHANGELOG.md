@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * move dependencies outside of code & remove rxjs-compat ([09a8d67](https://github.com/mselerin/yang-schematics/commit/09a8d67))
-
+* update to @angular/cli 7.3.0
 
 
 <a name="3.3.2"></a>
