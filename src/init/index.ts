@@ -19,7 +19,7 @@ import {EOL} from "os";
 import {forceOverwrite} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
 import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
-import {latestVersions} from "@schematics/angular/utility/latest-versions";
+import {extraDependencies, extraDevDependencies} from "../utils/dependencies";
 
 export default function (options: InitOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -89,16 +89,14 @@ function updatePackageJson(): (host: Tree) => Tree {
 
     json.dependencies = {
       ...json.dependencies,
-      'whatwg-fetch': '~3.0.0',
-      '@ngx-translate/core': '~11.0.1',
-      'rxjs-compat': latestVersions.RxJs
+      ...extraDependencies
     };
 
     json.devDependencies[pkg.name] = `~${pkg.version}`;
 
     json.devDependencies = {
       ...json.devDependencies,
-      'ngx-build-plus': '~7.3.2'
+      ...extraDevDependencies
     };
 
     host.overwrite(filePath, JSON.stringify(json, null, 2));
