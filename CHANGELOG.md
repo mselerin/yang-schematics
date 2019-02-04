@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.4.0"></a>
+# [3.4.0](https://github.com/mselerin/yang-schematics/compare/v3.3.2...v3.4.0) (2019-02-04)
+
+
+### Features
+
+* move dependencies outside of code & remove rxjs-compat ([09a8d67](https://github.com/mselerin/yang-schematics/commit/09a8d67))
+
+
+
 <a name="3.3.2"></a>
 ## [3.3.2](https://github.com/mselerin/yang-schematics/compare/v3.3.1...v3.3.2) (2018-12-14)
 
