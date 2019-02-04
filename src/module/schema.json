@@ -53,7 +53,14 @@
       "type": "string",
       "description": "The declaring NgModule.",
       "alias": "m"
+    },
+    "lintFix": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, applies lint fixes after generating the module."
     }
   },
-  "required": []
+  "required": [
+    "name"
+  ]
 }
