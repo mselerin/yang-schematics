@@ -232,9 +232,6 @@ function updateProjectWorkspace(): (host: Tree) => Rule {
     build.builder = <any>'ngx-build-plus:build';
     (<any>build.options)['extraWebpackConfig'] = 'webpack.extra.js';
 
-    // FIXME Temporary fix until https://github.com/manfredsteyer/ngx-build-plus/issues/70 is resolved
-    delete (<any>build.options)['es5BrowserSupport'];
-
     const serve = architect.serve;
     if (!serve) throw new Error(`expected node projects/${project}/architect/serve in angular.json`);
 
