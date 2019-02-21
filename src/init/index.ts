@@ -220,7 +220,7 @@ function updateProjectWorkspace(): (host: Tree) => Rule {
     // Add stylePreprocessorOptions
     const stylePreprocessorOptions = {
       "includePaths": [
-        "src/assets/styles"
+        "src/styles"
       ]
     };
 
