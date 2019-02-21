@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.2](https://github.com/mselerin/yang-schematics/compare/v3.4.1...v3.4.2) (2019-02-21)
+
+
+### Bug Fixes
+
+* removing temp fix for https://github.com/manfredsteyer/ngx-build-plus/issues/70 is resolved ([c8c5f5a](https://github.com/mselerin/yang-schematics/commit/c8c5f5a))
+
+
+
 <a name="3.4.1"></a>
 ## [3.4.1](https://github.com/mselerin/yang-schematics/compare/v3.4.0...v3.4.1) (2019-02-12)
 
