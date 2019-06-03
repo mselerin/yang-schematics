@@ -4,5 +4,5 @@ export const extraDependencies = {
 };
 
 export const extraDevDependencies = {
-  'ngx-build-plus': '~7.7.5'
+  'ngx-build-plus': '~8.0.0'
 };
