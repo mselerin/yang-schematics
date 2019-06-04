@@ -1,6 +1,22 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [3.5.0](https://github.com/mselerin/yang-schematics/compare/v3.4.2...v3.5.0) (2019-06-04)
+
+
+### Bug Fixes
+
+* do not import HttpClientModule inside SharedModule ([afd7ac4](https://github.com/mselerin/yang-schematics/commit/afd7ac4))
+* unit test with runSchematicAsync ([613baed](https://github.com/mselerin/yang-schematics/commit/613baed))
+
+
+### Features
+
+* Angular 8 lazy-loading syntax ([27cadb4](https://github.com/mselerin/yang-schematics/commit/27cadb4))
+* Moving styles from src/assets/styles to src/styles ([eac82f3](https://github.com/mselerin/yang-schematics/commit/eac82f3))
+
+
 
 ## [3.4.2](https://github.com/mselerin/yang-schematics/compare/v3.4.1...v3.4.2) (2019-02-21)
 
