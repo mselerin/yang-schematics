@@ -15,19 +15,19 @@ const defaultOptions: DirectiveOptions = {
 describe('Directive Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('directive', defaultOptions, Tree.empty())).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('directive', defaultOptions, Tree.empty()).toPromise()).rejects.toThrow();
     });
   });
 
   describe('With fresh project', () => {
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = runYangNew();
+    beforeEach(async () => {
+      appTree = await runYangNew().toPromise();
     });
 
     describe('With default options', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('directive', defaultOptions, appTree);
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('directive', defaultOptions, appTree).toPromise();
       });
 
       it('should create files inside shared', () => {
@@ -47,10 +47,10 @@ describe('Directive Schematic', () => {
 
 
     describe('With path-like name', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('directive', {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('directive', {
           ...defaultOptions, name: 'shared/foo/bar/' + elementName
-        }, appTree);
+        }, appTree).toPromise();
       });
 
       it('should create files inside shared/path', () => {
@@ -63,14 +63,14 @@ describe('Directive Schematic', () => {
 
 
     describe('With foo module + non-flat', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('module', {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('module', {
           name: 'shared/foo'
-        }, appTree);
+        }, appTree).toPromise();
 
-        appTree = yangSchematicRunner.runSchematic('directive', {
+        appTree = await yangSchematicRunner.runSchematicAsync('directive', {
           ...defaultOptions, name: 'shared/foo/' + elementName, flat: false
-        }, appTree);
+        }, appTree).toPromise();
       });
 
       it('should create files inside shared/foo/super-dummy', () => {

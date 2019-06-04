@@ -15,35 +15,33 @@ const defaultOptions: ModuleOptions = {
 describe('Module Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('module', {}, Tree.empty())).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('module', {}, Tree.empty()).toPromise()).rejects.toThrow();
     });
   });
 
   describe('With broken project', () => {
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = runYangNew();
+    beforeEach(async () => {
+      appTree = await runYangNew().toPromise();
     });
 
     it('should throw when bad module options', () => {
-      expect(() => {
-        yangSchematicRunner.runSchematic('module', {
+      return expect(yangSchematicRunner.runSchematicAsync('module', {
           ...defaultOptions,
           module: 'xyz'
-        }, appTree);
-      }).toThrow();
+        }, appTree).toPromise()).rejects.toThrow();
     });
   });
 
   describe('With fresh project', () => {
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = runYangNew();
+    beforeEach(async () => {
+      appTree = await runYangNew().toPromise();
     });
 
     describe('Shared module', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('module', defaultOptions, appTree);
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('module', defaultOptions, appTree).toPromise();
       });
 
       it('should create files inside shared', () => {
@@ -62,17 +60,17 @@ describe('Module Schematic', () => {
 
 
     describe('Feature module', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('feature', {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('feature', {
           name: 'foo',
           component: false,
           template: false,
           styles: false
-        }, appTree);
+        }, appTree).toPromise();
 
-        appTree = yangSchematicRunner.runSchematic('module', {
+        appTree = await yangSchematicRunner.runSchematicAsync('module', {
           ...defaultOptions, name: 'foo/' + elementName
-        }, appTree);
+        }, appTree).toPromise();
       });
 
 

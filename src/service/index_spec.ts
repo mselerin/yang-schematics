@@ -9,14 +9,14 @@ const elementName = 'superDummy';
 describe('Service Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('service', {}, Tree.empty())).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('service', {}, Tree.empty()).toPromise()).rejects.toThrow();
     });
   });
 
   describe('With fresh project', () => {
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = runYangNew();
+    beforeEach(async () => {
+      appTree = await runYangNew().toPromise();
     });
 
 
@@ -25,10 +25,10 @@ describe('Service Schematic', () => {
       spec: true
     };
 
-    it('should create flat files', () => {
-      appTree = yangSchematicRunner.runSchematic('service', {
+    it('should create flat files', async () => {
+      appTree = await yangSchematicRunner.runSchematicAsync('service', {
         ...defaultOptions, flat: true
-      }, appTree);
+      }, appTree).toPromise();
 
       const files = appTree.files;
 

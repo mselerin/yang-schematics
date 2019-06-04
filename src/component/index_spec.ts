@@ -17,25 +17,25 @@ const defaultOptions: ComponentOptions = {
 describe('Component Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('component', {}, Tree.empty())).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('component', {}, Tree.empty()).toPromise()).rejects.toThrow();
     });
   });
 
   describe('With fresh project', () => {
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = runYangNew();
+    beforeEach(async () => {
+      appTree = await runYangNew().toPromise();
     });
 
 
     describe('Not existing module', () =>{
-      it('should create files inside a nothing folder & +template +style', () => {
-        appTree = yangSchematicRunner.runSchematic('component', {
+      it('should create files inside a nothing folder & +template +style', async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('component', {
           ...defaultOptions, name: 'nothing/' + elementName,
           flat: true,
           inlineTemplate: false,
           inlineStyle: false
-        }, appTree);
+        }, appTree).toPromise();
 
         const files = appTree.files;
         expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
@@ -44,13 +44,13 @@ describe('Component Schematic', () => {
       });
 
 
-      it('should create files inside a nothing folder & -template -style', () => {
-        appTree = yangSchematicRunner.runSchematic('component', {
+      it('should create files inside a nothing folder & -template -style', async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('component', {
           ...defaultOptions, name: 'nothing/' + elementName,
           flat: true,
           template: false,
           styles: false
-        }, appTree);
+        }, appTree).toPromise();
 
         const files = appTree.files;
         expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
@@ -59,12 +59,12 @@ describe('Component Schematic', () => {
       });
 
 
-      it('should create files inside a nothing folder & +template -style', () => {
-        appTree = yangSchematicRunner.runSchematic('component', {
+      it('should create files inside a nothing folder & +template -style', async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('component', {
           ...defaultOptions, name: 'nothing/' + elementName,
           flat: true,
           inlineTemplate: false
-        }, appTree);
+        }, appTree).toPromise();
 
         const files = appTree.files;
         expect(files).toContain(`/src/app/features/nothing/${strings.dasherize(elementName)}.component.ts`);
@@ -75,12 +75,12 @@ describe('Component Schematic', () => {
 
 
     describe('Shared component', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('component', {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('component', {
           ...defaultOptions, name: 'shared/' + elementName,
           template: true,
           styles: false
-        }, appTree);
+        }, appTree).toPromise();
       });
 
       it('should create files inside shared', () => {
@@ -100,14 +100,14 @@ describe('Component Schematic', () => {
 
 
     describe('Feature component', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('feature', {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('feature', {
           name: 'foo'
-        }, appTree);
+        }, appTree).toPromise();
 
-        appTree = yangSchematicRunner.runSchematic('component', {
+        appTree = await yangSchematicRunner.runSchematicAsync('component', {
           ...defaultOptions, name: 'foo/' + elementName, routing: true, route: 'bar'
-        }, appTree);
+        }, appTree).toPromise();
       });
 
 
@@ -135,18 +135,18 @@ describe('Component Schematic', () => {
 
 
     describe('Module component', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('feature', {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('feature', {
           name: 'foo'
-        }, appTree);
+        }, appTree).toPromise();
 
-        appTree = yangSchematicRunner.runSchematic('module', {
+        appTree = await yangSchematicRunner.runSchematicAsync('module', {
           name: 'foo/bar'
-        }, appTree);
+        }, appTree).toPromise();
 
-        appTree = yangSchematicRunner.runSchematic('component', {
+        appTree = await yangSchematicRunner.runSchematicAsync('component', {
           ...defaultOptions, name: 'foo/bar/' + elementName
-        }, appTree);
+        }, appTree).toPromise();
       });
 
 

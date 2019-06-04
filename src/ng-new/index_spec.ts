@@ -6,21 +6,21 @@ import { yangSchematicRunner } from '../utils/test-utils';
 describe('New Schematic', () => {
   describe('With specific options', () => {
     it('should throw error when no name', () => {
-      expect(() => yangSchematicRunner.runSchematic('ng-new', {})).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('ng-new', {}).toPromise()).rejects.toThrow();
     });
 
-    it('should create files when no directory', () => {
-      let appTree: UnitTestTree = yangSchematicRunner.runSchematic('ng-new', {
+    it('should create files when no directory', async () => {
+      let appTree = await yangSchematicRunner.runSchematicAsync('ng-new', {
         name: 'foo',
         version: '7.0.0'
-      });
+      }).toPromise();
 
       const files = appTree.files;
       expect(files).toContain('/foo/angular.json');
     });
 
     it('should install packages when no skipInstall', () => {
-      expect(() => yangSchematicRunner.runSchematic('ng-new',  {
+      expect(() => yangSchematicRunner.runSchematicAsync('ng-new',  {
         name: 'foo',
         version: '7.0.0',
         skipInstall: false,
@@ -38,8 +38,8 @@ describe('New Schematic', () => {
     };
 
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = yangSchematicRunner.runSchematic('ng-new', newOptions);
+    beforeEach(async () => {
+      appTree = await yangSchematicRunner.runSchematicAsync('ng-new', newOptions).toPromise();
     });
 
 
@@ -47,7 +47,7 @@ describe('New Schematic', () => {
       const files = appTree.files;
 
       expect(files).toContain('/bar/angular.json');
-      expect(files).toContain('/bar/src/tsconfig.app.json');
+      expect(files).toContain('/bar/tsconfig.app.json');
       expect(files).toContain('/bar/src/main.ts');
       expect(files).toContain('/bar/src/app/app.module.ts');
     });

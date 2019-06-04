@@ -10,22 +10,22 @@ const featureName = 'bar';
 describe('Feature Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('feature', {}, Tree.empty())).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('feature', {}, Tree.empty()).toPromise()).rejects.toThrow();
     });
   });
 
   describe('With fresh project', () => {
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = runYangNew();
+    beforeEach(async () => {
+      appTree = await runYangNew().toPromise();
     });
 
 
-    it('should create feature module without component', () => {
-      appTree = yangSchematicRunner.runSchematic('feature', {
+    it('should create feature module without component', async () => {
+      appTree = await yangSchematicRunner.runSchematicAsync('feature', {
         name: featureName,
         component: false
-      }, appTree);
+      }, appTree).toPromise();
 
       const files = appTree.files;
 
@@ -34,11 +34,11 @@ describe('Feature Schematic', () => {
     });
 
 
-    it('should create feature module with component', () => {
-      appTree = yangSchematicRunner.runSchematic('feature', {
+    it('should create feature module with component', async () => {
+      appTree = await yangSchematicRunner.runSchematicAsync('feature', {
         name: featureName,
         component: true
-      }, appTree);
+      }, appTree).toPromise();
 
       const files = appTree.files;
 
@@ -47,13 +47,13 @@ describe('Feature Schematic', () => {
     });
 
 
-    it('should create feature module with component +template +styles', () => {
-      appTree = yangSchematicRunner.runSchematic('feature', {
+    it('should create feature module with component +template +styles', async () => {
+      appTree = await yangSchematicRunner.runSchematicAsync('feature', {
         name: featureName,
         component: true,
         template: true,
         styles: true
-      }, appTree);
+      }, appTree).toPromise();
 
       const files = appTree.files;
 
@@ -65,13 +65,13 @@ describe('Feature Schematic', () => {
 
 
 
-    it('should update routing', () => {
-      appTree = yangSchematicRunner.runSchematic('feature', {
+    it('should update routing', async () => {
+      appTree = await yangSchematicRunner.runSchematicAsync('feature', {
         name: featureName
-      }, appTree);
+      }, appTree).toPromise();
 
       const fileContent = getFileContent(appTree, YangUtils.FEATURES_MODULE_FILE);
-      const path = `{ path: '${strings.dasherize(featureName)}', loadChildren: '@app/features/${strings.dasherize(featureName)}/${strings.dasherize(featureName)}.module#${strings.classify(featureName)}Module' }`;
+      const path = `{ path: '${strings.dasherize(featureName)}', loadChildren: () => import('@app/features/${strings.dasherize(featureName)}/${strings.dasherize(featureName)}.module').then(m => m.${strings.classify(featureName)}Module) }`
 
       expect(fileContent).toContain(path);
     });
@@ -80,20 +80,20 @@ describe('Feature Schematic', () => {
 
   describe('With foo feature', () => {
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = runYangNew();
+    beforeEach(async () => {
+      appTree = await runYangNew().toPromise();
 
-      appTree = yangSchematicRunner.runSchematic('feature', {
+      appTree = await yangSchematicRunner.runSchematicAsync('feature', {
         name: 'foo'
-      }, appTree);
+      }, appTree).toPromise();
     });
 
 
-    it('should create sub feature module with component', () => {
-      appTree = yangSchematicRunner.runSchematic('feature', {
+    it('should create sub feature module with component', async () => {
+      appTree = await yangSchematicRunner.runSchematicAsync('feature', {
         name: 'foo/' + featureName,
         component: true
-      }, appTree);
+      }, appTree).toPromise();
 
       const files = appTree.files;
 

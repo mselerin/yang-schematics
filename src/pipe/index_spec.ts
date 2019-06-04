@@ -16,19 +16,19 @@ const defaultOptions: PipeOptions = {
 describe('Pipe Schematic', () => {
   describe('With empty project', () => {
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('pipe', {}, Tree.empty())).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('pipe', {}, Tree.empty()).toPromise()).rejects.toThrow();
     });
   });
 
   describe('With fresh project', () => {
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = runYangNew();
+    beforeEach(async () => {
+      appTree = await runYangNew().toPromise();
     });
 
     describe('With default options', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('pipe', defaultOptions, appTree);
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('pipe', defaultOptions, appTree).toPromise();
       });
 
       it('should create files inside shared', () => {
@@ -48,10 +48,10 @@ describe('Pipe Schematic', () => {
 
 
     describe('With path-like name', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('pipe', {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('pipe', {
           ...defaultOptions, name: 'shared/foo/bar/' + elementName
-        }, appTree);
+        }, appTree).toPromise();
       });
 
       it('should create files inside shared/path', () => {
@@ -64,14 +64,14 @@ describe('Pipe Schematic', () => {
 
 
     describe('With foo module + non-flat', () => {
-      beforeEach(() => {
-        appTree = yangSchematicRunner.runSchematic('module', {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('module', {
           name: 'shared/foo'
-        }, appTree);
+        }, appTree).toPromise();
 
-        appTree = yangSchematicRunner.runSchematic('pipe', {
+        appTree = await yangSchematicRunner.runSchematicAsync('pipe', {
           ...defaultOptions, name: 'shared/foo/' + elementName, flat: false
-        }, appTree);
+        }, appTree).toPromise();
       });
 
       it('should create files inside shared/foo/super-dummy', () => {
@@ -90,10 +90,10 @@ describe('Pipe Schematic', () => {
 
 
     describe('With custom options', () => {
-      it('should skip import if specified', () => {
-        appTree = yangSchematicRunner.runSchematic('pipe', {
+      it('should skip import if specified', async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('pipe', {
           ...defaultOptions, skipImport: true
-        }, appTree);
+        }, appTree).toPromise();
 
         const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
         expect(moduleContent).not.toContain('SuperDummyPipe');

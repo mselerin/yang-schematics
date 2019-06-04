@@ -8,7 +8,7 @@ import { Tree } from '@angular-devkit/schematics';
 describe('Init Schematic', () => {
   describe('With empty project', () => {
     it('should fail if specified directory does not exist', () => {
-      expect(() => yangSchematicRunner.runSchematic('init', {}, Tree.empty())).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('init', {}, Tree.empty()).toPromise()).rejects.toThrow();
     });
   });
 
@@ -21,38 +21,38 @@ describe('Init Schematic', () => {
     };
 
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = yangSchematicRunner.runExternalSchematic('@schematics/angular', 'ng-new', ngNewOptions);
+    beforeEach(async () => {
+      appTree = await yangSchematicRunner.runExternalSchematicAsync('@schematics/angular', 'ng-new', ngNewOptions).toPromise();
     });
 
     it('should throw error when no package.json', () => {
       appTree.delete('/package.json');
-      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise()).rejects.toThrow();
     });
 
     it('should throw error when empty package.json', () => {
       appTree.overwrite('/package.json', '');
-      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise()).rejects.toThrow();
     });
 
     it('should throw error when no tsconfig.json', () => {
       appTree.delete('/tsconfig.json');
-      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise()).rejects.toThrow();
     });
 
     it('should throw error when empty tsconfig.json', () => {
       appTree.overwrite('/tsconfig.json', '');
-      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise()).rejects.toThrow();
     });
 
     it('should throw error when no angular.json', () => {
       appTree.delete('/angular.json');
-      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise()).rejects.toThrow();
     });
 
     it('should throw error when empty angular.json', () => {
       appTree.overwrite('/angular.json', '');
-      expect(() => yangSchematicRunner.runSchematic('init', {}, appTree)).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise()).rejects.toThrow();
     });
   });
 
@@ -65,14 +65,14 @@ describe('Init Schematic', () => {
     };
 
     let appTree: UnitTestTree;
-    beforeEach(() => {
-      appTree = yangSchematicRunner.runExternalSchematic('@schematics/angular', 'ng-new', ngNewOptions);
-      appTree = yangSchematicRunner.runSchematic('init', {}, appTree);
+    beforeEach(async () => {
+      appTree = await yangSchematicRunner.runExternalSchematicAsync('@schematics/angular', 'ng-new', ngNewOptions).toPromise();
+      appTree = await yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise();
     });
 
 
     it('should throw error on empty tree', () => {
-      expect(() => yangSchematicRunner.runSchematic('init', {}, Tree.empty())).toThrow();
+      return expect(yangSchematicRunner.runSchematicAsync('init', {}, Tree.empty()).toPromise()).rejects.toThrow();
     });
 
 
