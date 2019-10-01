@@ -27,17 +27,17 @@
   "schematics": "./src/collection.json",
   "builders": "./src/builders/builders.json",
   "dependencies": {
-    "@schematics/angular": "^8.0.0",
+    "@schematics/angular": "^8.3.6",
     "ts-simple-ast": "^12.4.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.3",
-    "codecov": "^3.5.0",
-    "jest": "^24.8.0",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.8",
+    "codecov": "^3.6.1",
+    "jest": "^24.9.0",
     "merge": "^1.2.1",
-    "standard-version": "^6.0.1",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.4.5"
+    "standard-version": "^7.0.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.3"
   }
 }
