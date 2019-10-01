@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.5.2](https://github.com/mselerin/yang-schematics/compare/v3.5.1...v3.5.2) (2019-10-01)
+
+
+### Bug Fixes
+
+* app declaration inside ConfigService ([a49c3cc](https://github.com/mselerin/yang-schematics/commit/a49c3cc))
+
+
+
 ## [3.5.1](https://github.com/mselerin/yang-schematics/compare/v3.5.0...v3.5.1) (2019-07-15)
 
 ### Misc
