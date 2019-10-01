@@ -10,7 +10,7 @@ export class ConfigService
   constructor (
     private http: HttpClient
   ) {
-    this.app = {};
+    this['app'] = {};
   }
 
   async load(prefix: string, url: string) {
