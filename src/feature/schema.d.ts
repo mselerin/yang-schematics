@@ -14,7 +14,7 @@ export interface Schema {
   /**
    * Specifies if a spec file is generated.
    */
-  spec?: boolean;
+  skipTests?: boolean;
   /**
    * Allows specification of the declaring module.
    */

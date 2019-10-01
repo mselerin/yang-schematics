@@ -42,7 +42,7 @@ export default function (options: FeatureOptions): Rule {
 
 
     const templateSource = apply(url('./files'), [
-      options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
+      options.skipTests ? noop() : filter(path => !path.endsWith('.spec.ts')),
       template({
         ...strings,
         ...options

@@ -63,7 +63,7 @@ export default function (options: ComponentOptions): Rule {
     return chain([
       externalSchematic('@schematics/angular', 'component', ngOptions),
       mergeWith(apply(url('./files'), [
-        options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
+        options.skipTests ? noop() : filter(path => !path.endsWith('.spec.ts')),
         template({
           ...strings,
           'if-flat': (s: string) => options.flat ? '' : s,
