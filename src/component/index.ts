@@ -91,14 +91,7 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
       return host;
     }
 
-    const text = host.read(file);
-    if (text === null) {
-      throw new SchematicsException(`File ${file} does not exist.`);
-    }
-
-    const sourceText = text.toString('utf-8');
-    const sourceFile = CodeUtils.getSourceFile(file, sourceText);
-
+    const sourceFile = CodeUtils.readSourceFile(host, file);
 
     const componentPath = `/${options.path}/`
       + (options.flat ? '' : strings.dasherize(options.name) + '/')

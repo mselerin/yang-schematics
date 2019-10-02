@@ -185,13 +185,7 @@ function updateEnvironment(host: Tree, file: string): void {
   if (!host.exists(file))
     return;
 
-  const text = host.read(file);
-  if (text === null) {
-    return;
-  }
-
-  const sourceText = text.toString('utf-8');
-  const sourceFile = CodeUtils.getSourceFile(file, sourceText);
+  const sourceFile = CodeUtils.readSourceFile(host, file);
 
   CodeUtils.insertInVariableObject(sourceFile, "environment", `apiUrl: '/api/'`);
   CodeUtils.writeSourceFile(host, file, sourceFile);
