@@ -7,8 +7,7 @@ export enum LogLevelEnum {
 }
 
 
-class LoggerService
-{
+class LoggerService {
   public loggingServiceUrl: string;
   public clientLogLevel: LogLevelEnum;
   public serverLogLevel: LogLevelEnum;
@@ -39,10 +38,9 @@ class LoggerService
 
 
 
-  protected log(level: LogLevelEnum, ...msg: any[]): void
-  {
-    let logLevelStr: string = LogLevelEnum[level].toUpperCase();
-    let logFunction: string = logLevelStr.toLowerCase();
+  protected log(level: LogLevelEnum, ...msg: any[]): void {
+    const logLevelStr: string = LogLevelEnum[level].toUpperCase();
+    const logFunction: string = logLevelStr.toLowerCase();
 
 
     // Log dans la console
@@ -58,9 +56,8 @@ class LoggerService
           method: 'POST',
           body: this.toJSON(msg)
         });
-      }
-      catch (err) {
-        console.error("Cannot send error to server", err);
+      } catch (err) {
+        console.error('Cannot send error to server', err);
       }
     }
   }

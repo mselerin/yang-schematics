@@ -5,10 +5,9 @@ import { Router } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { FeaturesModule } from './features/features.module';
 import { SharedModule } from './shared/shared.module';
-import { NgModuleFactoryLoader } from '@angular/core';
-import { HomeModule } from './features/home/home.module';
+import { FeaturesModule } from './features/features.module';
+import { LayoutsModule } from './layouts/layouts.module';
 
 
 describe('Router: App', () => {
@@ -23,6 +22,7 @@ describe('Router: App', () => {
         CoreModule,
         SharedModule,
         FeaturesModule,
+        LayoutsModule,
         RouterTestingModule.withRoutes(ROUTES)
       ],
       declarations: [
@@ -31,13 +31,6 @@ describe('Router: App', () => {
     });
 
     router = TestBed.get(Router);
-    const loader = TestBed.get(NgModuleFactoryLoader);
-    loader.stubbedModules = {lazyModule: HomeModule};
-
-    router.resetConfig([
-      {path: 'home', loadChildren: 'lazyModule'},
-    ]);
-
     location = TestBed.get(Location);
     fixture = TestBed.createComponent(AppComponent);
   });

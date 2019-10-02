@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LOGGER } from '@app/services/logger.service';
 
 declare const APP_MANIFEST: any;
 
@@ -9,8 +8,7 @@ declare const APP_MANIFEST: any;
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent
-{
+export class LayoutComponent {
   public manifest: any = APP_MANIFEST;
 
   constructor(

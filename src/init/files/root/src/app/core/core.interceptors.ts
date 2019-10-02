@@ -11,7 +11,7 @@ import {
 
 import {Observable} from 'rxjs';
 
-const API_URL_TOKEN = "/api/";
+const API_URL_TOKEN = '/api/';
 
 @Injectable()
 export class APIInterceptor implements HttpInterceptor {
@@ -22,7 +22,7 @@ export class APIInterceptor implements HttpInterceptor {
         req.url;
 
       req = req.clone({
-        url: url,
+        url,
         withCredentials: true
       });
     }

@@ -43,10 +43,10 @@ const INITIALIZERS = [
 
 export function initializersFactory(injector: Injector) {
   return async () => {
-    for (let i = 0; i < INITIALIZERS.length; i++) {
-      await INITIALIZERS[i](injector);
+    for (const init of INITIALIZERS) {
+      await init(injector);
     }
-  }
+  };
 }
 
 

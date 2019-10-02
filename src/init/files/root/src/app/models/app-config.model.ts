@@ -1,5 +1,4 @@
-export interface AppConfig
-{
+export interface AppConfig {
   lang?: string;
   languages?: string[];
 }

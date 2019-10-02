@@ -2,9 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'propercase' })
 export class PropercasePipe implements PipeTransform {
-  transform(input: string|any): string|any
-  {
-    if (typeof input !== 'string'){
+  transform(input: string|any): string|any {
+    if (typeof input !== 'string') {
       return input;
     }
 

@@ -44,6 +44,7 @@ export default function (options: InitOptions): Rule {
       updateTsConfig(),
       updateGitIgnore(),
       updatePolyfills(),
+      updateKarmaTest(),
       updateEnvironments(),
       updateProjectWorkspace(),
 
@@ -169,6 +170,24 @@ function updatePolyfills(): (host: Tree) => Tree {
     content += `import 'whatwg-fetch';${EOL}`;
 
     host.overwrite(filePath, content);
+    return host;
+  };
+}
+
+function updateKarmaTest(): (host: Tree) => Tree {
+  return (host: Tree) => {
+    const file = 'src/test.ts';
+    if (host.exists(file)) {
+      const source = host.read(file);
+      if (!source)
+        return host;
+
+      let content = source.toString('utf-8');
+      content += `${EOL}window[\`APP_MANIFEST\`] = {};${EOL}`;
+
+      host.overwrite(file, content);
+    }
+
     return host;
   };
 }

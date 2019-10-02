@@ -31,8 +31,9 @@ export async function init(injector: Injector): Promise<void> {
   let browserLang = i18n.getBrowserLang();
   LOGGER.debug(`Detected browser language : ${browserLang}`);
 
-  if (i18n.getLangs().indexOf(browserLang) === -1)
+  if (i18n.getLangs().indexOf(browserLang) === -1) {
     browserLang = 'fr';
+  }
 
   LOGGER.debug(`Using language : ${browserLang}`);
   await i18n.use(browserLang).toPromise();
