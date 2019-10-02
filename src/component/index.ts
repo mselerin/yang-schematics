@@ -99,11 +99,9 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
       + '.component';
 
     const relativePath = buildRelativePath(options.module, componentPath);
-
-
     CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Component`, relativePath);
 
-    CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Component`);
+    CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `${strings.classify(options.name)}Component`);
     CodeUtils.writeSourceFile(host, file, sourceFile);
 
 
@@ -142,7 +140,7 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
 
   CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Component`, relativePath);
   CodeUtils.insertInVariableArray(sourceFile, 'ROUTES',
-    `    { path: '${options.route}', component: ${strings.classify(options.name)}Component }`
+    `{ path: '${options.route}', component: ${strings.classify(options.name)}Component }`
   );
 
   CodeUtils.writeSourceFile(host, file, sourceFile);

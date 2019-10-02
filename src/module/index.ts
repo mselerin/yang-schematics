@@ -68,7 +68,7 @@ function addNgModule(options: ModuleOptions): (host: Tree) => Tree {
     const relativePath = buildRelativePath(options.module, modulePath);
 
     CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Module`, relativePath);
-    CodeUtils.insertInVariableArray(sourceFile, "MODULES", `   ${strings.classify(options.name)}Module`);
+    CodeUtils.insertInVariableArray(sourceFile, "MODULES", `${strings.classify(options.name)}Module`);
 
     CodeUtils.writeSourceFile(host, file, sourceFile);
     return host;

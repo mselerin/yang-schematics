@@ -94,7 +94,7 @@ function updateRouting(options: FeatureOptions): (host: Tree) => Tree {
     let path = (options.path || '').replace('/src/app/', '@app/');
 
     CodeUtils.insertInVariableArray(sourceFile, varName,
-      `         { path: '${strings.dasherize(options.name)}', loadChildren: () => import('${path}/${strings.dasherize(options.name)}.module').then(m => m.${strings.classify(options.name)}Module) }`
+      `{ path: '${strings.dasherize(options.name)}', loadChildren: () => import('${path}/${strings.dasherize(options.name)}.module').then(m => m.${strings.classify(options.name)}Module) }`
     );
 
     CodeUtils.writeSourceFile(host, file, sourceFile);

@@ -52,7 +52,7 @@ function addNgModule(options: PipeOptions): (host: Tree) => Tree {
     const relativePath = buildRelativePath(options.module, pipePath);
 
     CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Pipe`, relativePath);
-    CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Pipe`);
+    CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `${strings.classify(options.name)}Pipe`);
 
     CodeUtils.writeSourceFile(host, file, sourceFile);
     return host;

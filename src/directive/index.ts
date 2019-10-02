@@ -57,7 +57,7 @@ function addNgModule(options: DirectiveOptions): (host: Tree) => Tree {
     const relativePath = buildRelativePath(options.module, directivePath);
 
     CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Directive`, relativePath);
-    CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Directive`);
+    CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `${strings.classify(options.name)}Directive`);
 
     CodeUtils.writeSourceFile(host, file, sourceFile);
     return host;
