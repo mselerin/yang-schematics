@@ -13,8 +13,8 @@ export class YangUtils {
 export function forceOverwrite(host: Tree): Rule {
   return forEach((entry: FileEntry) => {
     if (host.exists(entry.path)) {
-      host.overwrite(entry.path, new Buffer(''));
-      host.overwrite(entry.path, new Buffer(entry.content));
+      host.overwrite(entry.path, Buffer.from(''));
+      host.overwrite(entry.path, Buffer.from(entry.content));
     }
 
     return entry;
