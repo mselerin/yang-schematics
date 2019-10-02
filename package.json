@@ -1,6 +1,6 @@
 {
   "name": "yang-schematics",
-  "version": "3.5.2",
+  "version": "3.6.0-next.1",
   "description": "Yet Another Angular Generator",
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
   "builders": "./src/builders/builders.json",
   "dependencies": {
     "@schematics/angular": "^8.3.6",
-    "ts-simple-ast": "^12.4.0"
+    "ts-morph": "^4.1.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",

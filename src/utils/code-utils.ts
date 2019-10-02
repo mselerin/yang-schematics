@@ -1,7 +1,6 @@
-import { StringUtils } from "./string-utils";
-import { ImportDeclarationStructure, SourceFile, VariableDeclaration } from "ts-simple-ast";
-import TsSimpleAst from "ts-simple-ast";
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { ImportDeclaration, Project, QuoteKind, SourceFile, VariableDeclaration } from 'ts-morph';
+import { StringUtils } from './string-utils';
 
 export class CodeUtils
 {
@@ -20,12 +19,26 @@ export class CodeUtils
   }
 
 
-  static getSourceFile(file: string, content: string): SourceFile {
-    let ast = new TsSimpleAst({useVirtualFileSystem: true});
+  static formatText(block: any): void {
+    block.formatText({
+      indentSize: 2
+    });
+  }
 
-    let sourceFile = ast.getSourceFile(file);
+
+  static getSourceFile(file: string, content: string): SourceFile {
+    const project = new Project({
+      useVirtualFileSystem: true,
+      manipulationSettings: {
+        quoteKind: QuoteKind.Single
+      }
+    });
+
+    project.createSourceFile(file, content);
+
+    let sourceFile = project.getSourceFile(file);
     if (!sourceFile) {
-      sourceFile = ast.createSourceFile(file, content);
+      sourceFile = project.createSourceFile(file, content);
     }
 
     return sourceFile;
@@ -70,6 +83,7 @@ export class CodeUtils
     block = CodeUtils.insertInArray(block, str);
 
     varDeclaration.replaceWithText(block);
+    CodeUtils.formatText(CodeUtils.getVariableDeclaration(sourceFile, variableName));
   }
 
   static insertInVariableObject(sourceFile: SourceFile, variableName: string, str: string): void {
@@ -78,6 +92,7 @@ export class CodeUtils
     block = CodeUtils.insertInObject(block, str);
 
     varDeclaration.replaceWithText(block);
+    CodeUtils.formatText(CodeUtils.getVariableDeclaration(sourceFile, variableName));
   }
 
 
@@ -114,7 +129,12 @@ export class CodeUtils
 
 
   static addImport(sourceFile: SourceFile, importName: string, importFile: string) {
-    if (importName.includes(" as ")) {
+    if (!importName) {
+      sourceFile.addImportDeclaration({
+        moduleSpecifier: importFile
+      });
+    }
+    else if (importName.includes(" as ")) {
       if (importName.startsWith('*')) {
         sourceFile.addImportDeclaration({
           defaultImport: importName,

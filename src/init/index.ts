@@ -14,11 +14,11 @@ import {
   url
 } from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
+import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
 import * as path from "path";
 import {EOL} from "os";
 import {forceOverwrite} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
-import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
 import {extraDependencies, extraDevDependencies} from "../utils/dependencies";
 
 export default function (options: InitOptions): Rule {
@@ -193,8 +193,8 @@ function updateEnvironment(host: Tree, file: string): void {
   const sourceText = text.toString('utf-8');
   const sourceFile = CodeUtils.getSourceFile(file, sourceText);
 
-  CodeUtils.insertInVariableObject(sourceFile, "environment", `  apiUrl: '/api/'`);
-  host.overwrite(file, sourceFile.getFullText());
+  CodeUtils.insertInVariableObject(sourceFile, "environment", `apiUrl: '/api/'`);
+  CodeUtils.writeSourceFile(host, file, sourceFile);
 }
 
 

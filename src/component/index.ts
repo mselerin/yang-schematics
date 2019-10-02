@@ -111,7 +111,7 @@ function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
     CodeUtils.addImport(sourceFile, `${strings.classify(options.name)}Component`, relativePath);
 
     CodeUtils.insertInVariableArray(sourceFile, "DECLARATIONS", `   ${strings.classify(options.name)}Component`);
-    host.overwrite(file, sourceFile.getFullText());
+    CodeUtils.writeSourceFile(host, file, sourceFile);
 
 
     let path = options.path as string;

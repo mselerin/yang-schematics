@@ -104,7 +104,7 @@ function updateRouting(options: FeatureOptions): (host: Tree) => Tree {
       `    { path: '${strings.dasherize(options.name)}', loadChildren: () => import('${path}/${strings.dasherize(options.name)}.module').then(m => m.${strings.classify(options.name)}Module) }`
     );
 
-    host.overwrite(file, sourceFile.getFullText());
+    CodeUtils.writeSourceFile(host, file, sourceFile);
     return host;
   };
 }
