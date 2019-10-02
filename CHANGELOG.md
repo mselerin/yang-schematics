@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/mselerin/yang-schematics/compare/v3.5.2...v3.6.0) (2019-10-02)
+
+
+### Bug Fixes
+
+* code indentation managed inside CodeUtils ([e71ceaf](https://github.com/mselerin/yang-schematics/commit/e71ceaf))
+* fixed lint and tests ([397f9ae](https://github.com/mselerin/yang-schematics/commit/397f9ae))
+* using Buffer.from() instead of new Buffer() ([8bc5279](https://github.com/mselerin/yang-schematics/commit/8bc5279))
+* using CodeUtils.readSourceFile instead of CodeUtils.getSourceFile ([338132d](https://github.com/mselerin/yang-schematics/commit/338132d))
+
+
+### Features
+
+* using ts-morph instead of ts-simple-ast ([166ffd3](https://github.com/mselerin/yang-schematics/commit/166ffd3))
+
 ### [3.5.2](https://github.com/mselerin/yang-schematics/compare/v3.5.1...v3.5.2) (2019-10-01)
 
 

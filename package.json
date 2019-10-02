@@ -1,6 +1,6 @@
 {
   "name": "yang-schematics",
-  "version": "3.6.0-next.1",
+  "version": "3.6.0",
   "description": "Yet Another Angular Generator",
   "repository": {
     "type": "git",
