@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsYangProxy",
+  "title": "Yang Proxy Options Schema",
+  "type": "object",
+  "properties": {}
+}
