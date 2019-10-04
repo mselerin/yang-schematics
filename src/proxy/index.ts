@@ -6,10 +6,7 @@ import {
   mergeWith,
   move,
   Rule,
-  schematic,
   SchematicContext,
-  SchematicsException,
-  template,
   Tree,
   url
 } from '@angular-devkit/schematics';
@@ -19,9 +16,6 @@ export default function (options: ProxyOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     return chain([
       mergeWith(apply(url('./files'), [
-        template({
-          ...options
-        }),
         move(''),
       ]), MergeStrategy.Overwrite),
       updateProjectWorkspace()
