@@ -1,5 +1,6 @@
-import { FileEntry, forEach, Rule, Tree } from '@angular-devkit/schematics';
+import { FileEntry, forEach, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/config';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 export class YangUtils {
   static MAIN_FILE = '/src/main.ts';
@@ -60,4 +61,11 @@ export function sortByKey(unsorted: any): any {
   });
 
   return ordered;
+}
+
+
+export function installDeps(): (host: Tree, context: SchematicContext) => void {
+  return (host: Tree, context: SchematicContext) => {
+    context.addTask(new NodePackageInstallTask());
+  };
 }

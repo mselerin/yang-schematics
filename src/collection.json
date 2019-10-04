@@ -48,16 +48,21 @@
       "schema": "./pipe/schema.json",
       "description": "Yang Pipe"
     },
-    "proxy": {
-      "factory": "./proxy",
-      "schema": "./proxy/schema.json",
-      "description": "Yang Proxy"
-    },
     "service": {
       "aliases": [ "s" ],
       "factory": "./service",
       "schema": "./service/schema.json",
       "description": "Yang Service"
+    },
+    "jest": {
+      "factory": "./jest",
+      "schema": "./jest/schema.json",
+      "description": "Yang Jest"
+    },
+    "proxy": {
+      "factory": "./proxy",
+      "schema": "./proxy/schema.json",
+      "description": "Yang Proxy"
     }
   }
 }

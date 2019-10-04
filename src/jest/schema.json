@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsYangJest",
+  "title": "Yang Jest Options Schema",
+  "type": "object",
+  "properties": {}
+}
