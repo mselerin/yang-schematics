@@ -22,7 +22,7 @@ YANG use the LIFT principle :
 
 When generating a new Angular application with the Yang-Schematics, you have :
 
-* A 4 main modules structure : core, shared, layouts and features (see below)
+* A simple 4 modules structure : core, shared, layouts and features (see below)
 * Lazy loading for all modules inside 'features'
 * Sample bootstrap code
 * Sample interceptor code
@@ -201,6 +201,20 @@ Generates a stub directive under app/shared/directives.
 ### Pipe
 `ng g pipe my-nice-pipe` (or `ng g p...`)  
 Generates a pipe under app/shared/pipes.
+
+
+***
+### Proxy
+`ng g proxy`  
+Generates a simple proxy configuration inside your project.  
+(more info: [Angular documentation](https://angular.io/guide/build#proxying-to-a-backend-server))
+
+
+***
+### Jest
+`ng g jest`  
+Replace [Karma](https://karma-runner.github.io) by [Jest](https://jestjs.io/) without changing your unit-tests.  
+Your `npm run test` and `ng test` commands still work but now, you can also use `npm run jest:watch`.
 
 
 
