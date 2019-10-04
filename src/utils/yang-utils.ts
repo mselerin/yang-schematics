@@ -64,8 +64,9 @@ export function sortByKey(unsorted: any): any {
 }
 
 
-export function installDeps(): (host: Tree, context: SchematicContext) => void {
+export function installDeps(skipInstall?: boolean): (host: Tree, context: SchematicContext) => void {
   return (host: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
+    if (!skipInstall)
+      context.addTask(new NodePackageInstallTask());
   };
 }

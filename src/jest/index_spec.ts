@@ -5,7 +5,9 @@ import { Schema as JestOptions } from '../proxy/schema';
 import { getFileContent } from '@schematics/angular/utility/test';
 
 
-const defaultOptions: JestOptions = {};
+const defaultOptions: JestOptions = {
+  skipInstall: true
+};
 
 describe('Jest Schematic', () => {
   describe('With empty project', () => {
@@ -27,11 +29,12 @@ describe('Jest Schematic', () => {
 
       it('should create files inside app', () => {
         const files = appTree.files;
-        expect(files).toContain(`/proxy.conf.json`);
+        expect(files).toContain(`/jest.config.js`);
+        expect(files).toContain(`/jest.setup.ts`);
       });
 
 
-      it('should add proxy config inside angular.json', () => {
+      it('should add jest:run inside angular.json', () => {
         const fileContent = getFileContent(appTree, '/angular.json');
         const json = JSON.parse(fileContent);
         const defaultProject = json.defaultProject;
@@ -39,7 +42,7 @@ describe('Jest Schematic', () => {
         if (!architect)
           architect = json.projects[defaultProject].targets;
 
-        expect(architect.serve.options.proxyConfig).toEqual('proxy.conf.json');
+        expect(architect.test.builder).toEqual('@angular-builders/jest:run');
       });
     });
 

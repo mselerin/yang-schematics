@@ -23,7 +23,7 @@ export default function (options: JestOptions): Rule {
       updateProjectWorkspace(),
       addJestFiles(),
       removeKarmaFiles(),
-      installDeps()
+      installDeps(options.skipInstall)
     ])(host, context);
   };
 }

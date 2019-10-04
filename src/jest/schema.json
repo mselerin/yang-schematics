@@ -3,5 +3,11 @@
   "id": "SchematicsYangJest",
   "title": "Yang Jest Options Schema",
   "type": "object",
-  "properties": {}
+  "properties": {
+    "skipInstall": {
+      "description": "When true, does not install dependency packages.",
+      "type": "boolean",
+      "default": false
+    }
+  }
 }
