@@ -17,9 +17,9 @@ import {strings} from '@angular-devkit/core';
 import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
 import * as path from "path";
 import {EOL} from "os";
-import {forceOverwrite} from '../utils/yang-utils';
+import { forceOverwrite, sortByKey } from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
-import {extraDependencies, extraDevDependencies} from "../utils/dependencies";
+import {extraDependencies, extraDevDependencies} from './dependencies';
 
 export default function (options: InitOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -99,6 +99,10 @@ function updatePackageJson(): (host: Tree) => Tree {
       ...json.devDependencies,
       ...extraDevDependencies
     };
+
+    // Sort dependencies by name
+    json.dependencies = sortByKey(json.dependencies);
+    json.devDependencies = sortByKey(json.devDependencies);
 
     host.overwrite(filePath, JSON.stringify(json, null, 2));
     return host;

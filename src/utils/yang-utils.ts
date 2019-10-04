@@ -51,3 +51,13 @@ export function smartPath(rootPath: string, options: any, sharedSubFolder?: stri
     }
   }
 }
+
+
+export function sortByKey(unsorted: any): any {
+  const ordered: any = {};
+  Object.keys(unsorted).sort().forEach((key) => {
+    ordered[key] = unsorted[key];
+  });
+
+  return ordered;
+}
