@@ -62,23 +62,13 @@ export default function (options: ComponentOptions): Rule {
 
     return chain([
       externalSchematic('@schematics/angular', 'component', ngOptions),
-      mergeWith(apply(url('./files'), [
-        options.skipTests ? noop() : filter(path => !path.endsWith('.spec.ts')),
-        template({
-          ...strings,
-          'if-flat': (s: string) => options.flat ? '' : s,
-          ...options
-        }),
-        move(options.path)
-      ]), MergeStrategy.Overwrite),
-
-      addNgModule(options)
+      addToNgModule(options)
     ])(host, context);
   };
 }
 
 
-function addNgModule(options: ComponentOptions): (host: Tree) => Tree {
+function addToNgModule(options: ComponentOptions): (host: Tree) => Tree {
   return (host: Tree) => {
     if (!options.module || options.skipImport)
       return host;
