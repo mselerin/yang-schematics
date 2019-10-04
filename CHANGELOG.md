@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://github.com/mselerin/yang-schematics/compare/v3.6.0...v3.7.0) (2019-10-04)
+
+
+### Bug Fixes
+
+* dependencies sorted by keys after initialization ([61b5a0d](https://github.com/mselerin/yang-schematics/commit/61b5a0d))
+* e2e generation ([5672c0a](https://github.com/mselerin/yang-schematics/commit/5672c0a))
+* no longer need for a special spec.ts for component ([df81125](https://github.com/mselerin/yang-schematics/commit/df81125))
+* unit-test for init schematic ([2690dc0](https://github.com/mselerin/yang-schematics/commit/2690dc0))
+
+
+### Features
+
+* add Jest Schematic ([15a447f](https://github.com/mselerin/yang-schematics/commit/15a447f))
+* add proxy schematics ([aefa41c](https://github.com/mselerin/yang-schematics/commit/aefa41c))
+
 ## [3.6.0](https://github.com/mselerin/yang-schematics/compare/v3.5.2...v3.6.0) (2019-10-02)
 
 
