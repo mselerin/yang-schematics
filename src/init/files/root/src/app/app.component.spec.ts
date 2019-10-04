@@ -1,54 +1,27 @@
-import { Location } from '@angular/common';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
 import { AppComponent } from './app.component';
-import { ROUTES } from './app-routing.module';
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
-import { FeaturesModule } from './features/features.module';
-import { LayoutsModule } from './layouts/layouts.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-
-describe('Router: App', () => {
-
-  let router: any;
-  let location: Location;
+describe('AppComponent', () => {
+  let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CoreModule,
-        SharedModule,
-        FeaturesModule,
-        LayoutsModule,
-        RouterTestingModule.withRoutes(ROUTES)
-      ],
-      declarations: [
-        AppComponent
-      ]
-    });
-
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
-    fixture = TestBed.createComponent(AppComponent);
-  });
-
-
-
-  it('should create the app', async(() => {
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+      declarations: [ AppComponent ],
+      imports: [ RouterTestingModule ],
+      schemas: [ NO_ERRORS_SCHEMA ]
+    }).compileComponents();
   }));
 
-
-  it('should navigate to home path', fakeAsync(() => {
-    router.navigateByUrl('/home');
-
-    tick();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
+  });
 
-    expect(location.path()).toBe('/home');
+  it('should create the app', async(() => {
+    expect(component).toBeTruthy();
   }));
 });
