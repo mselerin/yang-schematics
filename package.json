@@ -27,16 +27,16 @@
   "schematics": "./src/collection.json",
   "builders": "./src/builders/builders.json",
   "dependencies": {
-    "@schematics/angular": "^8.3.6",
-    "ts-morph": "^4.1.1"
+    "@schematics/angular": "^8.3.14",
+    "ts-morph": "^4.3.2"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.8",
+    "@types/jest": "^24.0.19",
+    "@types/node": "^12.11.6",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "standard-version": "^7.0.0",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.4"
   }
 }
