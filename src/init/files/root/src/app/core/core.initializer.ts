@@ -44,6 +44,10 @@ export async function init(injector: Injector): Promise<void> {
 
 
 export function addSplashItem(txt: string): void {
+  if (!document || !document.querySelector) {
+    return;
+  }
+
   const el: any = document.querySelector('#splash-text ul');
   if (el) {
     el.innerHTML += `<li>${txt}</li>`;
