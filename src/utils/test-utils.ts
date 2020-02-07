@@ -4,6 +4,8 @@ import {Schema as NgNewOptions} from '../ng-new/schema';
 import {Style} from "@schematics/angular/ng-new/schema";
 import {Observable} from "rxjs";
 
+export const NG_VERSION = '9.0.0';
+
 export const yangSchematicRunner = new SchematicTestRunner(
   'yang-schematics', path.join(__dirname, '../collection.json')
 );
@@ -11,7 +13,7 @@ export const yangSchematicRunner = new SchematicTestRunner(
 export const ngNewOptions: NgNewOptions = {
   name: 'foo',
   directory: '.',
-  version: '7.0.0',
+  version: NG_VERSION,
   style: Style.Scss
 };
 

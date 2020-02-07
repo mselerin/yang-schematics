@@ -1,4 +1,4 @@
-import { Schema as JestOptions } from './schema';
+import {Schema as JestOptions} from './schema';
 import {
   apply,
   chain,
@@ -11,9 +11,9 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { getWorkspace, updateWorkspace } from '@schematics/angular/utility/config';
-import { extraDevDependencies } from './dependencies';
-import { installDeps, sortByKey } from '../utils/yang-utils';
+import {getWorkspace, updateWorkspace} from '@schematics/angular/utility/config';
+import {extraDevDependencies} from './dependencies';
+import {installDeps, sortByKey} from '../utils/yang-utils';
 
 export default function (options: JestOptions): Rule {
   return (host: Tree, context: SchematicContext) => {

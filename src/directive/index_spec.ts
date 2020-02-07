@@ -1,15 +1,15 @@
-import { Tree } from '@angular-devkit/schematics';
-import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
-import { UnitTestTree } from '@angular-devkit/schematics/testing';
-import { Schema as DirectiveOptions } from '../directive/schema';
-import { strings } from '@angular-devkit/core';
-import { YangUtils } from '../utils/yang-utils';
-import { getFileContent } from '@schematics/angular/utility/test';
+import {Tree} from '@angular-devkit/schematics';
+import {runYangNew, yangSchematicRunner} from '../utils/test-utils';
+import {UnitTestTree} from '@angular-devkit/schematics/testing';
+import {Schema as DirectiveOptions} from '../directive/schema';
+import {strings} from '@angular-devkit/core';
+import {YangUtils} from '../utils/yang-utils';
+import {getFileContent} from '@schematics/angular/utility/test';
 
 const elementName = 'superDummy';
 const defaultOptions: DirectiveOptions = {
   name: elementName,
-  spec: true
+  skipTests: false
 };
 
 describe('Directive Schematic', () => {

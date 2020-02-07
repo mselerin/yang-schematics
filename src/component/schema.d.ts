@@ -1,4 +1,4 @@
-import { Schema as NgSchema } from '@schematics/angular/component/schema';
+import {Schema as NgSchema} from '@schematics/angular/component/schema';
 
 export interface Schema extends NgSchema {
   /**

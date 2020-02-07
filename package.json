@@ -1,6 +1,6 @@
 {
   "name": "yang-schematics",
-  "version": "3.7.0",
+  "version": "3.8.0-alpha.1",
   "description": "Yet Another Angular Generator",
   "repository": {
     "type": "git",
@@ -27,16 +27,16 @@
   "schematics": "./src/collection.json",
   "builders": "./src/builders/builders.json",
   "dependencies": {
-    "@schematics/angular": "^8.3.14",
-    "ts-morph": "^4.3.2"
+    "@schematics/angular": "^9.0.1",
+    "ts-morph": "^6.0.2"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.19",
-    "@types/node": "^12.11.6",
-    "codecov": "^3.6.1",
-    "jest": "^24.9.0",
-    "standard-version": "^7.0.0",
-    "ts-jest": "^24.1.0",
-    "typescript": "^3.6.4"
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.0",
+    "codecov": "^3.6.4",
+    "jest": "^25.1.0",
+    "standard-version": "^7.1.0",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5"
   }
 }

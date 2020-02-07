@@ -1,6 +1,6 @@
-import { UnitTestTree } from '@angular-devkit/schematics/testing';
-import { Schema as YangNewOptions } from './schema';
-import { yangSchematicRunner } from '../utils/test-utils';
+import {UnitTestTree} from '@angular-devkit/schematics/testing';
+import {Schema as YangNewOptions} from './schema';
+import {NG_VERSION, yangSchematicRunner} from '../utils/test-utils';
 
 
 describe('New Schematic', () => {
@@ -12,7 +12,7 @@ describe('New Schematic', () => {
     it('should create files when no directory', async () => {
       let appTree = await yangSchematicRunner.runSchematicAsync('ng-new', {
         name: 'foo',
-        version: '7.0.0'
+        version: NG_VERSION
       }).toPromise();
 
       const files = appTree.files;
@@ -22,7 +22,7 @@ describe('New Schematic', () => {
     it('should install packages when no skipInstall', () => {
       expect(() => yangSchematicRunner.runSchematicAsync('ng-new',  {
         name: 'foo',
-        version: '7.0.0',
+        version: NG_VERSION,
         skipInstall: false,
         linkCli: true
       })).not.toThrow();
@@ -34,7 +34,7 @@ describe('New Schematic', () => {
     const newOptions: YangNewOptions = {
       name: 'foo',
       directory: 'bar',
-      version: '7.0.0'
+      version: NG_VERSION
     };
 
     let appTree: UnitTestTree;

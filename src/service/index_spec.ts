@@ -1,8 +1,8 @@
-import { Tree } from '@angular-devkit/schematics';
-import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
-import { UnitTestTree } from '@angular-devkit/schematics/testing';
-import { strings } from '@angular-devkit/core';
-import { Schema as ServiceOptions } from './schema';
+import {Tree} from '@angular-devkit/schematics';
+import {runYangNew, yangSchematicRunner} from '../utils/test-utils';
+import {UnitTestTree} from '@angular-devkit/schematics/testing';
+import {strings} from '@angular-devkit/core';
+import {Schema as ServiceOptions} from './schema';
 
 const elementName = 'superDummy';
 
@@ -22,7 +22,7 @@ describe('Service Schematic', () => {
 
     const defaultOptions: ServiceOptions = {
       name: elementName,
-      spec: true
+      skipTests: false
     };
 
     it('should create flat files', async () => {

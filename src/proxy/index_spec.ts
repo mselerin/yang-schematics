@@ -1,8 +1,8 @@
-import { Tree } from '@angular-devkit/schematics';
-import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
-import { UnitTestTree } from '@angular-devkit/schematics/testing';
-import { Schema as ProxyOptions } from '../proxy/schema';
-import { getFileContent } from '@schematics/angular/utility/test';
+import {Tree} from '@angular-devkit/schematics';
+import {runYangNew, yangSchematicRunner} from '../utils/test-utils';
+import {UnitTestTree} from '@angular-devkit/schematics/testing';
+import {Schema as ProxyOptions} from '../proxy/schema';
+import {getFileContent} from '@schematics/angular/utility/test';
 
 
 const defaultOptions: ProxyOptions = {};

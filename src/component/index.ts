@@ -1,26 +1,11 @@
-import { Schema as ComponentOptions } from './schema';
-import {
-  apply,
-  chain,
-  externalSchematic,
-  filter,
-  MergeStrategy,
-  mergeWith,
-  move,
-  noop,
-  Rule,
-  SchematicContext,
-  SchematicsException,
-  template,
-  Tree,
-  url
-} from '@angular-devkit/schematics';
-import { strings, terminal } from '@angular-devkit/core';
-import { CodeUtils } from '../utils/code-utils';
-import { getWorkspace } from '@schematics/angular/utility/config';
-import { buildRelativePath, findModuleFromOptions } from '@schematics/angular/utility/find-module';
-import { parseName } from '@schematics/angular/utility/parse-name';
-import { getRootPath, smartPath } from '../utils/yang-utils';
+import {Schema as ComponentOptions} from './schema';
+import {chain, externalSchematic, Rule, SchematicContext, Tree} from '@angular-devkit/schematics';
+import {strings} from '@angular-devkit/core';
+import {CodeUtils} from '../utils/code-utils';
+import {getWorkspace} from '@schematics/angular/utility/config';
+import {buildRelativePath, findModuleFromOptions} from '@schematics/angular/utility/find-module';
+import {parseName} from '@schematics/angular/utility/parse-name';
+import {getRootPath, smartPath} from '../utils/yang-utils';
 
 export default function (options: ComponentOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -77,7 +62,7 @@ function addToNgModule(options: ComponentOptions): (host: Tree) => Tree {
 
     // If features module: warn & skip !
     if (file === '/src/app/features/features.module.ts') {
-      console.log(terminal.yellow('Cannot declare component inside features module: skipping import.'));
+      console.log(yellow('Cannot declare component inside features module: skipping import.'));
       return host;
     }
 
@@ -134,4 +119,9 @@ function updateFeatureRouting(options: ComponentOptions, host: Tree): void {
   );
 
   CodeUtils.writeSourceFile(host, file, sourceFile);
+}
+
+
+function yellow(str: string): string {
+  return `\x1b[33m${str}\x1b[0m`;
 }

@@ -1,4 +1,4 @@
-import { Schema as FeatureOptions } from './schema';
+import {Schema as FeatureOptions} from './schema';
 import {
   apply,
   chain,
@@ -9,16 +9,15 @@ import {
   Rule,
   schematic,
   SchematicContext,
-  SchematicsException,
   template,
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { strings } from '@angular-devkit/core';
-import { getRootPath, YangUtils } from '../utils/yang-utils';
-import { CodeUtils } from '../utils/code-utils';
-import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
-import { parseName } from '@schematics/angular/utility/parse-name';
+import {strings} from '@angular-devkit/core';
+import {getRootPath, YangUtils} from '../utils/yang-utils';
+import {CodeUtils} from '../utils/code-utils';
+import {findModuleFromOptions} from '@schematics/angular/utility/find-module';
+import {parseName} from '@schematics/angular/utility/parse-name';
 
 export default function (options: FeatureOptions): Rule {
   return (host: Tree, context: SchematicContext) => {

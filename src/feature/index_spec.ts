@@ -1,9 +1,9 @@
-import { UnitTestTree } from '@angular-devkit/schematics/testing';
-import { runYangNew, yangSchematicRunner } from '../utils/test-utils';
-import { Tree } from '@angular-devkit/schematics';
-import { getFileContent } from '@schematics/angular/utility/test';
-import { YangUtils } from '../utils/yang-utils';
-import { strings } from '@angular-devkit/core';
+import {UnitTestTree} from '@angular-devkit/schematics/testing';
+import {runYangNew, yangSchematicRunner} from '../utils/test-utils';
+import {Tree} from '@angular-devkit/schematics';
+import {getFileContent} from '@schematics/angular/utility/test';
+import {YangUtils} from '../utils/yang-utils';
+import {strings} from '@angular-devkit/core';
 
 const featureName = 'bar';
 

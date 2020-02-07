@@ -1,4 +1,4 @@
-import { Schema as YangNewOptions } from './schema';
+import {Schema as YangNewOptions} from './schema';
 import {
   apply,
   chain,
@@ -13,13 +13,9 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { Schema as NgNewOptions } from '@schematics/angular/ng-new/schema';
-import { Schema as YangInitOptions } from '../init/schema';
-import {
-  NodePackageInstallTask,
-  NodePackageLinkTask,
-  RepositoryInitializerTask
-} from '@angular-devkit/schematics/tasks';
+import {Schema as NgNewOptions} from '@schematics/angular/ng-new/schema';
+import {Schema as YangInitOptions} from '../init/schema';
+import {NodePackageInstallTask, NodePackageLinkTask, RepositoryInitializerTask} from '@angular-devkit/schematics/tasks';
 
 export default function (options: YangNewOptions): Rule {
   return (host: Tree, context: SchematicContext) => {

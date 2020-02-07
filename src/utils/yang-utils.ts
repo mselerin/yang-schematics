@@ -1,6 +1,6 @@
-import { FileEntry, forEach, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { getWorkspace } from '@schematics/angular/utility/config';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import {FileEntry, forEach, Rule, SchematicContext, Tree} from '@angular-devkit/schematics';
+import {getWorkspace} from '@schematics/angular/utility/config';
+import {NodePackageInstallTask} from '@angular-devkit/schematics/tasks';
 
 export class YangUtils {
   static MAIN_FILE = '/src/main.ts';

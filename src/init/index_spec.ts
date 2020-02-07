@@ -1,8 +1,8 @@
-import { UnitTestTree } from '@angular-devkit/schematics/testing';
-import { Schema as NgNewOptions } from '@schematics/angular/ng-new/schema';
-import { getFileContent } from '@schematics/angular/utility/test';
-import { yangSchematicRunner } from '../utils/test-utils';
-import { Tree } from '@angular-devkit/schematics';
+import {UnitTestTree} from '@angular-devkit/schematics/testing';
+import {Schema as NgNewOptions, Style} from '@schematics/angular/ng-new/schema';
+import {getFileContent} from '@schematics/angular/utility/test';
+import {NG_VERSION, yangSchematicRunner} from '../utils/test-utils';
+import {Tree} from '@angular-devkit/schematics';
 
 
 describe('Init Schematic', () => {
@@ -17,7 +17,7 @@ describe('Init Schematic', () => {
     const ngNewOptions: NgNewOptions = {
       name: 'foo',
       directory: '.',
-      version: '6.0.0'
+      version: NG_VERSION
     };
 
     let appTree: UnitTestTree;
@@ -61,7 +61,8 @@ describe('Init Schematic', () => {
     const ngNewOptions: NgNewOptions = {
       name: 'foo',
       directory: '.',
-      version: '6.0.0'
+      style: Style.Scss,
+      version: NG_VERSION
     };
 
     let appTree: UnitTestTree;
@@ -94,6 +95,8 @@ describe('Init Schematic', () => {
       expect(files).toContain('/src/app/features/home/home.module.ts');
       expect(files).toContain('/src/app/features/home/home.component.ts');
       expect(files).toContain('/src/app/features/home/home.component.html');
+      expect(files).toContain('/src/app/features/home/home.component.scss');
+      expect(files).not.toContain('/src/app/features/home/home.component.css');
     });
 
 

@@ -1,6 +1,6 @@
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import { ImportDeclaration, Project, QuoteKind, SourceFile, VariableDeclaration } from 'ts-morph';
-import { StringUtils } from './string-utils';
+import {SchematicsException, Tree} from '@angular-devkit/schematics';
+import {Project, QuoteKind, SourceFile, VariableDeclaration} from 'ts-morph';
+import {StringUtils} from './string-utils';
 
 export class CodeUtils
 {
@@ -28,7 +28,7 @@ export class CodeUtils
 
   static getSourceFile(file: string, content: string): SourceFile {
     const project = new Project({
-      useVirtualFileSystem: true,
+      useInMemoryFileSystem: true,
       manipulationSettings: {
         quoteKind: QuoteKind.Single
       }

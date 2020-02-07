@@ -1,4 +1,4 @@
-import { Schema as ProxyOptions } from './schema';
+import {Schema as ProxyOptions} from './schema';
 import {
   apply,
   chain,
@@ -10,7 +10,7 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
-import { getWorkspace, updateWorkspace } from '@schematics/angular/utility/config';
+import {getWorkspace, updateWorkspace} from '@schematics/angular/utility/config';
 
 export default function (options: ProxyOptions): Rule {
   return (host: Tree, context: SchematicContext) => {

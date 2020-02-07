@@ -17,7 +17,7 @@ import {strings} from '@angular-devkit/core';
 import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
 import * as path from "path";
 import {EOL} from "os";
-import { forceOverwrite, sortByKey } from '../utils/yang-utils';
+import {forceOverwrite, sortByKey} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
 import {extraDependencies, extraDevDependencies} from './dependencies';
 
