@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.0](https://github.com/mselerin/yang-schematics/compare/v3.7.0...v3.8.0) (2020-02-07)
+
+
+### Features
+
+* upgrade deps for Angular 9 ([4cf42dd](https://github.com/mselerin/yang-schematics/commit/4cf42ddf2708404859bfc988d4727347112d03ac))
+* **jest:** add '@testing-library/jest-dom' with the jest schematics ([426effd](https://github.com/mselerin/yang-schematics/commit/426effddcd23981c5e1233193c7f925475cb6a4c))
+
+
+### Bug Fixes
+
+* jest roots should point to 'src' ([4edd615](https://github.com/mselerin/yang-schematics/commit/4edd61592dc8d51b774cc372d6ef91877fbd93e1))
+* padding for the main container should be '1rem' all around ([50c5a26](https://github.com/mselerin/yang-schematics/commit/50c5a26a684800496b64cd2e21886fd2780c949b))
+* prevent 'addSplashItem' to throw an exception during unit-test ([12f9441](https://github.com/mselerin/yang-schematics/commit/12f94415ad130c99fdde7a54406a647b4dc811b5))
+* using "manifest.name" in the footer ([98904dc](https://github.com/mselerin/yang-schematics/commit/98904dcd7a693014e3e14e68639e2d04d948607a))
+
 ## [3.7.0](https://github.com/mselerin/yang-schematics/compare/v3.6.0...v3.7.0) (2019-10-04)
 
 
