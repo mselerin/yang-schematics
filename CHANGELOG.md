@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.8.1](https://github.com/mselerin/yang-schematics/compare/v3.8.0...v3.8.1) (2020-02-14)
+
+
+### Bug Fixes
+
+* 'inlineStyles' and 'inlineTemplate' config inside angular.json are ignored ([3a95ed9](https://github.com/mselerin/yang-schematics/commit/3a95ed9aaf5b2d33b4343a46050e82a7cb9efb79))
+
 ## [3.8.0](https://github.com/mselerin/yang-schematics/compare/v3.7.0...v3.8.0) (2020-02-07)
 
 
