@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.0](https://github.com/mselerin/yang-schematics/compare/v3.8.1...v3.9.0) (2020-07-08)
+
+
+### Features
+
+* Angular 10 compatibility ([ec70573](https://github.com/mselerin/yang-schematics/commit/ec705738753dd0d7f625b489280ecd31070822b7))
+
 ### [3.8.1](https://github.com/mselerin/yang-schematics/compare/v3.8.0...v3.8.1) (2020-02-14)
 
 
