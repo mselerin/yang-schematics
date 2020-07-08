@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 declare const APP_MANIFEST: any;
 
@@ -10,8 +9,4 @@ declare const APP_MANIFEST: any;
 })
 export class LayoutComponent {
   public manifest: any = APP_MANIFEST;
-
-  constructor(
-    public i18n: TranslateService
-  ) {}
 }

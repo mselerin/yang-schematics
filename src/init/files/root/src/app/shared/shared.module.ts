@@ -1,23 +1,16 @@
-// Angular Modules
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-
-// Pipes
-import { PropercasePipe } from './pipes/propercase.pipe';
-
-// Components
-import { PageHeaderComponent } from './components/page-header.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {PropercasePipe} from './pipes/propercase.pipe';
+import {PageHeaderComponent} from './components/page-header.component';
 
 
 const MODULES: any[] = [
   CommonModule,
   FormsModule,
   ReactiveFormsModule,
-  RouterModule,
-  TranslateModule
+  RouterModule
 ];
 
 const DECLARATIONS: any[] = [
@@ -31,4 +24,5 @@ const DECLARATIONS: any[] = [
   declarations: DECLARATIONS,
   exports: [...MODULES, ...DECLARATIONS]
 })
-export class SharedModule { }
+export class SharedModule {
+}

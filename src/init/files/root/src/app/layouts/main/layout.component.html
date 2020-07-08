@@ -1,11 +1,5 @@
 <header>
   <h2><a [routerLink]="'/home'"><%=name%></a></h2>
-
-  <p>
-    <select #langSelect (change)="i18n.use(langSelect.value)">
-      <option *ngFor="let lang of i18n.getLangs()" [value]="lang" [selected]="lang === i18n.currentLang">{{ lang }}</option>
-    </select>
-  </p>
 </header>
 
 <main>
