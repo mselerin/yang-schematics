@@ -14,6 +14,7 @@ import {
 import {getWorkspace, updateWorkspace} from '@schematics/angular/utility/config';
 import {extraDevDependencies} from './dependencies';
 import {installDeps, sortByKey} from '../utils/yang-utils';
+import * as CJSON from 'comment-json';
 
 export default function (options: JestOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -43,7 +44,7 @@ function updatePackageJson(): (tree: Tree) => Tree {
       throw new SchematicsException(`File ${filePath} is empty.`);
     }
 
-    const json = JSON.parse(source.toString('utf-8'));
+    const json = CJSON.parse(source.toString('utf-8'));
 
     json.scripts = {
       ...json.scripts,
@@ -72,7 +73,7 @@ function updatePackageJson(): (tree: Tree) => Tree {
     json.dependencies = sortByKey(json.dependencies);
     json.devDependencies = sortByKey(json.devDependencies);
 
-    tree.overwrite(filePath, JSON.stringify(json, null, 2));
+    tree.overwrite(filePath, CJSON.stringify(json, null, 2));
     return tree;
   };
 }
@@ -87,7 +88,7 @@ function updateTsConfig(): (tree: Tree) => Tree {
       throw new SchematicsException(`File ${filePath} is empty.`);
     }
 
-    const json = JSON.parse(source.toString('utf-8'));
+    const json = CJSON.parse(source.toString('utf-8'));
 
     json.compilerOptions = {
       ...json.compilerOptions,
@@ -97,7 +98,7 @@ function updateTsConfig(): (tree: Tree) => Tree {
 
     json.files = json.files.filter((f: string) => f !== 'src/test.ts');
 
-    tree.overwrite(filePath, JSON.stringify(json, null, 2));
+    tree.overwrite(filePath, CJSON.stringify(json, null, 2));
     return tree;
   };
 }
