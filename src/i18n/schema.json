@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsYangI18N",
+  "title": "Yang i18n Options Schema",
+  "type": "object",
+  "properties": {
+    "skipInstall": {
+      "description": "When true, does not install dependency packages.",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -63,6 +63,11 @@
       "factory": "./proxy",
       "schema": "./proxy/schema.json",
       "description": "Yang Proxy"
+    },
+    "i18n": {
+      "factory": "./i18n",
+      "schema": "./i18n/schema.json",
+      "description": "Yang i18n"
     }
   }
 }
