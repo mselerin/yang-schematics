@@ -32,8 +32,6 @@ export default function (options: JestOptions): Rule {
 
 function updatePackageJson(): (tree: Tree) => Tree {
   return (tree: Tree) => {
-    const pkg = require('../../package.json');
-
     const filePath = 'package.json';
     if (!tree.exists(filePath)) {
       throw new SchematicsException(`File ${filePath} does not exist.`);
