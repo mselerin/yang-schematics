@@ -15,11 +15,13 @@ import {
 } from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
 import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
-import * as path from "path";
+import * as path from 'path';
 import {EOL} from "os";
 import {forceOverwrite, sortByKey} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
 import {extraDependencies, extraDevDependencies} from './dependencies';
+import * as CJSON from 'comment-json';
+
 
 export default function (options: InitOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -81,7 +83,7 @@ function updatePackageJson(): (host: Tree) => Tree {
       throw new SchematicsException(`File ${filePath} is empty.`);
     }
 
-    const json = JSON.parse(source.toString('utf-8'));
+    const json = CJSON.parse(source.toString('utf-8'));
 
     json.scripts = {
       ...json.scripts,
@@ -104,7 +106,7 @@ function updatePackageJson(): (host: Tree) => Tree {
     json.dependencies = sortByKey(json.dependencies);
     json.devDependencies = sortByKey(json.devDependencies);
 
-    host.overwrite(filePath, JSON.stringify(json, null, 2));
+    host.overwrite(filePath, CJSON.stringify(json, null, 2));
     return host;
   };
 }
@@ -113,7 +115,11 @@ function updatePackageJson(): (host: Tree) => Tree {
 
 function updateTsConfig(): (host: Tree) => Tree {
   return (host: Tree) => {
-    const filePath = 'tsconfig.json';
+    let filePath = 'tsconfig.base.json';
+    if (!host.exists(filePath)) {
+      filePath = 'tsconfig.json';
+    }
+
     if (!host.exists(filePath)) {
       throw new SchematicsException(`File ${filePath} does not exist.`);
     }
@@ -123,7 +129,7 @@ function updateTsConfig(): (host: Tree) => Tree {
       throw new SchematicsException(`File ${filePath} is empty.`);
     }
 
-    const json = JSON.parse(source.toString('utf-8'));
+    const json = CJSON.parse(source.toString('utf-8'));
 
     json.compilerOptions = {
       ...json.compilerOptions,
@@ -133,7 +139,7 @@ function updateTsConfig(): (host: Tree) => Tree {
       }
     };
 
-    host.overwrite(filePath, JSON.stringify(json, null, 2));
+    host.overwrite(filePath, CJSON.stringify(json, null, 2));
     return host;
   };
 }
