@@ -37,8 +37,8 @@ export default function (options: ComponentOptions): Rule {
         inlineTemplate = project.schematics['@schematics/angular:component'].inlineTemplate;
     }
 
-    options.inlineStyle = (options.styles !== undefined ? !options.styles : inlineStyle);
-    options.inlineTemplate = (options.template !== undefined ? !options.template : inlineTemplate);
+    options.inlineStyle = inlineStyle;
+    options.inlineTemplate = inlineTemplate;
 
     const ngOptions = {
       ...options,

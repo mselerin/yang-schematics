@@ -41,19 +41,28 @@
       "description": "Flag to indicate if a component is created.",
       "alias": "c"
     },
-    "styleext": {
-      "description": "The file extension to be used for style files.",
+    "style": {
+      "description": "The file extension or preprocessor to use for style files.",
       "type": "string",
-      "default": "scss"
+      "default": "scss",
+      "enum": [
+        "css",
+        "scss",
+        "sass",
+        "less",
+        "styl"
+      ]
     },
-    "styles": {
+    "inlineStyle": {
+      "description": "When true, includes styles inline in the component.ts file. Only CSS styles can be included inline. By default, an external styles file is created and referenced in the component.ts file.",
       "type": "boolean",
-      "description": "Specifies if a style file is generated.",
+      "default": false,
       "alias": "s"
     },
-    "template": {
+    "inlineTemplate": {
+      "description": "When true, includes template inline in the component.ts file. By default, an external template file is created and referenced in the component.ts file.",
       "type": "boolean",
-      "description": "Specifies if a template file is generated.",
+      "default": false,
       "alias": "t"
     }
   },

@@ -24,15 +24,15 @@ export interface Schema {
    */
   component?: boolean;
   /**
-   * Specifies if the component generation should have a separate template file.
+   * The file extension to be used for style files.
    */
-  template?: boolean;
+  style?: string;
   /**
    * Specifies if the component generation should have a separate style file.
    */
-  styles?: boolean;
+  inlineStyle?: boolean;
   /**
-   * The file extension to be used for style files.
+   * Specifies if the component generation should have a separate template file.
    */
-  styleext?: string;
+  inlineTemplate?: boolean;
 }
