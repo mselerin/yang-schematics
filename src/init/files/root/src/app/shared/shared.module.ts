@@ -2,8 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {PropercasePipe} from './pipes/propercase.pipe';
-import {PageHeaderComponent} from './components/page-header.component';
 
 
 const MODULES: any[] = [
@@ -14,8 +12,6 @@ const MODULES: any[] = [
 ];
 
 const DECLARATIONS: any[] = [
-  PropercasePipe,
-  PageHeaderComponent
 ];
 
 
