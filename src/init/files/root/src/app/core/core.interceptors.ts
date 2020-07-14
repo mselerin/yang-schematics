@@ -1,5 +1,5 @@
-import { environment } from '@env/environment';
-import { Injectable, NgModule } from '@angular/core';
+import {environment} from '@env/environment';
+import {Injectable, NgModule} from '@angular/core';
 import {
   HTTP_INTERCEPTORS,
   HttpClientModule,

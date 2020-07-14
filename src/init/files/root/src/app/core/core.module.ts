@@ -1,8 +1,11 @@
+/**
+ * The CoreModule should only contains modules that need to be initialized first.
+ * Typically, you will import here modules that have a 'forRoot()' method.
+ */
 import {APP_INITIALIZER, Injector, NgModule, Optional, SkipSelf} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientModule} from '@angular/common/http';
 import {init as coreInitializer} from './core.initializer';
 import {InterceptorsModule} from './core.interceptors';
 
@@ -22,7 +25,6 @@ export function initializersFactory(injector: Injector) {
 
 
 const PROVIDERS = [
-  // Init application
   {
     provide: APP_INITIALIZER,
     multi: true,
@@ -33,7 +35,6 @@ const PROVIDERS = [
 
 
 const MODULES = [
-  CommonModule,
   BrowserModule,
   BrowserAnimationsModule,
   HttpClientModule,
