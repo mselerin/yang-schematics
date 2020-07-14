@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LOGGER } from './logger.service';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {LOGGER} from './logger.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigService {

@@ -1,16 +1,9 @@
-import { NgModule } from '@angular/core';
-
-import { SharedModule } from '@app/shared/shared.module';
-import { MainLayoutModule } from '@app/layouts/main/main-layout.module';
-
-const MODULES = [
-  SharedModule,
-  MainLayoutModule
-];
-
+import {NgModule} from '@angular/core';
+import {MainLayoutModule} from './main/main-layout.module';
 
 @NgModule({
-  imports: MODULES,
-  exports: [MainLayoutModule]
+  exports: [
+    MainLayoutModule
+  ]
 })
 export class LayoutsModule {}
