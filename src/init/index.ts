@@ -53,8 +53,8 @@ export default function (options: InitOptions): Rule {
       schematic('feature', {
         name: 'home',
         component: true,
-        template: true,
-        styles: true
+        inlineTemplate: false,
+        inlineStyle: false
       }),
 
       mergeWith(apply(url('./files/home'), [
