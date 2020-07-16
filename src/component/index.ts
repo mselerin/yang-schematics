@@ -25,20 +25,11 @@ export default function (options: ComponentOptions): Rule {
 
     const workspace = getWorkspace(host);
     const project = workspace.projects[options.project as string];
+    const schematics = project?.schematics ?? {};
+    const schematic = schematics['@schematics/angular:component'] ?? {};
 
-    let inlineStyle = options.inlineStyle;
-    let inlineTemplate = options.inlineTemplate;
-
-    if (project.schematics && project.schematics['@schematics/angular:component']) {
-      if (inlineStyle === undefined)
-        inlineStyle = project.schematics['@schematics/angular:component'].inlineStyle;
-
-      if (inlineTemplate === undefined)
-        inlineTemplate = project.schematics['@schematics/angular:component'].inlineTemplate;
-    }
-
-    options.inlineStyle = inlineStyle;
-    options.inlineTemplate = inlineTemplate;
+    options.inlineStyle = options.inlineStyle ?? schematic.inlineStyle;
+    options.inlineTemplate = options.inlineTemplate ?? schematic.inlineTemplate;
 
     const ngOptions = {
       ...options,
