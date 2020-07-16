@@ -48,8 +48,8 @@ describe('Component Schematic', () => {
         appTree = await yangSchematicRunner.runSchematicAsync('component', {
           ...defaultOptions, name: 'nothing/' + elementName,
           flat: true,
-          template: false,
-          styles: false
+          inlineTemplate: true,
+          inlineStyle: true
         }, appTree).toPromise();
 
         const files = appTree.files;
@@ -63,7 +63,8 @@ describe('Component Schematic', () => {
         appTree = await yangSchematicRunner.runSchematicAsync('component', {
           ...defaultOptions, name: 'nothing/' + elementName,
           flat: true,
-          inlineTemplate: false
+          inlineTemplate: false,
+          inlineStyle: true
         }, appTree).toPromise();
 
         const files = appTree.files;

@@ -56,9 +56,9 @@ export default function (options: FeatureOptions): Rule {
       routing: true,
       route: '',
       flat: true,
-      styleext: options.styleext,
-      template: options.template,
-      styles: options.styles
+      style: options.style,
+      inlineStyle: options.inlineStyle,
+      inlineTemplate: options.inlineTemplate
     }) : noop();
 
 

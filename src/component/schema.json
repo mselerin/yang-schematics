@@ -27,18 +27,22 @@
       },
       "x-prompt": "What name would you like to use for the component?"
     },
+    "displayBlock": {
+      "description": "Specifies if the style will contain `:host { display: block; }`.",
+      "type": "boolean",
+      "default": false,
+      "alias": "b"
+    },
     "inlineStyle": {
       "description": "When true, includes styles inline in the component.ts file. Only CSS styles can be included inline. By default, an external styles file is created and referenced in the component.ts file.",
       "type": "boolean",
-      "x-default": true,
-      "alias": "is",
+      "alias": "s",
       "x-user-analytics": 9
     },
     "inlineTemplate": {
       "description": "When true, includes template inline in the component.ts file. By default, an external template file is created and referenced in the component.ts file.",
       "type": "boolean",
-      "x-default": true,
-      "alias": "it",
+      "alias": "t",
       "x-user-analytics": 10
     },
     "viewEncapsulation": {
@@ -138,17 +142,6 @@
       "x-user-analytics": 15
     },
 
-
-    "styles": {
-      "type": "boolean",
-      "description": "Specifies if a style file is generated.",
-      "alias": "s"
-    },
-    "template": {
-      "type": "boolean",
-      "description": "Specifies if a template file is generated.",
-      "alias": "t"
-    },
     "routing": {
       "type": "boolean",
       "default": false,

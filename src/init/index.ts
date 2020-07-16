@@ -225,20 +225,35 @@ function updateEnvironment(host: Tree, file: string): void {
 function updateProjectWorkspace(): (host: Tree) => Rule {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
-    const project = workspace.defaultProject as string;
+    const projectName = workspace.defaultProject as string;
 
     workspace.cli = {
       'defaultCollection': 'yang-schematics'
     };
 
-    const architect = workspace.projects[project].architect;
-    if (!architect) throw new Error(`expected node projects/${project}/architect in angular.json`);
+    const project = workspace.projects[projectName];
+
+    let schematics = project.schematics;
+    if (!schematics) {
+      schematics = {};
+      project['schematics'] = schematics;
+    }
+
+    const componentSchematic = schematics['@schematics/angular:component'];
+
+    componentSchematic.inlineTemplate = componentSchematic.inlineTemplate ?? false;
+    componentSchematic.inlineStyle = componentSchematic.inlineStyle ?? true;
+
+    schematics['@schematics/angular:component'] = sortByKey(componentSchematic);
+
+    const architect = project.architect;
+    if (!architect) throw new Error(`expected node projects/${projectName}/architect in angular.json`);
 
     const build = architect.build;
-    if (!build) throw new Error(`expected node projects/${project}/architect/build in angular.json`);
+    if (!build) throw new Error(`expected node projects/${projectName}/architect/build in angular.json`);
 
     const test = architect.test;
-    if (!test) throw new Error(`expected node projects/${project}/architect/test in angular.json`);
+    if (!test) throw new Error(`expected node projects/${projectName}/architect/test in angular.json`);
 
     // Add stylePreprocessorOptions
     const stylePreprocessorOptions = {
@@ -256,7 +271,7 @@ function updateProjectWorkspace(): (host: Tree) => Rule {
     (<any>build.options)['extraWebpackConfig'] = 'webpack.extra.js';
 
     const serve = architect.serve;
-    if (!serve) throw new Error(`expected node projects/${project}/architect/serve in angular.json`);
+    if (!serve) throw new Error(`expected node projects/${projectName}/architect/serve in angular.json`);
 
     serve.builder = <any>'ngx-build-plus:dev-server';
     (<any>serve.options)['extraWebpackConfig'] = 'webpack.extra.js';
