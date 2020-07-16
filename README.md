@@ -179,12 +179,9 @@ Generates a component under `app/shared/components`.
 `ng g component my-super-feature/my-feature-component`  
 Generates a component under `app/features/my-super-feature/my-feature-component`.
 
-
-
 ##### Options
-* `--styles` : Add a `name.component.scss`
-* `--template` : Add a `name.component.html`
-* `--flat` : Does not create a sub-folder for the component
+* `--routing` : Specifies if a route should be generated for this component
+* `--route <name>` : Specifies the name of the route to generate
 
 
 ***
