@@ -214,6 +214,12 @@ Replace [Karma](https://karma-runner.github.io) by [Jest](https://jestjs.io/) wi
 Your `npm run test` and `ng test` commands still work but now, you can also use `npm run jest:watch`.
 
 
+***
+### I18N
+`ng g i18n`  
+Add [@ngx-translate/core](https://github.com/ngx-translate/core) to the project.  
+
+
 
 ## License
 MIT
