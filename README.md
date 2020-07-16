@@ -162,10 +162,12 @@ If you have changed it, don't forget to append `yang-schematics:` before every s
 
 ### Feature
 `ng g feature my-super-feature` (or `ng g f...`)  
-Generates a complete feature under app/features.
+Generates a feature under app/features with an empty component. 
+
+To skip the component generation, use : `ng g feature foo --component=false` or `ng g f foo -c=false`
 
 ##### Options
-* `--component` : Add a new 'my-super-feature' component. Options from the 'component' schematic are available.
+* `--component` : Create a 'my-super-feature' component. Options from the 'component' schematic are available. (default: true)
 
 
 ***
