@@ -1,9 +1,11 @@
 import {NgModule} from '@angular/core';
-import {SharedModule} from '@app/shared/shared.module';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
 import {MainLayoutComponent} from './main-layout.component';
 
 const MODULES = [
-  SharedModule
+  CommonModule,
+  RouterModule
 ];
 
 const DECLARATIONS = [
