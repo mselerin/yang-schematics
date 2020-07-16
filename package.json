@@ -16,7 +16,7 @@
     "watch": "tsc -p tsconfig.json --watch",
     "test": "jest --coverage",
     "prepack": "npm run build && npm run test",
-    "release": "standard-version",
+    "release": "npm run prepack && standard-version",
     "codecov": "cat coverage/lcovonly/lcov.info | codecov"
   },
   "keywords": [
