@@ -14,15 +14,14 @@ import {
   url
 } from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
-import {getRootPath, YangUtils} from '../utils/yang-utils';
+import {getSourceRoot, YangUtils} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
 import {findModuleFromOptions} from '@schematics/angular/utility/find-module';
 import {parseName} from '@schematics/angular/utility/parse-name';
 
 export default function (options: FeatureOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const rootPath = getRootPath(host, options);
-
+    const rootPath = getSourceRoot(host, options);
     let originalName = options.name;
 
     if (options.name.includes('/')) {
@@ -79,8 +78,8 @@ function updateRouting(options: FeatureOptions): (host: Tree) => Tree {
     let file = '';
     let varName = '';
 
-    if (options.module === YangUtils.FEATURES_MODULE_FILE) {
-      file = YangUtils.FEATURES_MODULE_FILE;
+    if (options.module.endsWith(YangUtils.FEATURES_MODULE_FILE)) {
+      file = options.module;
       varName = 'FEATURES_ROUTES';
     }
     else {
@@ -90,10 +89,11 @@ function updateRouting(options: FeatureOptions): (host: Tree) => Tree {
 
     // Ajouter la route
     const sourceFile = CodeUtils.readSourceFile(host, file);
-    let path = (options.path || '').replace('/src/app/', '@app/');
+    let routePath = (options.path || '').replace('/src/app/', '@app/');
+    routePath = routePath.substring(routePath.indexOf('@app/'));
 
     CodeUtils.insertInVariableArray(sourceFile, varName,
-      `{ path: '${strings.dasherize(options.name)}', loadChildren: () => import('${path}/${strings.dasherize(options.name)}.module').then(m => m.${strings.classify(options.name)}Module) }`
+      `{ path: '${strings.dasherize(options.name)}', loadChildren: () => import('${routePath}/${strings.dasherize(options.name)}.module').then(m => m.${strings.classify(options.name)}Module) }`
     );
 
     CodeUtils.writeSourceFile(host, file, sourceFile);

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
-const PKG = require("./package.json");
+const PKG = require('./package.json');
 const BUILD_DATE = new Date();
 
 const MANIFEST = {

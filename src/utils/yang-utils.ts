@@ -23,7 +23,28 @@ export function forceOverwrite(host: Tree): Rule {
 }
 
 
-export function getRootPath(host: Tree, options: any): string {
+export function getProjectName(host: Tree, options: any): string {
+  return options.project ?? getWorkspace(host).defaultProject;
+}
+
+export function getProjectRoot(host: Tree, options: any, suffix = false): string {
+  const workspace = getWorkspace(host);
+  if (!options.project) {
+    options.project = workspace.defaultProject;
+  }
+
+  const project = workspace.projects[options.project as string];
+  let projectRoot = project.root ?? '';
+
+  if (suffix && projectRoot) {
+    projectRoot += '/';
+  }
+
+  return projectRoot;
+}
+
+
+export function getSourceRoot(host: Tree, options: any): string {
   const workspace = getWorkspace(host);
   if (!options.project) {
     options.project = workspace.defaultProject;

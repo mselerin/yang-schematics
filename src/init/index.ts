@@ -14,10 +14,10 @@ import {
   url
 } from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
-import {getWorkspace, updateWorkspace} from "@schematics/angular/utility/config";
+import {getWorkspace, updateWorkspace} from '@schematics/angular/utility/config';
 import * as path from 'path';
-import {EOL} from "os";
-import {forceOverwrite, sortByKey} from '../utils/yang-utils';
+import {EOL} from 'os';
+import {forceOverwrite, getProjectName, getProjectRoot, sortByKey} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
 import {extraDependencies, extraDevDependencies} from './dependencies';
 import * as CJSON from 'comment-json';
@@ -31,6 +31,9 @@ export default function (options: InitOptions): Rule {
       throw new SchematicsException(`Invalid options, "name" is required.`);
     }
 
+    const root = getProjectRoot(host, options);
+    const projectName = getProjectName(host, options);
+
     return chain([
       mergeWith(apply(url('./files/root'), [
         template({
@@ -38,19 +41,20 @@ export default function (options: InitOptions): Rule {
           ...options,
           buildDate: new Date().toISOString()
         }),
-        move(''),
+        move(root),
         forceOverwrite(host)
       ]), MergeStrategy.Overwrite),
 
       updatePackageJson(),
-      updateTsConfig(),
+      updateTsConfig(options),
       updateGitIgnore(),
-      updatePolyfills(),
-      updateKarmaTest(),
-      updateEnvironments(),
-      updateProjectWorkspace(),
+      updatePolyfills(options),
+      updateKarmaTest(options),
+      updateEnvironments(options),
+      updateProjectWorkspace(options),
 
       schematic('feature', {
+        project: projectName,
         name: 'home',
         component: true,
         inlineTemplate: false,
@@ -62,7 +66,7 @@ export default function (options: InitOptions): Rule {
           ...strings,
           ...options
         }),
-        move('src/app/features/home'),
+        move(path.join(root, 'src/app/features/home')),
       ]), MergeStrategy.Overwrite)
     ])(host, context);
   };
@@ -113,8 +117,10 @@ function updatePackageJson(): (host: Tree) => Tree {
 
 
 
-function updateTsConfig(): (host: Tree) => Tree {
+function updateTsConfig(options: InitOptions): (host: Tree) => Tree {
   return (host: Tree) => {
+    const projectRoot = getProjectRoot(host, options, true);
+
     let filePath = 'tsconfig.base.json';
     if (!host.exists(filePath)) {
       filePath = 'tsconfig.json';
@@ -134,8 +140,8 @@ function updateTsConfig(): (host: Tree) => Tree {
     json.compilerOptions = {
       ...json.compilerOptions,
       "paths": {
-        "@app/*": ["src/app/*"],
-        "@env/*": ["src/environments/*"]
+        "@app/*": [projectRoot + 'src/app/*'],
+        "@env/*": [projectRoot + 'src/environments/*']
       }
     };
 
@@ -166,9 +172,10 @@ function updateGitIgnore(): (host: Tree) => Tree {
 }
 
 
-function updatePolyfills(): (host: Tree) => Tree {
+function updatePolyfills(options: InitOptions): (host: Tree) => Tree {
   return (host: Tree) => {
-    const filePath = 'src/polyfills.ts';
+    const projectRoot = getProjectRoot(host, options);
+    const filePath = path.join(projectRoot, 'src/polyfills.ts');
     if (!host.exists(filePath))
       return host;
 
@@ -184,9 +191,11 @@ function updatePolyfills(): (host: Tree) => Tree {
   };
 }
 
-function updateKarmaTest(): (host: Tree) => Tree {
+function updateKarmaTest(options: InitOptions): (host: Tree) => Tree {
   return (host: Tree) => {
-    const file = 'src/test.ts';
+    const projectRoot = getProjectRoot(host, options);
+
+    const file = path.join(projectRoot, 'src/test.ts');
     if (host.exists(file)) {
       const source = host.read(file);
       if (!source)
@@ -202,10 +211,12 @@ function updateKarmaTest(): (host: Tree) => Tree {
   };
 }
 
-function updateEnvironments(): (host: Tree) => Tree {
+function updateEnvironments(options: InitOptions): (host: Tree) => Tree {
   return (host: Tree) => {
-    updateEnvironment(host, 'src/environments/environment.ts');
-    updateEnvironment(host, 'src/environments/environment.prod.ts');
+    const projectRoot = getProjectRoot(host, options);
+
+    updateEnvironment(host, path.join(projectRoot, 'src/environments/environment.ts'));
+    updateEnvironment(host, path.join(projectRoot, 'src/environments/environment.prod.ts'));
     return host;
   };
 }
@@ -216,22 +227,21 @@ function updateEnvironment(host: Tree, file: string): void {
 
   const sourceFile = CodeUtils.readSourceFile(host, file);
 
-  CodeUtils.insertInVariableObject(sourceFile, "environment", `apiUrl: '/api/'`);
+  CodeUtils.insertInVariableObject(sourceFile, 'environment', `apiUrl: '/api/'`);
   CodeUtils.writeSourceFile(host, file, sourceFile);
 }
 
 
 
-function updateProjectWorkspace(): (host: Tree) => Rule {
+function updateProjectWorkspace(options: InitOptions): (host: Tree) => Rule {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
-    const projectName = workspace.defaultProject as string;
+    const projectName = getProjectName(host, options);
+    const project = workspace.projects[projectName];
 
     workspace.cli = {
       'defaultCollection': 'yang-schematics'
     };
-
-    const project = workspace.projects[projectName];
 
     let schematics = project.schematics;
     if (!schematics) {
@@ -255,10 +265,13 @@ function updateProjectWorkspace(): (host: Tree) => Rule {
     const test = architect.test;
     if (!test) throw new Error(`expected node projects/${projectName}/architect/test in angular.json`);
 
+
+    const projectRoot = getProjectRoot(host, options, true);
+
     // Add stylePreprocessorOptions
     const stylePreprocessorOptions = {
       "includePaths": [
-        "src/styles"
+        projectRoot + 'src/styles'
       ]
     };
 
@@ -268,13 +281,13 @@ function updateProjectWorkspace(): (host: Tree) => Rule {
 
     // Add ngx-build-plus
     build.builder = <any>'ngx-build-plus:build';
-    (<any>build.options)['extraWebpackConfig'] = 'webpack.extra.js';
+    (<any>build.options)['extraWebpackConfig'] = projectRoot + 'webpack.extra.js';
 
     const serve = architect.serve;
     if (!serve) throw new Error(`expected node projects/${projectName}/architect/serve in angular.json`);
 
     serve.builder = <any>'ngx-build-plus:dev-server';
-    (<any>serve.options)['extraWebpackConfig'] = 'webpack.extra.js';
+    (<any>serve.options)['extraWebpackConfig'] = projectRoot + 'webpack.extra.js';
 
     return updateWorkspace(workspace);
   }

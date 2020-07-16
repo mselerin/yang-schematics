@@ -5,11 +5,11 @@ import {CodeUtils} from '../utils/code-utils';
 import {getWorkspace} from '@schematics/angular/utility/config';
 import {buildRelativePath, findModuleFromOptions} from '@schematics/angular/utility/find-module';
 import {parseName} from '@schematics/angular/utility/parse-name';
-import {getRootPath, smartPath} from '../utils/yang-utils';
+import {getSourceRoot, smartPath} from '../utils/yang-utils';
 
 export default function (options: ComponentOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const rootPath = getRootPath(host, options);
+    const rootPath = getSourceRoot(host, options);
     smartPath(rootPath, options, 'components');
 
     if (!options.path) {

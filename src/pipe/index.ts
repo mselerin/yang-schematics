@@ -4,11 +4,11 @@ import {strings} from '@angular-devkit/core';
 import {CodeUtils} from '../utils/code-utils';
 import {parseName} from '@schematics/angular/utility/parse-name';
 import {buildRelativePath, findModuleFromOptions} from '@schematics/angular/utility/find-module';
-import {getRootPath, smartPath} from '../utils/yang-utils';
+import {getSourceRoot, smartPath} from '../utils/yang-utils';
 
 export default function (options: PipeOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const rootPath = getRootPath(host, options);
+    const rootPath = getSourceRoot(host, options);
     smartPath(rootPath, options);
 
     if (!options.path) {
