@@ -1,6 +1,8 @@
+import {Path} from '@angular-devkit/core';
 import {FileEntry, forEach, Rule, SchematicContext, Tree} from '@angular-devkit/schematics';
 import {getWorkspace} from '@schematics/angular/utility/config';
 import {NodePackageInstallTask} from '@angular-devkit/schematics/tasks';
+import {findModuleFromOptions, ModuleOptions} from '@schematics/angular/utility/find-module';
 
 export class YangUtils {
   static MAIN_FILE = '/src/main.ts';
@@ -49,6 +51,22 @@ export function smartPath(rootPath: string, options: any, sharedSubFolder?: stri
         options.path = `${rootPath}/shared/${sharedSubFolder}/${nameArgs.join('/')}`;
       else
         options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
+    }
+  }
+}
+
+
+export function findClosestModule(host: Tree, options: ModuleOptions, defaultModule?: string): Path | undefined {
+  try {
+    return findModuleFromOptions(host, options);
+  }
+  catch (err) {
+    if (!options.module) {
+      const opt = {...options, module: defaultModule};
+      return findModuleFromOptions(host, opt);
+    }
+    else {
+      throw err;
     }
   }
 }

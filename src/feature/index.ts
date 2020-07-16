@@ -14,9 +14,8 @@ import {
   url
 } from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
-import {getRootPath, YangUtils} from '../utils/yang-utils';
+import {findClosestModule, getRootPath, YangUtils} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
-import {findModuleFromOptions} from '@schematics/angular/utility/find-module';
 import {parseName} from '@schematics/angular/utility/parse-name';
 
 export default function (options: FeatureOptions): Rule {
@@ -37,7 +36,7 @@ export default function (options: FeatureOptions): Rule {
     const parsedPath = parseName(options.path, options.name);
     options.path = parsedPath.path;
 
-    options.module = findModuleFromOptions(host, options);
+    options.module = findClosestModule(host, options);
 
 
     const templateSource = apply(url('./files'), [
