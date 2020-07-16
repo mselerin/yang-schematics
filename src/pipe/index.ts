@@ -9,7 +9,7 @@ import {findClosestModule, getRootPath, smartPath} from '../utils/yang-utils';
 export default function (options: PipeOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     const rootPath = getRootPath(host, options);
-    smartPath(rootPath, options);
+    smartPath(rootPath, options, 'pipes');
 
     if (!options.path) {
       options.path = `${rootPath}/shared/pipes`;

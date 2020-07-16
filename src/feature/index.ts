@@ -50,7 +50,7 @@ export default function (options: FeatureOptions): Rule {
 
     const createComp = options.component ? schematic('component', {
       project: options.project,
-      name: originalName,
+      name: options.name,
       path: options.path,
       routing: true,
       route: '',

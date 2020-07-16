@@ -57,8 +57,8 @@ describe('Pipe Schematic', () => {
       it('should create files inside shared/path', () => {
         const files = appTree.files;
 
-        expect(files).toContain(`/src/app/shared/modules/foo/bar/super-dummy.pipe.ts`);
-        expect(files).toContain(`/src/app/shared/modules/foo/bar/super-dummy.pipe.spec.ts`);
+        expect(files).toContain(`/src/app/shared/foo/bar/super-dummy.pipe.ts`);
+        expect(files).toContain(`/src/app/shared/foo/bar/super-dummy.pipe.spec.ts`);
       });
     });
 
@@ -77,12 +77,12 @@ describe('Pipe Schematic', () => {
       it('should create files inside shared/foo/super-dummy', () => {
         const files = appTree.files;
 
-        expect(files).toContain(`/src/app/shared/modules/foo/super-dummy/super-dummy.pipe.ts`);
-        expect(files).toContain(`/src/app/shared/modules/foo/super-dummy/super-dummy.pipe.spec.ts`);
+        expect(files).toContain(`/src/app/shared/foo/super-dummy/super-dummy.pipe.ts`);
+        expect(files).toContain(`/src/app/shared/foo/super-dummy/super-dummy.pipe.spec.ts`);
       });
 
       it('should import pipe inside shared/modules/foo/foo.module', () => {
-        const moduleContent = getFileContent(appTree, '/src/app/shared/modules/foo/foo.module.ts');
+        const moduleContent = getFileContent(appTree, '/src/app/shared/foo/foo.module.ts');
         expect(moduleContent).toMatch(/import.*SuperDummyPipe.*from ['"].\/super-dummy\/super-dummy.pipe['"]/);
         expect(moduleContent).toMatch(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyPipe\r?\n/m);
       });

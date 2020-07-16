@@ -56,8 +56,8 @@ describe('Directive Schematic', () => {
       it('should create files inside shared/path', () => {
         const files = appTree.files;
 
-        expect(files).toContain(`/src/app/shared/modules/foo/bar/super-dummy.directive.ts`);
-        expect(files).toContain(`/src/app/shared/modules/foo/bar/super-dummy.directive.spec.ts`);
+        expect(files).toContain(`/src/app/shared/foo/bar/super-dummy.directive.ts`);
+        expect(files).toContain(`/src/app/shared/foo/bar/super-dummy.directive.spec.ts`);
       });
     });
 
@@ -73,15 +73,15 @@ describe('Directive Schematic', () => {
         }, appTree).toPromise();
       });
 
-      it('should create files inside shared/foo/super-dummy', () => {
+      it('should create files inside shared/modules/foo/super-dummy', () => {
         const files = appTree.files;
 
-        expect(files).toContain(`/src/app/shared/modules/foo/super-dummy/super-dummy.directive.ts`);
-        expect(files).toContain(`/src/app/shared/modules/foo/super-dummy/super-dummy.directive.spec.ts`);
+        expect(files).toContain(`/src/app/shared/foo/super-dummy/super-dummy.directive.ts`);
+        expect(files).toContain(`/src/app/shared/foo/super-dummy/super-dummy.directive.spec.ts`);
       });
 
       it('should import directive inside shared/modules/foo/foo.module', () => {
-        const moduleContent = getFileContent(appTree, '/src/app/shared/modules/foo/foo.module.ts');
+        const moduleContent = getFileContent(appTree, '/src/app/shared/foo/foo.module.ts');
         expect(moduleContent).toMatch(/import.*SuperDummyDirective.*from ['"].\/super-dummy\/super-dummy.directive['"]/);
         expect(moduleContent).toMatch(/const DECLARATIONS: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyDirective\r?\n/m);
       });

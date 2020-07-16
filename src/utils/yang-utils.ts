@@ -12,6 +12,13 @@ export class YangUtils {
   static ROUTING_MODULE_FILE = '/src/app/app-routing.module.ts';
 }
 
+export interface PathOptions {
+  project?: string;
+  module?: string;
+  name: string;
+  flat?: boolean;
+  path?: string;
+}
 
 export function forceOverwrite(host: Tree): Rule {
   return forEach((entry: FileEntry) => {
@@ -25,7 +32,7 @@ export function forceOverwrite(host: Tree): Rule {
 }
 
 
-export function getRootPath(host: Tree, options: any): string {
+export function getRootPath(host: Tree, options: PathOptions): string {
   const workspace = getWorkspace(host);
   if (!options.project) {
     options.project = workspace.defaultProject;
@@ -37,22 +44,31 @@ export function getRootPath(host: Tree, options: any): string {
 }
 
 
-export function smartPath(rootPath: string, options: any, sharedSubFolder?: string): void {
-  if (!sharedSubFolder)
-    sharedSubFolder = 'modules';
-
-  if (options.name.includes('/')) {
-    let nameArgs: string[] = options.name.split('/');
-    let classifier: string = nameArgs.shift() as string;
-    options.name = nameArgs.pop() as string;
-
-    if (!options.path) {
-      if ('shared' === classifier)
-        options.path = `${rootPath}/shared/${sharedSubFolder}/${nameArgs.join('/')}`;
-      else
-        options.path = `${rootPath}/features/${classifier}/${nameArgs.join('/')}`;
-    }
+export function smartPath(rootPath: string, options: PathOptions, sharedSubFolder: string): void {
+  if (options.path) {
+    return;
   }
+
+  if (!options.name.includes('/')) {
+    return;
+  }
+
+  const nameArgs: string[] = options.name.split('/');
+  const classifier: string = nameArgs.shift() as string;
+  options.name = nameArgs.pop() as string;
+
+  if ('shared' === classifier) {
+    if (sharedSubFolder && nameArgs.length === 0) {
+      nameArgs.unshift(sharedSubFolder);
+    }
+
+    nameArgs.unshift('shared');
+  }
+  else {
+    nameArgs.unshift('features', classifier);
+  }
+
+  options.path = `${rootPath}/${nameArgs.join('/')}`;
 }
 
 
