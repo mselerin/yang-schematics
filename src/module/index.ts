@@ -12,7 +12,7 @@ export default function (options: ModuleOptions): Rule {
     smartPath(rootPath, options, '');
 
     if (!options.path) {
-      options.path = `${rootPath}/shared/modules`;
+      options.path = `${rootPath}/shared`;
     }
 
     const parsedPath = parseName(options.path, options.name);

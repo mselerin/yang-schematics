@@ -46,13 +46,13 @@ describe('Module Schematic', () => {
 
       it('should create files inside shared', () => {
         const files = appTree.files;
-        expect(files).toContain(`/src/app/shared/modules/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.ts`);
+        expect(files).toContain(`/src/app/shared/${strings.dasherize(elementName)}/${strings.dasherize(elementName)}.module.ts`);
       });
 
 
       it('should import module inside shared.module', () => {
         const moduleContent = getFileContent(appTree, YangUtils.SHARED_MODULE_FILE);
-        expect(moduleContent).toMatch(/import.*SuperDummyModule.*from ['"]\.\/modules\/super-dummy\/super-dummy.module['"]/);
+        expect(moduleContent).toMatch(/import.*SuperDummyModule.*from ['"]\.\/super-dummy\/super-dummy.module['"]/);
         expect(moduleContent).toMatch(/const MODULES: any\[]\s*=\s*\[[^\]]*\r?\n\s+SuperDummyModule\r?\n/m);
       });
     });
