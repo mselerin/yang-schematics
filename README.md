@@ -71,13 +71,11 @@ You can create what you want inside a feature (a component, a directive, a modul
 ```
 PROJECT_ROOT
 │  ...
-│  prebuild.js            <----------------- Script for generating "app-manifest.json" (version number and built date)
+│  webpack.extra.js            <----------------- Script for generating "app-manifest.json" (version number and built date)
 │  ...
 │
 ├───e2e
 └───src
-   │  ...
-   │  tsconfig.json
    │
    ├───app
    │  │  app-routing.module.ts    <------ Main routing
@@ -105,12 +103,14 @@ PROJECT_ROOT
    │  │       home.module.ts
    │  │  
    │  ├───layouts
+   │  │  └───main               <-------- Main layout module for the application
    │  │
    │  ├───models
    │  │     app-config.model.ts  <------- See assets/config/app-config.json
    │  │
    │  └───shared
-   │     │  shared.module.ts    <-------- Shared modules (where you can add 3rd party modules)
+   │     │  base.module.ts      <-------- Base modules for the main components (app & layouts)
+   │     │  shared.module.ts    <-------- Shared modules (where you can add 3rd party modules used almost everywhere)
    │     │
    │     ├───components
    │     └───pipes
