@@ -45,28 +45,6 @@ export class CodeUtils
   }
 
 
-  static extractArrayFromObject(block: string, arrName: string): string {
-    let ndxStart = block.indexOf(arrName);
-    if (ndxStart >= 0) {
-      let ndxEnd = block.indexOf(']', ndxStart + 1);
-      return block.substring(ndxStart, ndxEnd + 1);
-    }
-
-    return "";
-  }
-
-
-  static replaceArrayInObject(block: string, arrName: string, arrStr: string): string {
-    let ndxStart = block.indexOf(arrName);
-    if (ndxStart >= 0) {
-      let ndxEnd = block.indexOf(']', ndxStart + 1);
-      return [block.slice(0, ndxStart), arrStr, block.slice(ndxEnd + 1)].join('');
-    }
-
-    return block;
-  }
-
-
   static getVariableDeclaration(sourceFile: SourceFile, variableName: string): VariableDeclaration {
     let varDeclaration = sourceFile.getVariableDeclaration(variableName);
     if (!varDeclaration) {

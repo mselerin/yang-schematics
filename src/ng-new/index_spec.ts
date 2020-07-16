@@ -61,4 +61,26 @@ describe('New Schematic', () => {
       expect(files).toContain('/bar/src/app/features/features.module.ts');
     });
   });
+
+  describe('With install', () => {
+    const newOptions: YangNewOptions = {
+      name: 'foo',
+      directory: 'bar',
+      skipInstall: false,
+      version: NG_VERSION
+    };
+
+    let appTree: UnitTestTree;
+    beforeEach(async () => {
+      appTree = await yangSchematicRunner.runSchematicAsync('ng-new', newOptions).toPromise();
+    });
+
+    it('should create files and launch install', () => {
+      const files = appTree.files;
+
+      expect(files).toContain('/bar/src/app/core/core.module.ts');
+      expect(files).toContain('/bar/src/app/shared/shared.module.ts');
+      expect(files).toContain('/bar/src/app/features/features.module.ts');
+    });
+  });
 });

@@ -60,7 +60,7 @@ describe('Feature Schematic', () => {
       expect(files).toContain('/src/app/features/bar/bar.module.ts');
       expect(files).toContain('/src/app/features/bar/bar.component.ts');
       expect(files).toContain('/src/app/features/bar/bar.component.html');
-      expect(files).toContain('/src/app/features/bar/bar.component.scss');
+      expect(files).not.toContain('/src/app/features/bar/bar.component.scss');
     });
 
 
