@@ -37,7 +37,7 @@
     },
     "component": {
       "type": "boolean",
-      "default": false,
+      "default": true,
       "description": "Flag to indicate if a component is created.",
       "alias": "c"
     },

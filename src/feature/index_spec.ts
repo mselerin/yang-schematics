@@ -51,8 +51,8 @@ describe('Feature Schematic', () => {
       appTree = await yangSchematicRunner.runSchematicAsync('feature', {
         name: featureName,
         component: true,
-        template: true,
-        styles: true
+        inlineTemplate: false,
+        inlineStyle: true
       }, appTree).toPromise();
 
       const files = appTree.files;
