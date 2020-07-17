@@ -28,18 +28,12 @@ export default function (options: YangNewOptions): Rule {
     }
 
     const ngNewOptions: NgNewOptions = {
+      ...options,
       directory: '/',
-      name: options.name,
       skipInstall: true,
       skipGit: true,
-      version: options.version,
       inlineStyle: options.inlineStyle ?? true,
-      inlineTemplate: options.inlineTemplate ?? false,
-      prefix: options.prefix,
-      viewEncapsulation: options.viewEncapsulation,
-      routing: options.routing,
-      style: options.style,
-      skipTests: options.skipTests
+      inlineTemplate: options.inlineTemplate ?? false
     };
 
     const yangInitOptions: YangInitOptions = {
