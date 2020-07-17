@@ -12,9 +12,8 @@ class LoggerService {
   public clientLogLevel: LogLevelEnum;
   public serverLogLevel: LogLevelEnum;
 
-
   constructor() {
-    this.loggingServiceUrl = null;
+    this.loggingServiceUrl = '';
     this.clientLogLevel = LogLevelEnum.INFO;
     this.serverLogLevel = LogLevelEnum.ERROR;
   }
@@ -40,16 +39,25 @@ class LoggerService {
 
   protected log(level: LogLevelEnum, ...msg: any[]): void {
     const logLevelStr: string = LogLevelEnum[level].toUpperCase();
-    const logFunction: string = logLevelStr.toLowerCase();
 
-
-    // Log dans la console
+    // Console logging
     if (level >= this.clientLogLevel) {
-      console[logFunction](logLevelStr, ...msg);
+      let fct = console.log;
+
+      if (LogLevelEnum.DEBUG === level)
+        fct = console.debug;
+      else if (LogLevelEnum.INFO === level)
+        fct = console.info;
+      else if (LogLevelEnum.WARN === level)
+        fct = console.warn;
+      else if (LogLevelEnum.ERROR === level)
+        fct = console.error;
+
+      fct(logLevelStr, ...msg);
     }
 
 
-    // Log vers le serveur
+    // Server logging
     if (level >= this.serverLogLevel && this.loggingServiceUrl) {
       try {
         fetch(`${this.loggingServiceUrl}/${logLevelStr}`, {
