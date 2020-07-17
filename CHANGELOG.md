@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/mselerin/yang-schematics/compare/v3.9.0...v4.0.0) (2020-07-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* generating a new feature now create a component by
+default
+* The component options 'style' & 'template' are removed
+in favor of 'inlineStyle' & 'inlineTmplate' (from Angular)
+* The component options 'style' & 'template' are removed
+in favor of 'inlineStyle' & 'inlineTmplate' (from Angular)
+
+### 🔧 Refactor
+
+* changing default values & options for inline-style (false) + inline-template (true) ([c6ad724](https://github.com/mselerin/yang-schematics/commit/c6ad724d49f5e2e618b31ee4719f1ed9dc535ca0))
+
+
+* Merge pull request #24 from mselerin/chore/clean-options ([68f0c55](https://github.com/mselerin/yang-schematics/commit/68f0c552a1701da3c0ae14a9793e6c330d7077bd)), closes [#24](https://github.com/mselerin/yang-schematics/issues/24)
+
+
+### 🚀 Features
+
+* adding a BaseModule for the AppComponent & Layouts ([e7f50b7](https://github.com/mselerin/yang-schematics/commit/e7f50b7a4ae3c4a7dddbab35c342f7f0a151c587))
+* create a component by default with features ([b2136ab](https://github.com/mselerin/yang-schematics/commit/b2136ab58ec72ad9e59c47fea7337979f701ce3e))
+* new i18n schematic + removing ngx-translate from the init schematic ([16bf926](https://github.com/mselerin/yang-schematics/commit/16bf9261d074a60522076887b0afb4833c3a29b9))
+* workspace compatibility ([8adff3f](https://github.com/mselerin/yang-schematics/commit/8adff3f7caacca997da8221925194a2df00b6d0d))
+
+
+### 🐛 Bug Fixes
+
+* all options from ng-new should be passed to the original schematic ([240466d](https://github.com/mselerin/yang-schematics/commit/240466d8b3b5e84b40639dcbba51f1a5031ea7e6))
+* logger service compatible with strict mode ([fcc9540](https://github.com/mselerin/yang-schematics/commit/fcc9540284d56cdbc2243e739f9015b49a4482cc))
+* smart path for generating elements ([b4c3129](https://github.com/mselerin/yang-schematics/commit/b4c3129f3a4008ad3a2539f85ed0c44f0b10509b))
+* test ([92b0ce0](https://github.com/mselerin/yang-schematics/commit/92b0ce0104611cede7bb3d1cb2e3567d9e9da48b))
+
 ## [3.9.0](https://github.com/mselerin/yang-schematics/compare/v3.8.1...v3.9.0) (2020-07-08)
 
 
