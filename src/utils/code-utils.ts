@@ -2,8 +2,7 @@ import {SchematicsException, Tree} from '@angular-devkit/schematics';
 import {Project, QuoteKind, SourceFile, VariableDeclaration} from 'ts-morph';
 import {StringUtils} from './string-utils';
 
-export class CodeUtils
-{
+export class CodeUtils {
   static readSourceFile(host: Tree, file: string): SourceFile {
     const text = host.read(file);
     if (text === null) {
