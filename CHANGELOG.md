@@ -9,7 +9,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 * generating a new feature now create a component by default
 * The component options 'style' & 'template' are removed in favor of 'inlineStyle' & 'inlineTmplate' (from Angular)
-* The component options 'style' & 'template' are removed in favor of 'inlineStyle' & 'inlineTmplate' (from Angular)
 
 ### 🔧 Refactor
 
