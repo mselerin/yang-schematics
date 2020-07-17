@@ -13,9 +13,4 @@ export class StringUtils {
 
     return startNdx;
   }
-
-
-  static findLastLetterOrDigit(str: string, startNdx: number = -1): number {
-    return StringUtils.findLast(str, /[a-z0-9]/i, startNdx)
-  }
 }

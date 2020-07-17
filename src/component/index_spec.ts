@@ -100,6 +100,22 @@ describe('Component Schematic', () => {
     });
 
 
+    describe('With path-like name', () => {
+      beforeEach(async () => {
+        appTree = await yangSchematicRunner.runSchematicAsync('component', {
+          ...defaultOptions, name: 'shared/foo/bar/' + elementName
+        }, appTree).toPromise();
+      });
+
+      it('should create files inside shared/path', () => {
+        const files = appTree.files;
+
+        expect(files).toContain(`/src/app/shared/foo/bar/super-dummy/super-dummy.component.ts`);
+        expect(files).toContain(`/src/app/shared/foo/bar/super-dummy/super-dummy.component.spec.ts`);
+      });
+    });
+
+
     describe('Feature component', () => {
       beforeEach(async () => {
         appTree = await yangSchematicRunner.runSchematicAsync('feature', {

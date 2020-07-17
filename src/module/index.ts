@@ -1,36 +1,24 @@
 import {Schema as ModuleOptions} from './schema';
-import {
-  apply,
-  chain,
-  filter,
-  mergeWith,
-  move,
-  noop,
-  Rule,
-  SchematicContext,
-  template,
-  Tree,
-  url
-} from '@angular-devkit/schematics';
+import {apply, chain, filter, mergeWith, move, noop, Rule, SchematicContext, template, Tree, url} from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
 import {CodeUtils} from '../utils/code-utils';
-import {buildRelativePath, findModuleFromOptions} from '@schematics/angular/utility/find-module';
+import {buildRelativePath} from '@schematics/angular/utility/find-module';
 import {parseName} from '@schematics/angular/utility/parse-name';
-import {getSourceRoot, smartPath} from '../utils/yang-utils';
+import {findClosestModule, getSourceRoot, smartPath} from '../utils/yang-utils';
 
 export default function (options: ModuleOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     const rootPath = getSourceRoot(host, options);
-    smartPath(rootPath, options);
+    smartPath(rootPath, options, '');
 
     if (!options.path) {
-      options.path = `${rootPath}/shared/modules`;
+      options.path = `${rootPath}/shared`;
     }
 
     const parsedPath = parseName(options.path, options.name);
     options.path = parsedPath.path;
 
-    options.module = findModuleFromOptions(host, options);
+    options.module = findClosestModule(host, options, 'shared');
 
     const templateSource = apply(url('./files'), [
       options.routing ? noop() : filter(path => !path.endsWith('-routing.module.ts')),

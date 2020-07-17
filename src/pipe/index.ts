@@ -3,13 +3,13 @@ import {chain, externalSchematic, Rule, SchematicContext, Tree} from '@angular-d
 import {strings} from '@angular-devkit/core';
 import {CodeUtils} from '../utils/code-utils';
 import {parseName} from '@schematics/angular/utility/parse-name';
-import {buildRelativePath, findModuleFromOptions} from '@schematics/angular/utility/find-module';
-import {getSourceRoot, smartPath} from '../utils/yang-utils';
+import {buildRelativePath} from '@schematics/angular/utility/find-module';
+import {findClosestModule, getSourceRoot, smartPath} from '../utils/yang-utils';
 
 export default function (options: PipeOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     const rootPath = getSourceRoot(host, options);
-    smartPath(rootPath, options);
+    smartPath(rootPath, options, 'pipes');
 
     if (!options.path) {
       options.path = `${rootPath}/shared/pipes`;
@@ -19,7 +19,7 @@ export default function (options: PipeOptions): Rule {
     options.name = parsedPath.name;
     options.path = parsedPath.path;
 
-    options.module = findModuleFromOptions(host, options);
+    options.module = findClosestModule(host, options, 'shared');
 
 
     const ngOptions = {

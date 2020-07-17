@@ -1,21 +1,16 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
+import {BaseModule} from '@app/shared/base.module';
 import {MainLayoutComponent} from './main-layout.component';
-
-const MODULES = [
-  CommonModule,
-  RouterModule
-];
 
 const DECLARATIONS = [
   MainLayoutComponent
 ];
 
-
 @NgModule({
-  imports: MODULES,
   declarations: DECLARATIONS,
-  exports: DECLARATIONS
+  exports: DECLARATIONS,
+  imports: [
+    BaseModule
+  ]
 })
 export class MainLayoutModule {}

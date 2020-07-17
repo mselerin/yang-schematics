@@ -96,7 +96,6 @@ describe('Feature Schematic', () => {
       }, appTree).toPromise();
 
       const files = appTree.files;
-
       expect(files).toContain('/src/app/features/foo/bar/bar.component.ts');
     });
   });
