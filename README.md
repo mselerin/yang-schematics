@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/yang-schematics.svg)](https://www.npmjs.com/package/yang-schematics)
-[![Node CI](https://github.com/mselerin/yang-schematics/workflows/Node%20CI/badge.svg?branch=master)](https://github.com/mselerin/yang-schematics/actions?query=workflow%3A%22Node+CI%22)
+[![CI](https://github.com/mselerin/yang-schematics/workflows/Node%20CI/badge.svg?branch=master)](https://github.com/mselerin/yang-schematics/actions?query=workflow%3A%22Node+CI%22)
 [![codecov](https://codecov.io/gh/mselerin/yang-schematics/branch/master/graph/badge.svg)](https://codecov.io/gh/mselerin/yang-schematics)
 
 # Yang Schematics
