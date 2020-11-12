@@ -22,3 +22,5 @@ jobs:
           npm test
         env:
           CI: true
+      - name: Codecov
+        uses: codecov/codecov-action@v1
