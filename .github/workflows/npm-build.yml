@@ -7,7 +7,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x, 14.x]
+
+    env:
+      NODE: ${{ matrix.node-version }}
 
     steps:
       - uses: actions/checkout@v1
@@ -24,3 +27,5 @@ jobs:
           CI: true
       - name: Codecov
         uses: codecov/codecov-action@v1
+        with:
+          env_vars: NODE
