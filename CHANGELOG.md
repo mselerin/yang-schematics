@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/mselerin/yang-schematics/compare/v4.0.0...v4.1.0) (2020-11-12)
+
+
+### 🚀 Features
+
+* update to Angular 11 ([038da16](https://github.com/mselerin/yang-schematics/commit/038da16288ea0aa246b71d3322614554042d3129))
+
 ## [4.0.0](https://github.com/mselerin/yang-schematics/compare/v3.9.0...v4.0.0) (2020-07-17)
 
 
