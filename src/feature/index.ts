@@ -1,27 +1,13 @@
 import {Schema as FeatureOptions} from './schema';
-import {
-  apply,
-  chain,
-  filter,
-  mergeWith,
-  move,
-  noop,
-  Rule,
-  schematic,
-  SchematicContext,
-  template,
-  Tree,
-  url
-} from '@angular-devkit/schematics';
+import {apply, chain, filter, mergeWith, move, noop, Rule, schematic, template, Tree, url} from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
 import {findClosestModule, getSourceRoot, YangUtils} from '../utils/yang-utils';
 import {CodeUtils} from '../utils/code-utils';
 import {parseName} from '@schematics/angular/utility/parse-name';
 
 export default function (options: FeatureOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return (host: Tree) => {
     const rootPath = getSourceRoot(host, options);
-    let originalName = options.name;
 
     if (options.name.includes('/')) {
       let nameArgs: string[] = options.name.split('/');
@@ -64,7 +50,7 @@ export default function (options: FeatureOptions): Rule {
       mergeWith(templateSource),
       createComp,
       updateRouting(options)
-    ])(host, context);
+    ]);
   };
 }
 

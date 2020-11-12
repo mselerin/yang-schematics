@@ -7,14 +7,13 @@ import {
   move,
   Rule,
   schematic,
-  SchematicContext,
   SchematicsException,
   template,
   Tree,
   url
 } from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
-import {getWorkspace, updateWorkspace} from '@schematics/angular/utility/config';
+import {updateWorkspace} from '@schematics/angular/utility/workspace';
 import * as path from 'path';
 import {EOL} from 'os';
 import {forceOverwrite, getProjectName, getProjectRoot, sortByKey} from '../utils/yang-utils';
@@ -24,8 +23,7 @@ import * as CJSON from 'comment-json';
 
 
 export default function (options: InitOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
-
+  return (host: Tree) => {
     options.name = options.name || path.basename(process.cwd());
     if (!options.name) {
       throw new SchematicsException(`Invalid options, "name" is required.`);
@@ -68,7 +66,7 @@ export default function (options: InitOptions): Rule {
         }),
         move(path.join(root, 'src/app/features/home')),
       ]), MergeStrategy.Overwrite)
-    ])(host, context);
+    ]);
   };
 }
 
@@ -235,60 +233,59 @@ function updateEnvironment(host: Tree, file: string): void {
 
 function updateProjectWorkspace(options: InitOptions): (host: Tree) => Rule {
   return (host: Tree) => {
-    const workspace = getWorkspace(host);
-    const projectName = getProjectName(host, options);
-    const project = workspace.projects[projectName];
+    return updateWorkspace(workspace => {
+      const projectName = getProjectName(host, options);
+      const project = workspace.projects.get(projectName);
 
-    workspace.cli = {
-      'defaultCollection': 'yang-schematics'
-    };
+      if (!project) {
+        return;
+      }
 
-    let schematics = project.schematics;
-    if (!schematics) {
-      schematics = {};
-      project['schematics'] = schematics;
-    }
+      workspace.extensions.cli = {
+        'defaultCollection': 'yang-schematics'
+      };
 
-    const componentSchematic = schematics['@schematics/angular:component'];
+      let schematics: any = project.extensions.schematics;
+      if (!schematics) {
+        schematics = {};
+        project.extensions['schematics'] = schematics;
+      }
 
-    componentSchematic.inlineTemplate = componentSchematic.inlineTemplate ?? false;
-    componentSchematic.inlineStyle = componentSchematic.inlineStyle ?? true;
+      const componentSchematic = schematics['@schematics/angular:component'];
 
-    schematics['@schematics/angular:component'] = sortByKey(componentSchematic);
+      componentSchematic.inlineTemplate = componentSchematic.inlineTemplate ?? false;
+      componentSchematic.inlineStyle = componentSchematic.inlineStyle ?? true;
 
-    const architect = project.architect;
-    if (!architect) throw new Error(`expected node projects/${projectName}/architect in angular.json`);
+      schematics['@schematics/angular:component'] = sortByKey(componentSchematic);
 
-    const build = architect.build;
-    if (!build) throw new Error(`expected node projects/${projectName}/architect/build in angular.json`);
+      const build = project.targets.get('build');
+      if (!build) throw new Error(`expected node projects/${projectName}/architect/build in angular.json`);
 
-    const test = architect.test;
-    if (!test) throw new Error(`expected node projects/${projectName}/architect/test in angular.json`);
+      const test = project.targets.get('test');
+      if (!test) throw new Error(`expected node projects/${projectName}/architect/test in angular.json`);
 
+      const projectRoot = getProjectRoot(host, options, true);
 
-    const projectRoot = getProjectRoot(host, options, true);
+      // Add stylePreprocessorOptions
+      const stylePreprocessorOptions = {
+        "includePaths": [
+          projectRoot + 'src/styles'
+        ]
+      };
 
-    // Add stylePreprocessorOptions
-    const stylePreprocessorOptions = {
-      "includePaths": [
-        projectRoot + 'src/styles'
-      ]
-    };
-
-    (<any>build.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
-    (<any>test.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
+      (<any>build.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
+      (<any>test.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
 
 
-    // Add ngx-build-plus
-    build.builder = <any>'ngx-build-plus:build';
-    (<any>build.options)['extraWebpackConfig'] = projectRoot + 'webpack.extra.js';
+      // Add ngx-build-plus
+      build.builder = <any>'ngx-build-plus:build';
+      (<any>build.options)['extraWebpackConfig'] = projectRoot + 'webpack.extra.js';
 
-    const serve = architect.serve;
-    if (!serve) throw new Error(`expected node projects/${projectName}/architect/serve in angular.json`);
+      const serve = project.targets.get('serve');
+      if (!serve) throw new Error(`expected node projects/${projectName}/architect/serve in angular.json`);
 
-    serve.builder = <any>'ngx-build-plus:dev-server';
-    (<any>serve.options)['extraWebpackConfig'] = projectRoot + 'webpack.extra.js';
-
-    return updateWorkspace(workspace);
+      serve.builder = <any>'ngx-build-plus:dev-server';
+      (<any>serve.options)['extraWebpackConfig'] = projectRoot + 'webpack.extra.js';
+    });
   }
 }

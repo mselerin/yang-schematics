@@ -37,13 +37,19 @@ describe('Init Schematic', () => {
 
     it('should throw error when no tsconfig.json', () => {
       appTree.delete('/tsconfig.json');
-      appTree.delete('/tsconfig.base.json');
+      if (appTree.exists('/tsconfig.base.json')) {
+        appTree.delete('/tsconfig.base.json');
+      }
+
       return expect(yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise()).rejects.toThrow();
     });
 
     it('should throw error when empty tsconfig.json', () => {
       appTree.overwrite('/tsconfig.json', '');
-      appTree.overwrite('/tsconfig.base.json', '');
+      if (appTree.exists('/tsconfig.base.json')) {
+        appTree.overwrite('/tsconfig.base.json', '');
+      }
+
       return expect(yangSchematicRunner.runSchematicAsync('init', {}, appTree).toPromise()).rejects.toThrow();
     });
 

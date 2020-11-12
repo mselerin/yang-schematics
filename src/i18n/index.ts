@@ -1,30 +1,19 @@
 import {Schema as I18NOptions} from './schema';
-import {
-  apply,
-  chain,
-  MergeStrategy,
-  mergeWith,
-  move,
-  Rule,
-  SchematicContext,
-  SchematicsException,
-  Tree,
-  url
-} from '@angular-devkit/schematics';
+import {apply, chain, MergeStrategy, mergeWith, move, Rule, SchematicsException, Tree, url} from '@angular-devkit/schematics';
 import * as CJSON from 'comment-json';
 import {extraDevDependencies} from './dependencies';
 import {CodeUtils} from '../utils/code-utils';
 import {installDeps, sortByKey, YangUtils} from '../utils/yang-utils';
 
 export default function (options: I18NOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return () => {
     return chain([
       addFiles(),
       updatePackageJson(),
       updateCore(),
       updateShared(),
       installDeps(options.skipInstall)
-    ])(host, context);
+    ]);
   };
 }
 

@@ -1,5 +1,5 @@
 import {Schema as DirectiveOptions} from './schema';
-import {chain, externalSchematic, Rule, SchematicContext, Tree} from '@angular-devkit/schematics';
+import {chain, externalSchematic, Rule, Tree} from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
 import {CodeUtils} from '../utils/code-utils';
 import {buildRelativePath} from '@schematics/angular/utility/find-module';
@@ -7,7 +7,7 @@ import {parseName} from '@schematics/angular/utility/parse-name';
 import {findClosestModule, getSourceRoot, smartPath} from '../utils/yang-utils';
 
 export default function (options: DirectiveOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return (host: Tree) => {
     const rootPath = getSourceRoot(host, options);
     smartPath(rootPath, options, 'directives');
 
@@ -29,7 +29,7 @@ export default function (options: DirectiveOptions): Rule {
     return chain([
       externalSchematic('@schematics/angular', 'directive', ngOptions),
       addNgModule(options)
-    ])(host, context);
+    ]);
   };
 }
 

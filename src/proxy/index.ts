@@ -1,43 +1,34 @@
 import {Schema as ProxyOptions} from './schema';
-import {
-  apply,
-  chain,
-  MergeStrategy,
-  mergeWith,
-  move,
-  Rule,
-  SchematicContext,
-  Tree,
-  url
-} from '@angular-devkit/schematics';
-import {getWorkspace, updateWorkspace} from '@schematics/angular/utility/config';
+import {apply, chain, MergeStrategy, mergeWith, move, Rule, url} from '@angular-devkit/schematics';
+import {updateWorkspace} from '@schematics/angular/utility/workspace';
 
 export default function (options: ProxyOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return () => {
     return chain([
       mergeWith(apply(url('./files'), [
         move(''),
       ]), MergeStrategy.Overwrite),
       updateProjectWorkspace()
-    ])(host, context);
+    ]);
   };
 }
 
 
-function updateProjectWorkspace(): (host: Tree) => Rule {
-  return (host: Tree) => {
-    const workspace = getWorkspace(host);
-    const project = workspace.defaultProject as string;
+function updateProjectWorkspace(): () => Rule {
+  return () => {
+    return updateWorkspace(workspace => {
+      const projectName = workspace.extensions.defaultProject as string;
+      const project = workspace.projects.get(projectName);
 
-    const architect = workspace.projects[project].architect;
-    if (!architect) throw new Error(`expected node projects/${project}/architect in angular.json`);
+      if (!project) {
+        return;
+      }
 
-    // Add proxy config
-    const serve = architect.serve;
-    if (!serve) throw new Error(`expected node projects/${project}/architect/serve in angular.json`);
+      // Add proxy config
+      const serve = project.targets.get('serve');
+      if (!serve) throw new Error(`expected node projects/${projectName}/architect/serve in angular.json`);
 
-    (<any>serve.options)['proxyConfig'] = 'proxy.conf.json';
-
-    return updateWorkspace(workspace);
+      (<any>serve.options)['proxyConfig'] = 'proxy.conf.json';
+    });
   }
 }

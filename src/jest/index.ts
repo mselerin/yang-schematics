@@ -1,23 +1,12 @@
 import {Schema as JestOptions} from './schema';
-import {
-  apply,
-  chain,
-  MergeStrategy,
-  mergeWith,
-  move,
-  Rule,
-  SchematicContext,
-  SchematicsException,
-  Tree,
-  url
-} from '@angular-devkit/schematics';
-import {getWorkspace, updateWorkspace} from '@schematics/angular/utility/config';
+import {apply, chain, MergeStrategy, mergeWith, move, Rule, SchematicsException, Tree, url} from '@angular-devkit/schematics';
+import {updateWorkspace} from '@schematics/angular/utility/workspace';
 import {extraDevDependencies} from './dependencies';
 import {installDeps, sortByKey} from '../utils/yang-utils';
 import * as CJSON from 'comment-json';
 
 export default function (options: JestOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return () => {
     return chain([
       updatePackageJson(),
       updateTsConfig(),
@@ -25,7 +14,7 @@ export default function (options: JestOptions): Rule {
       addJestFiles(),
       removeKarmaFiles(),
       installDeps(options.skipInstall)
-    ])(host, context);
+    ]);
   };
 }
 
@@ -104,23 +93,25 @@ function updateTsConfig(): (tree: Tree) => Tree {
 
 function updateProjectWorkspace(): (tree: Tree) => Rule {
   return (tree: Tree) => {
-    const workspace = getWorkspace(tree);
-    const project = workspace.defaultProject as string;
+    return updateWorkspace(workspace => {
+      const projectName = workspace.extensions.defaultProject as string;
+      const project = workspace.projects.get(projectName);
 
-    const architect = workspace.projects[project].architect;
-    if (!architect) throw new Error(`expected node projects/${project}/architect in angular.json`);
+      if (!project) {
+        return;
+      }
 
-    // Add proxy config
-    const test = architect.test;
-    if (!test) throw new Error(`expected node projects/${project}/architect/test in angular.json`);
+      // Add proxy config
+      const test = project.targets.get('test');
+      if (!test) throw new Error(`expected node projects/${projectName}/architect/test in angular.json`);
 
-    (<any>test.builder) = '@angular-builders/jest:run';
-    delete (<any>test.options)['main'];
-    delete (<any>test.options)['polyfills'];
-    delete (<any>test.options)['tsConfig'];
-    delete (<any>test.options)['karmaConfig'];
+      (<any> test.builder) = '@angular-builders/jest:run';
+      delete (<any> test.options)['main'];
+      delete (<any> test.options)['polyfills'];
+      delete (<any> test.options)['tsConfig'];
+      delete (<any> test.options)['karmaConfig'];
 
-    return updateWorkspace(workspace);
+    });
   }
 }
 

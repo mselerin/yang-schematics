@@ -1,14 +1,14 @@
 import {Schema as ComponentOptions} from './schema';
-import {chain, externalSchematic, Rule, SchematicContext, Tree} from '@angular-devkit/schematics';
+import {chain, externalSchematic, Rule, Tree} from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
 import {CodeUtils} from '../utils/code-utils';
-import {getWorkspace} from '@schematics/angular/utility/config';
+import {getWorkspace} from '@schematics/angular/utility/workspace';
 import {buildRelativePath} from '@schematics/angular/utility/find-module';
 import {parseName} from '@schematics/angular/utility/parse-name';
 import {findClosestModule, getSourceRoot, smartPath} from '../utils/yang-utils';
 
 export default function (options: ComponentOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return async (host: Tree) => {
     const rootPath = getSourceRoot(host, options);
     smartPath(rootPath, options, 'components');
 
@@ -21,15 +21,23 @@ export default function (options: ComponentOptions): Rule {
 
     options.module = findClosestModule(host, options, 'shared');
 
+    const workspace = await getWorkspace(host);
+    const projectName = options.project as string;
+    const project = workspace.projects.get(projectName);
 
+    if (!project) {
+      return;
+    }
 
-    const workspace = getWorkspace(host);
-    const project = workspace.projects[options.project as string];
-    const schematics = project?.schematics ?? {};
+    const schematics: any = project.extensions.schematics ?? {};
     const schematic = schematics['@schematics/angular:component'] ?? {};
 
     options.inlineStyle = options.inlineStyle ?? schematic.inlineStyle;
     options.inlineTemplate = options.inlineTemplate ?? schematic.inlineTemplate;
+
+    if (!options.entryComponent) {
+      delete options.entryComponent;
+    }
 
     const ngOptions = {
       ...options,
@@ -39,7 +47,7 @@ export default function (options: ComponentOptions): Rule {
     return chain([
       externalSchematic('@schematics/angular', 'component', ngOptions),
       addToNgModule(options)
-    ])(host, context);
+    ]);
   };
 }
 

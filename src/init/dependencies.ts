@@ -1,5 +1,5 @@
 export const extraDependencies = {
-  'whatwg-fetch': '~3.2.0'
+  'whatwg-fetch': '~3.5.0'
 };
 
 export const extraDevDependencies = {

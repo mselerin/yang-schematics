@@ -133,13 +133,13 @@
       "type": "boolean",
       "default": false,
       "description": "When true, the new component is the entry component of the declaring NgModule.",
-      "x-deprecated": "Since version 9.0.0 with Ivy, entryComponents is no longer necessary."
+      "no-x-deprecated": "Since version 9.0.0 with Ivy, entryComponents is no longer necessary."
     },
     "lintFix": {
       "type": "boolean",
-      "default": false,
       "description": "When true, applies lint fixes after generating the component.",
-      "x-user-analytics": 15
+      "x-user-analytics": 15,
+      "x-deprecated": "Use \"ng lint --fix\" directly instead."
     },
 
     "routing": {

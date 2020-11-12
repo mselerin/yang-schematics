@@ -27,7 +27,7 @@
   "schematics": "./src/collection.json",
   "builders": "./src/builders/builders.json",
   "dependencies": {
-    "@schematics/angular": "^10.0.3",
+    "@schematics/angular": "^11.0.0",
     "comment-json": "^4.1.0",
     "ts-morph": "^8.2.0"
   },

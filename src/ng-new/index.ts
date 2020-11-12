@@ -18,7 +18,7 @@ import {Schema as YangInitOptions} from '../init/schema';
 import {NodePackageInstallTask, NodePackageLinkTask, RepositoryInitializerTask} from '@angular-devkit/schematics/tasks';
 
 export default function (options: YangNewOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return () => {
     if (!options.name) {
       throw new SchematicsException(`Invalid options, "name" is required.`);
     }
@@ -73,6 +73,6 @@ export default function (options: YangNewOptions): Rule {
           );
         }
       }
-    ])(host, context);
+    ]);
   };
 }
