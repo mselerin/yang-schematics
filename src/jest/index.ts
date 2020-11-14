@@ -46,13 +46,10 @@ function updatePackageJson(): (tree: Tree) => Tree {
     };
 
     // Remove Karma
-    [
-      'karma',
-      'karma-jasmine',
-      'karma-jasmine-html-reporter',
-      'karma-chrome-launcher',
-      'karma-coverage-istanbul-reporter'
-    ].forEach(key => {
+    const karmaDeps = Object.keys(json.devDependencies)
+      .filter(k => k === 'karma' || k.startsWith('karma-'));
+
+    karmaDeps.forEach(key => {
       delete json.devDependencies[key];
     });
 
