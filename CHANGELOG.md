@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.1](https://github.com/mselerin/yang-schematics/compare/v4.1.0...v4.1.1) (2020-11-14)
+
+
+### 🐛 Bug Fixes
+
+* **jest:** removing all Karma dependencies ([6c402f5](https://github.com/mselerin/yang-schematics/commit/6c402f5cb24c17677c378d42b6694c7bd5a08870))
+
 ## [4.1.0](https://github.com/mselerin/yang-schematics/compare/v4.0.0...v4.1.0) (2020-11-12)
 
 
