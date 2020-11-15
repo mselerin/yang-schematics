@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BaseModule} from '@app/shared/base.module';
+import {BaseModule} from '@app/base.module';
 import {MainLayoutComponent} from './main-layout.component';
 
 const DECLARATIONS = [

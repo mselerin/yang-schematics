@@ -6,7 +6,7 @@
  * Prefer importing external modules inside the features directly.
  */
 import {NgModule} from '@angular/core';
-import {BaseModule} from './base.module';
+import {BaseModule} from '@app/base.module';
 
 
 const MODULES: any[] = [
