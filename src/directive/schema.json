@@ -44,7 +44,6 @@
     "skipTests": {
       "type": "boolean",
       "description": "When true, does not create \"spec.ts\" test files for the new class.",
-      "default": false,
       "x-user-analytics": 12
     },
     "skipImport": {
@@ -60,8 +59,7 @@
     },
     "flat": {
       "type": "boolean",
-      "description": "When true (the default), creates the new files at the top level of the current project.",
-      "default": true
+      "description": "When true (the default), creates the new files at the top level of the current project."
     },
     "module": {
       "type": "string",
