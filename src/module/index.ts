@@ -9,10 +9,10 @@ import {findClosestModule, getSourceRoot, smartPath} from '../utils/yang-utils';
 export default function (options: ModuleOptions): Rule {
   return (host: Tree) => {
     const rootPath = getSourceRoot(host, options);
-    smartPath(rootPath, options, '');
+    smartPath(rootPath, options, 'modules');
 
     if (!options.path) {
-      options.path = `${rootPath}/shared`;
+      options.path = `${rootPath}/shared/modules`;
     }
 
     const parsedPath = parseName(options.path, options.name);
@@ -22,7 +22,6 @@ export default function (options: ModuleOptions): Rule {
 
     const templateSource = apply(url('./files'), [
       options.routing ? noop() : filter(path => !path.endsWith('-routing.module.ts')),
-
       template({
         ...strings,
         'if-flat': (s: string) => options.flat ? '' : s,
