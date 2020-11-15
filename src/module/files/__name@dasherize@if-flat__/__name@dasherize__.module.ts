@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@app/shared/shared.module';
+import { BaseModule } from '@app/base.module';
 
 const MODULES: any[] = [
-  SharedModule
+  BaseModule
 ];
 
 const DECLARATIONS: any[] = [
