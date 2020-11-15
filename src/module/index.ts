@@ -35,8 +35,7 @@ export default function (options: ModuleOptions): Rule {
       name: options.name,
       path: options.path + '/' + options.name,
       routing: true,
-      route: '',
-      flat: true
+      route: ''
     }) : noop();
 
     return chain([
