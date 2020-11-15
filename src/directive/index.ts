@@ -22,7 +22,7 @@ export default function (options: DirectiveOptions): Rule {
 
     const schematic = await getProjectSchematic(host, options, '@schematics/angular:directive');
     options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
-    options.flat = options.flat ?? schematic.flat ?? false;
+    options.flat = options.flat ?? schematic.flat ?? true;
 
     const ngOptions = {
       ...options,
