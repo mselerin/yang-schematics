@@ -2,10 +2,9 @@ import {Schema as ComponentOptions} from './schema';
 import {chain, externalSchematic, Rule, Tree} from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
 import {CodeUtils} from '../utils/code-utils';
-import {getWorkspace} from '@schematics/angular/utility/workspace';
 import {buildRelativePath} from '@schematics/angular/utility/find-module';
 import {parseName} from '@schematics/angular/utility/parse-name';
-import {findClosestModule, getSourceRoot, smartPath} from '../utils/yang-utils';
+import {findClosestModule, getProjectSchematic, getSourceRoot, smartPath} from '../utils/yang-utils';
 
 export default function (options: ComponentOptions): Rule {
   return async (host: Tree) => {
@@ -18,20 +17,9 @@ export default function (options: ComponentOptions): Rule {
 
     const parsedPath = parseName(options.path, options.name);
     options.path = parsedPath.path;
-
     options.module = findClosestModule(host, options, 'shared');
 
-    const workspace = await getWorkspace(host);
-    const projectName = options.project as string;
-    const project = workspace.projects.get(projectName);
-
-    if (!project) {
-      return;
-    }
-
-    const schematics: any = project.extensions.schematics ?? {};
-    const schematic = schematics['@schematics/angular:component'] ?? {};
-
+    const schematic = await getProjectSchematic(host, options, '@schematics/angular:component');
     options.inlineStyle = options.inlineStyle ?? schematic.inlineStyle;
     options.inlineTemplate = options.inlineTemplate ?? schematic.inlineTemplate;
     options.skipTests = options.skipTests ?? schematic.skipTests ?? false;

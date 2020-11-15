@@ -1,6 +1,7 @@
 import {Path} from '@angular-devkit/core';
 import {FileEntry, forEach, Rule, SchematicContext, Tree} from '@angular-devkit/schematics';
 import {getWorkspace} from '@schematics/angular/utility/config';
+import {getWorkspace as getWorkspaceDefinition} from '@schematics/angular/utility/workspace';
 import {NodePackageInstallTask} from '@angular-devkit/schematics/tasks';
 import {findModuleFromOptions, ModuleOptions} from '@schematics/angular/utility/find-module';
 
@@ -18,6 +19,10 @@ export interface PathOptions {
   name: string;
   flat?: boolean;
   path?: string;
+}
+
+export interface ProjectOptions {
+  project?: string;
 }
 
 export function forceOverwrite(host: Tree): Rule {
@@ -62,6 +67,24 @@ export function getSourceRoot(host: Tree, options: PathOptions): string {
   const projectDirName = project.projectType === 'application' ? 'app' : 'lib';
 
   return `/${project.root}/src/${projectDirName}`;
+}
+
+
+export async function getProjectSchematics(host: Tree, options: ProjectOptions): Promise<any> {
+  const workspace = await getWorkspaceDefinition(host);
+  const project = workspace.projects.get(options.project as string);
+
+  if (!project) {
+    return;
+  }
+
+  return project.extensions.schematics ?? {};
+}
+
+
+export async function getProjectSchematic(host: Tree, options: ProjectOptions, schematicName: string): Promise<any> {
+  const schematics = await getProjectSchematics(host, options);
+  return schematics[schematicName] ?? {};
 }
 
 
