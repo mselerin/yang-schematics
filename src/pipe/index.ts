@@ -22,8 +22,8 @@ export default function (options: PipeOptions): Rule {
     options.module = findClosestModule(host, options, 'shared');
 
     const schematic = await getProjectSchematic(host, options, '@schematics/angular:pipe');
-    options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
     options.flat = options.flat ?? schematic.flat ?? true;
+    options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
 
     const ngOptions = {
       ...options,

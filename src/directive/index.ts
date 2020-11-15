@@ -21,8 +21,8 @@ export default function (options: DirectiveOptions): Rule {
     options.module = findClosestModule(host, options, 'shared');
 
     const schematic = await getProjectSchematic(host, options, '@schematics/angular:directive');
-    options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
     options.flat = options.flat ?? schematic.flat ?? true;
+    options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
 
     const ngOptions = {
       ...options,

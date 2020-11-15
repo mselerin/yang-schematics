@@ -22,8 +22,8 @@ export default function (options: ComponentOptions): Rule {
     const schematic = await getProjectSchematic(host, options, '@schematics/angular:component');
     options.inlineStyle = options.inlineStyle ?? schematic.inlineStyle;
     options.inlineTemplate = options.inlineTemplate ?? schematic.inlineTemplate;
-    options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
     options.flat = options.flat ?? schematic.flat ?? false;
+    options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
 
     if (!options.entryComponent) {
       delete options.entryComponent;
