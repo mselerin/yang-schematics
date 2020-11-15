@@ -9,10 +9,10 @@ import {findClosestModule, getSourceRoot, smartPath} from '../utils/yang-utils';
 export default function (options: ModuleOptions): Rule {
   return (host: Tree) => {
     const rootPath = getSourceRoot(host, options);
-    smartPath(rootPath, options, 'modules');
+    smartPath(rootPath, options, '');
 
     if (!options.path) {
-      options.path = `${rootPath}/shared/modules`;
+      options.path = `${rootPath}/shared`;
     }
 
     const parsedPath = parseName(options.path, options.name);
