@@ -4,10 +4,10 @@ import {strings} from '@angular-devkit/core';
 import {CodeUtils} from '../utils/code-utils';
 import {parseName} from '@schematics/angular/utility/parse-name';
 import {buildRelativePath} from '@schematics/angular/utility/find-module';
-import {findClosestModule, getSourceRoot, smartPath} from '../utils/yang-utils';
+import {findClosestModule, getProjectSchematic, getSourceRoot, smartPath} from '../utils/yang-utils';
 
 export default function (options: PipeOptions): Rule {
-  return (host: Tree) => {
+  return async (host: Tree) => {
     const rootPath = getSourceRoot(host, options);
     smartPath(rootPath, options, 'pipes');
 
@@ -21,6 +21,9 @@ export default function (options: PipeOptions): Rule {
 
     options.module = findClosestModule(host, options, 'shared');
 
+    const schematic = await getProjectSchematic(host, options, '@schematics/angular:pipe');
+    options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
+    options.flat = options.flat ?? schematic.flat ?? false;
 
     const ngOptions = {
       ...options,
