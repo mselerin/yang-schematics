@@ -34,6 +34,8 @@ export default function (options: ComponentOptions): Rule {
 
     options.inlineStyle = options.inlineStyle ?? schematic.inlineStyle;
     options.inlineTemplate = options.inlineTemplate ?? schematic.inlineTemplate;
+    options.skipTests = options.skipTests ?? schematic.skipTests ?? false;
+    options.flat = options.flat ?? schematic.flat ?? false;
 
     if (!options.entryComponent) {
       delete options.entryComponent;

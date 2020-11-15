@@ -94,13 +94,11 @@
     "skipTests": {
       "type": "boolean",
       "description": "When true, does not create \"spec.ts\" test files for the new component.",
-      "default": false,
       "x-user-analytics": 12
     },
     "flat": {
       "type": "boolean",
-      "description": "When true, creates the new files at the top level of the current project.",
-      "default": false
+      "description": "When true, creates the new files at the top level of the current project."
     },
     "skipImport": {
       "type": "boolean",
