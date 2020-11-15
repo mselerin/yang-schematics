@@ -1,5 +1,5 @@
 import {Schema as ModuleOptions} from './schema';
-import {apply, chain, filter, mergeWith, move, noop, Rule, template, Tree, url} from '@angular-devkit/schematics';
+import {apply, chain, filter, mergeWith, move, noop, Rule, schematic, template, Tree, url} from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
 import {CodeUtils} from '../utils/code-utils';
 import {buildRelativePath} from '@schematics/angular/utility/find-module';
@@ -30,8 +30,18 @@ export default function (options: ModuleOptions): Rule {
       move(options.path)
     ]);
 
+    const createComp = options.component ? schematic('component', {
+      project: options.project,
+      name: options.name,
+      path: options.path + '/' + options.name,
+      routing: true,
+      route: '',
+      flat: true
+    }) : noop();
+
     return chain([
       mergeWith(templateSource),
+      createComp,
       addNgModule(options)
     ]);
   };

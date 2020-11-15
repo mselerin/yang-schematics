@@ -64,6 +64,12 @@
       "description": "When true, applies lint fixes after generating the module.",
       "x-user-analytics": 15,
       "x-deprecated": "Use \"ng lint --fix\" directly instead."
+    },
+    "component": {
+      "type": "boolean",
+      "default": false,
+      "description": "Flag to indicate if a component is created.",
+      "alias": "c"
     }
   },
   "required": [
