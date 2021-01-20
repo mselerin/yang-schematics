@@ -3,5 +3,5 @@ export const extraDependencies = {
 };
 
 export const extraDevDependencies = {
-  'ngx-build-plus': '~10.1.1'
+  '@angular-builders/custom-webpack': '~11.0.0',
 };

@@ -259,10 +259,14 @@ function updateProjectWorkspace(options: InitOptions): (host: Tree) => Rule {
       schematics['@schematics/angular:component'] = sortByKey(componentSchematic);
 
       const build = project.targets.get('build');
-      if (!build) throw new Error(`expected node projects/${projectName}/architect/build in angular.json`);
+      if (!build) {
+        throw new Error(`expected node projects/${projectName}/architect/build in angular.json`);
+      }
 
       const test = project.targets.get('test');
-      if (!test) throw new Error(`expected node projects/${projectName}/architect/test in angular.json`);
+      if (!test) {
+        throw new Error(`expected node projects/${projectName}/architect/test in angular.json`);
+      }
 
       const projectRoot = getProjectRoot(host, options, true);
 
@@ -277,15 +281,25 @@ function updateProjectWorkspace(options: InitOptions): (host: Tree) => Rule {
       (<any>test.options)['stylePreprocessorOptions'] = stylePreprocessorOptions;
 
 
-      // Add ngx-build-plus
-      build.builder = <any>'ngx-build-plus:build';
-      (<any>build.options)['extraWebpackConfig'] = projectRoot + 'webpack.extra.js';
+      // Add @angular-builders/custom-webpack
+      build.builder = <any>'@angular-builders/custom-webpack:browser';
+      (<any>build.options)['customWebpackConfig'] = {
+        path: projectRoot +'webpack.config.js'
+      };
+
 
       const serve = project.targets.get('serve');
-      if (!serve) throw new Error(`expected node projects/${projectName}/architect/serve in angular.json`);
+      if (!serve) {
+        throw new Error(`expected node projects/${projectName}/architect/serve in angular.json`);
+      }
 
-      serve.builder = <any>'ngx-build-plus:dev-server';
-      (<any>serve.options)['extraWebpackConfig'] = projectRoot + 'webpack.extra.js';
+      serve.builder = <any>'@angular-builders/custom-webpack:dev-server';
+
+
+      test.builder = <any>'@angular-builders/custom-webpack:karma';
+      (<any>test.options)['customWebpackConfig'] = {
+        path: projectRoot +'webpack.config.js'
+      };
     });
   }
 }

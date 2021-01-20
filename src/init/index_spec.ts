@@ -89,7 +89,7 @@ describe('Init Schematic', () => {
       const files = appTree.files;
 
       expect(files).toContain('/angular.json');
-      expect(files).toContain('/webpack.extra.js');
+      expect(files).toContain('/webpack.config.js');
       expect(files).toContain('/src/app/core/core.module.ts');
       expect(files).toContain('/src/app/shared/shared.module.ts');
       expect(files).toContain('/src/app/features/features.module.ts');
@@ -129,10 +129,10 @@ describe('Init Schematic', () => {
       expect(architect.build.options['stylePreprocessorOptions']).not.toBeNull();
       expect(architect.test.options['stylePreprocessorOptions']).not.toBeNull();
 
-      expect(architect.build.builder).toEqual('ngx-build-plus:build');
-      expect(architect.build.options.extraWebpackConfig).toEqual('webpack.extra.js');
-      expect(architect.serve.builder).toEqual('ngx-build-plus:dev-server');
-      expect(architect.serve.options.extraWebpackConfig).toEqual('webpack.extra.js');
+      expect(architect.build.builder).toEqual('@angular-builders/custom-webpack:browser');
+      expect(architect.build.options.customWebpackConfig.path).toEqual('webpack.config.js');
+
+      expect(architect.serve.builder).toEqual('@angular-builders/custom-webpack:dev-server');
     });
   });
 });
