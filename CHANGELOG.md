@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/mselerin/yang-schematics/compare/v4.1.1...v4.2.0) (2021-01-20)
+
+
+### 🐛 Bug Fixes
+
+* modules inside shared should be in its own 'modules' folder (like components, directives and pipes) ([3a6d3af](https://github.com/mselerin/yang-schematics/commit/3a6d3af735a50fba2e37447e792e23af9aff3a98))
+* modules inside shared should only import the BaseModule ([f80837d](https://github.com/mselerin/yang-schematics/commit/f80837dda6fce39f17b68a641fa1e8a3c93b2797))
+
+
+### 🚀 Features
+
+* passage de `ngx-build-plus` à `@angular-builders/custom-webpack` ([dbea75c](https://github.com/mselerin/yang-schematics/commit/dbea75c2df4fe56e155288708e996e62413733e1))
+* **component:** allow global configuration for flat and skipImport parameters ([c1f95b1](https://github.com/mselerin/yang-schematics/commit/c1f95b149cf4d7face3e8721a51f9c0e9212befb))
+* **directive:** allow global configuration for flat and skipImport parameters ([fb93b9b](https://github.com/mselerin/yang-schematics/commit/fb93b9ba4f2a87101de9e2e54ca3c8a8a3ed4d97))
+* **pipe:** allow global configuration for flat and skipImport parameters ([d68122b](https://github.com/mselerin/yang-schematics/commit/d68122b07f616becdf4a3eecc14ea34683254548))
+* **service:** allow global configuration for flat and skipImport parameters ([271bc4e](https://github.com/mselerin/yang-schematics/commit/271bc4ed59c6579eb27fb48b2149b4f2ddcb9ff9))
+* allow the creation of a component when creating a new module ([03f2685](https://github.com/mselerin/yang-schematics/commit/03f2685a758d0efbf5db234c12b970ac01ad75ac))
+
 ### [4.1.1](https://github.com/mselerin/yang-schematics/compare/v4.1.0...v4.1.1) (2020-11-14)
 
 
