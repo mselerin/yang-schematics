@@ -1,5 +1,5 @@
 export const extraDevDependencies = {
-  '@angular-builders/jest': '~10.0.1',
+  '@angular-builders/jest': '~11.0.0',
   '@testing-library/jest-dom': '~5.11.5',
   '@types/jest': '~26.0.15',
   'jest': '~26.6.3',
