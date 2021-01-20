@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 🚀 Features
 
-* passage de `ngx-build-plus` à `@angular-builders/custom-webpack` ([dbea75c](https://github.com/mselerin/yang-schematics/commit/dbea75c2df4fe56e155288708e996e62413733e1))
+* switching from `ngx-build-plus` to `@angular-builders/custom-webpack` ([dbea75c](https://github.com/mselerin/yang-schematics/commit/dbea75c2df4fe56e155288708e996e62413733e1))
 * **component:** allow global configuration for flat and skipImport parameters ([c1f95b1](https://github.com/mselerin/yang-schematics/commit/c1f95b149cf4d7face3e8721a51f9c0e9212befb))
 * **directive:** allow global configuration for flat and skipImport parameters ([fb93b9b](https://github.com/mselerin/yang-schematics/commit/fb93b9ba4f2a87101de9e2e54ca3c8a8a3ed4d97))
 * **pipe:** allow global configuration for flat and skipImport parameters ([d68122b](https://github.com/mselerin/yang-schematics/commit/d68122b07f616becdf4a3eecc14ea34683254548))
