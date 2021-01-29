@@ -1,6 +1,6 @@
-import {Path} from '@angular-devkit/core';
-import {FileEntry, forEach, Rule, SchematicContext, Tree} from '@angular-devkit/schematics';
-import {getWorkspace} from '@schematics/angular/utility/config';
+import {Path, JsonParseMode, parseJson} from '@angular-devkit/core';
+import {FileEntry, forEach, Rule, SchematicContext, SchematicsException, Tree} from '@angular-devkit/schematics';
+import {WorkspaceSchema} from '@schematics/angular/utility/workspace-models';
 import {getWorkspace as getWorkspaceDefinition} from '@schematics/angular/utility/workspace';
 import {NodePackageInstallTask} from '@angular-devkit/schematics/tasks';
 import {findModuleFromOptions, ModuleOptions} from '@schematics/angular/utility/find-module';
@@ -36,6 +36,21 @@ export function forceOverwrite(host: Tree): Rule {
   });
 }
 
+export function getWorkspacePath(host: Tree): string {
+  const possibleFiles = [ '/angular.json', '/.angular.json' ];
+  return possibleFiles.filter(path => host.exists(path))[0];
+}
+
+export function getWorkspace(host: Tree): any {
+  const path = getWorkspacePath(host);
+  const configBuffer = host.read(path);
+  if (configBuffer === null) {
+    throw new SchematicsException(`Could not find (${path})`);
+  }
+  const content = configBuffer.toString();
+
+  return parseJson(content, JsonParseMode.Loose) as {} as WorkspaceSchema;
+}
 
 export function getProjectName(host: Tree, options: any): string {
   return options.project ?? getWorkspace(host).defaultProject;
