@@ -162,7 +162,6 @@ function updateGitIgnore(): (host: Tree) => Tree {
     let content = source.toString('utf-8');
     content += `${EOL}# Custom Files${EOL}`;
     content += `*.iml${EOL}`;
-    content += `/src/assets/app-manifest.json${EOL}`;
 
     host.overwrite(filePath, content);
     return host;
